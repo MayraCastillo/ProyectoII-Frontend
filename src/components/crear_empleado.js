@@ -23,7 +23,7 @@ export default function Employees() {
   return (
     <div className={classes.root}>
       <Typography variant="h3" component="h2" gutterBottom>
-        Crear
+        Crear 2
       </Typography>
      
       <Typography variant="body1" gutterBottom>
