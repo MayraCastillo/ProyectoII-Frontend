@@ -26,6 +26,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TablePagination from '@material-ui/core/TablePagination';
 
+
 const columns = [
    { field: 'Nombre', headerName: 'Nombre del empleado',headerClassName: 'super-app-theme--header', width: 198, align: 'center'},
    { field: 'Identificación', headerName: 'Identificación',headerClassName: 'super-app-theme--header', width: 140, align: 'center' },
@@ -83,53 +84,21 @@ const rows = [
 ];
 
 
-const styles = theme =>({
+const styles = makeStyles ({
   root: {
-    display: "flex",
-    marginLeft:"100px",
+    marginLeft:"2%",
+    marginRight:"10%",
+    marginTop:"90px",
+    
     alignItems: "center",
-    marginRight:"100px",
-    maxHeight: 200,
-    '& .super-app-theme--header': {
-      backgroundColor: '#3f51b5',
-      color: '#ffff',
-      background: '#EDE7F6',
-      align: 'center',
-      border: '2px solid #fff',
-      borderTop: 0,
-      borderLeft: 0
-    },
-
-
-     '& .super-app-theme--rows': {
-      align: 'center',
-      border: '2px solid #fff',
-      borderTop: 0,
-      borderLeft: 0
-    },
-
-
-  },
-
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: "100px",
-    justifyContent: "flex-end",
-    padding: "1.5px",
-  },
-  content: {
-    flexGrow: 1,
-    padding: "3px"
+    width:'100%',
+    background: '#ffffff',
   },
 
   table: {
     minWidth: 5,
-    borderTopWidth: 2,
-    borderColor: "#3f51b5",
-    borderStyle: "solid",
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
+    display:"flex",
+ 
     backgroundColor:"#EDE7F6",
     alignItems:"center",
   },
@@ -137,11 +106,16 @@ const styles = theme =>({
   header:{
     backgroundColor: '#3f51b5',
     color: '#ffff',
-    borderTopWidth: 2,
-    borderColor: "black",
+    borderTopWidth: 0.1,
+    borderColor: "white",
     borderStyle: "solid",
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
+    borderRightWidth: 0.1,
+    borderLeftWidth: 0.1,
+  },
+
+  container: {
+    maxHeight: 400,
+    width:'100%'
   }
 
 });
@@ -163,38 +137,34 @@ export default function CustomizedTable() {
   };
 
   return (
-    <Paper className={classes.root}>
-      <CssBaseline />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
+    <div className={classes.root}>
          <Typography paragraph>
              <Typography variant="h3">Nómina</Typography>
           </Typography>
           <Typography paragraph>YYYY-MM-DD</Typography>
-        <br/>
-      <TableContainer className={classes.table}>
-        <Table stickyHeader className={classes.header}>
-          <TableHead className={classes.header}>
-            <TableRow className={classes.header}>
+       
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.headerName}
-                  align="center"
-                  className={classes.header}
+                  key={column.id}
+                  align={column.align}
                 >
                   {column.headerName}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          <TableBody className={classes.table}>
+          <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id} className={classes.table}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
                     const value = row[column.field];
                     return (
-                      <TableCell key={column.id} align={column.align} className={classes.table}>
+                      <TableCell key={column.id} align={column.align}>
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
@@ -205,8 +175,9 @@ export default function CustomizedTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+      
+     <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
@@ -214,7 +185,18 @@ export default function CustomizedTable() {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-        </main>
-    </Paper>
+         <Divider style={{marginTop:"18px",marginBottom:'1em'}} />
+      
+      <Button variant="contained" color="primary" size="large" startIcon={<CancelIcon />} style={{marginRight:"18px"}}>
+        Cancelar
+      </Button>
+      <Button variant="contained" color="secondary" size="large" startIcon={<SaveIcon />} style={{marginRight:"18px"}}>
+      Guardar
+      </Button>
+
+       <Button variant="contained" color="primary" size="large" startIcon={<AutorenewIcon />}>
+      Generar
+      </Button>
+    </div>
   );
 }
