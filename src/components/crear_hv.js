@@ -8,13 +8,7 @@ const useStyles = makeStyles({
      marginTop:"90px",
      padding:"100px",
      alignItems: "center",
-     background: '#ffffff',
-     background: '#ffffff',
-    '& .super-app-theme--header': {
-      backgroundColor: '#ffffff',
-      color: '#ffff',
-      display: "flex"
-    },
+     background: '#ffffff'
   },
 });
 

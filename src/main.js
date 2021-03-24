@@ -17,8 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Button from '@material-ui/core/Button';
-import ListSubheader from '@material-ui/core/ListSubheader';
+
 import Collapse from '@material-ui/core/Collapse';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
@@ -38,8 +37,6 @@ import SecurityIcon from '@material-ui/icons/Security';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import PaymentIcon from '@material-ui/icons/Payment';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CancelIcon from '@material-ui/icons/Cancel';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 280;
@@ -398,7 +395,7 @@ class MiniDrawer extends React.Component {
               <BusinessIcon />
             </ListItemIcon>
            
-               <Link to="/crear_entidad">
+               <Link to="/">
               <ListItemText primary="Datos Empresa" />
                 </Link>
           </ListItem>
@@ -409,14 +406,17 @@ class MiniDrawer extends React.Component {
            
               <ListItemText primary="Tarifa seguridad social" />
                      </ListItem>
-          <ListItem button className={classes.nested}>
+
+         
+        <ListItem button className={classes.nested}>
+           <Link to="/crear_entidad">
             <ListItemIcon>
               <ContactMailIcon />
             </ListItemIcon>
-         
-             
+          </Link>
+               <Link to="/crear_entidad">
               <ListItemText primary="Información terceros" />
-            
+              </Link>
           </ListItem>
 
            <ListItem button className={classes.nested}>

@@ -8,8 +8,6 @@ import Accounts from "./components/crear_cuenta";
 import Configuration from "./components/crear_config";
 import Entidad from "./components/crear_entidad";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from '@material-ui/core/styles';
 
 const styles = makeStyles({
@@ -17,7 +15,6 @@ const styles = makeStyles({
     display: "flex",
     marginLeft:"3em",
     alignItems: "center",
-    
     width:'100%',
     background: '#ffffff',
   },
@@ -25,7 +22,7 @@ const styles = makeStyles({
     display: "flex",
     flexGrow: 1,
     padding: "3px",
-    marginLeft:"100px"
+    marginLeft:"70px"
   },
 });
 
