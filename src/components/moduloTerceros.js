@@ -7,13 +7,20 @@ import SaveIcon from '@material-ui/icons/Save';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Terceros from './terceros';
+
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Modal from "@material-ui/core/Modal";
 import swal from 'sweetalert';
+import Table from '@material-ui/core/Table';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,21 +47,6 @@ const useStyles = makeStyles((theme) => ({
             marginRight: "14px",
             minWidth: 100,
             size: 'medium'
-        },
-
-        table: {
-            minWidth: 650,
-            marginTop: "100px",
-            size: "medium",
-            border: '0.1px solid #000000',
-        },
-
-        bordered: {
-            border: '0.1px solid #000000'
-        },
-
-        container: {
-            marginTop: "100px"
         },
 
         list: {
@@ -89,6 +81,23 @@ const useStyles = makeStyles((theme) => ({
 
         title: {
             color: "#8c9eff"
+        },
+        table: {
+            minWidth: 650,
+            border: '0.1px solid #000000',
+        },
+
+        bordered: {
+            border: '0.1px solid #000000'
+        },
+
+        container: {
+            maxHeight: 440,
+            backgroundColor: '#EDE7F6'
+        },
+        head: {
+            backgroundColor: "#3949ab",
+            color: theme.palette.common.white,
         }
 
     }));
@@ -104,74 +113,87 @@ function getModalStyle() {
     };
 }
 
-export default function Entidad (){
-    const classes = useStyles();
-    const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
-    const [state, setState] = React.useState({
-        municipio: "",
-        nombre: "",
-        correo: "",
-        direccion: "",
-        telefono: "",
-        tipo: "",
-        municipios: [],
-        tipoTerceros: [],
-        listadoTerceros:[]
-    });
 
-    const [terceros, setTerceros] = React.useState([]);
-    const [ciudades, setCiudades] = React.useState([]);
-    const [listTerceros, setListTerceros] = React.useState([]);
+export default function ModuloTerceros(){
+   const classes = useStyles();
+   const [modalStyle] = React.useState(getModalStyle);
+   const [open, setOpen] = React.useState(false);
+   const [page, setPage] = React.useState(0);
+   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const handleOpen = () => {
+   const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+   const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    
+   const handleOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
-
-
-
-
+    
+    const [terceros, setTerceros] = React.useState([]);
+    const [ciudades, setCiudades] = React.useState([]);
+    const [listTerceros, setListTerceros] = React.useState([]);
+    const [nameNombre, setNameNombre] = React.useState('');
+    const [nameDireccion, setNameDireccion] = React.useState('');
+    const [nameCorreo, setNameCorreo] = React.useState('');
+    const [nameTelefono, setNameTelefono] = React.useState('');
+    const [nameTipo, setNameTipo] = React.useState('');
+    const [nameCiudad, setNameCiudad] = React.useState('');
+    
+    const url = "http://localhost:8091/";
+    
     React.useEffect(() => {
         cargarTerceros();
         cargarMunicipios();
         cargarTipos();
-    }, []
-            );
-
-    const renderMunicipios = state.municipios && state.municipios.map((municipio) => (
-                <MenuItem value={municipio.municipio_id}>
-                    {municipio.nombre}
-                </MenuItem>
-                ));
-
-        
+    }, []);
+    
+    
     const cargarTerceros = async() => {
-        await axios.get('http://localhost:8091/listarTerceros')
+        await axios.get(url+'listarTerceros')
                 .then((response) => {
-                    setState({listadoTerceros: response.data});
+                    //setState({terceros: response.data});
                     setListTerceros(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
     };
+    
+    const cargarMunicipios = async() => {
+        await axios.get(url+'listarMunicipios')
+                .then((response) => {
+                    //setState({municipios: response.data});
+                    setCiudades(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+    };
 
+    const cargarTipos = async() => {
+        await axios.get(url+'listarTipoTerceros')
+                .then((response) => {
+                    //setState({tipoTerceros: response.data});
+                    setTerceros(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+    };
+    
     const handleSubmit = (evt) => {
-
-        setState({nombre: nameNombre});
-        setState({direccion: nameDireccion});
-        setState({correo: nameCorreo});
-        setState({telefono: nameTelefono});
-        setState({tipo: nameTipo});
-        setState({municipio: nameCiudad});
         evt.preventDefault();
-
-       
-        axios.post('http://localhost:8091/crearTercero/', {
+        swal("Información","registrando "+nameNombre, "info");
+        axios.post(url+'crearTercero/', {
             municipio: {
                 municipio_id: nameCiudad
             },
@@ -183,47 +205,22 @@ export default function Entidad (){
                 tipoTerceroId: nameTipo
             }
         }).then(response => {
-            swal("Éxito", "Se registró exitosamente el tercero: "+response.text(), "success");
+            swal("Éxito", "Se registró exitosamente el tercero: "+nameNombre, "success");
             handleClose();
+            cargarTerceros();
         })
-                .catch((error) => {
-                    console.log(error);
-                    swal("Error", "NO se pudo registrar", "error");
-                })
+          .catch((error) => {
+                console.log(error);
+                swal("Error", "NO se pudo registrar", "error");
+            })
 
     }
-
-    const [nameNombre, setNameNombre] = React.useState('');
-    const [nameDireccion, setNameDireccion] = React.useState('');
-    const [nameCorreo, setNameCorreo] = React.useState('');
-    const [nameTelefono, setNameTelefono] = React.useState('');
-    const [nameTipo, setNameTipo] = React.useState('');
-    const [nameCiudad, setNameCiudad] = React.useState('');
-
-
-    const cargarMunicipios = async() => {
-        await axios.get('http://localhost:8091/listarMunicipios')
-                .then((response) => {
-                    setState({municipios: response.data});
-                    setCiudades(response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-    };
-
-    const cargarTipos = async() => {
-        await axios.get('http://localhost:8091/listarTipoTerceros')
-                .then((response) => {
-                    setState({tipoTerceros: response.data});
-                    setTerceros(response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-    };
-
-    const body = (
+    
+    
+    
+    
+    
+      const body = (
             <div style={modalStyle} className={classes.paper} align="justify">
                 <Typography variant="h3" color="primary" gutterBottom  align ="center">
                     Registrar Tercero
@@ -349,17 +346,137 @@ export default function Entidad (){
             
                 </form> 
             </div>
-                                        );
-
-
-                                return (
+        );
+        
+        
+     return (
                                         <div className={classes.root} align="center">
                                             <Typography variant="h3" color="primary" component="h2" gutterBottom style={{marginBottom: '1em'}} align ="center">
                                                 Información Terceros
                                             </Typography>
-                                            <Terceros
-                                                
-                                            />
+                                           
+                                           
+                                           
+                                              <TableContainer className={classes.container}>  
+                    <Table stickyHeader className={classes.table} size="medium">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell  className={classes.head} align="center">
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Id
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Nombre
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Dirección
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Teléfono
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Ciudad
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Tipo
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Sigla
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" className={classes.head} >
+                                    <Typography variant="h5" gutterBottom align ="center">
+                                        Correo
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {listTerceros.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                    return (
+                                <TableRow hover  tabIndex={-1} key={row.id}>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.terceroId}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.nombre}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.direccion}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.telefono}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.municipio.nombre}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.tipoTercero.nombre}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.tipoTercero.abrevicion}
+                                        </Typography>
+                                    </TableCell>
+                
+                                    <TableCell align="center">
+                                        <Typography variant="h6" gutterBottom align ="center">
+                                            {row.correo}
+                                        </Typography>
+                                    </TableCell>
+                
+                                </TableRow>
+                                            );
+                                })}
+            
+            
+            
+            
+            
+                        </TableBody>
+                    </Table>
+                </TableContainer> 
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, listTerceros.length]}
+                    component="div"
+                    count={listTerceros.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                                                  
                                             <div align="left">
                                                 <IconButton type="button" onClick={handleOpen} className={classes.add}>
                                                     <AddCircleIcon className={classes.icon} />
@@ -375,4 +492,6 @@ export default function Entidad (){
                                             </div>
                                         </div>
                                         );
-                            }
+}
+
+
