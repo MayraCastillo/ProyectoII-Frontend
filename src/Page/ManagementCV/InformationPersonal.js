@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -8,11 +8,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
+import axios from 'axios';
+
+import { PaisesContext } from './CurriculumVitaeContext/PaisesContext';
+import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& .MuiTextField-root': {
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	formControl: {
 		margin: theme.spacing(1),
-		minWidth: 225,
+		minWidth: 200,
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -34,8 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InformationPersonal() {
 	const classes = useStyles();
-	//	const [tipoDocumento, setTipoDocumento] = React.useState('');
-	//	const [pais, setPais] = React.useState('');
+	const [paisData, setPaisData] = React.useState([]);
+	const [paisSeleccionado, setPaisSeleccionado] = useState();
+
+	const { paises } = useContext(PaisesContext);
+	/*{
+		console.log(paises);
+	}*/
+	const { guardarInformacionPersonal } = useContext(HojaDeVidaContext);
 
 	const [datos_generales, modificarDatosGenerales] = React.useState({
 		nombres: '',
@@ -64,19 +72,32 @@ export default function InformationPersonal() {
 
 	const obtenerInfo = (e) => {
 		//console.log(e.target.name, e.target.value);
+
 		modificarDatosGenerales({
 			...datos_generales,
 			[e.target.name]: e.target.value,
 		});
 		console.log(datos_generales);
 	};
+	const paisSelecionadoChangeHandler = (e) => {
+		setPaisSeleccionado(e.target.value);
+		modificarDatosGenerales({
+			...datos_generales,
+			pais: e.target.value,
+		});
+		//console.log(e.target.value);
+		//console.log(paisSeleccionado);
+	};
+	useEffect(() => {
+		console.log(paisSeleccionado);
+		console.log(datos_generales);
+	}, [paisSeleccionado]);
 
-	const handleChange = (event) => {
-		//setTipoDocumento(event.target.value);
-	};
-	const handleChangePais = (event) => {
-		//setPais(event.target.value);
-	};
+	useEffect(() => {
+		//	console.log(paisSeleccionado);
+		//	console.log(datos_generales);
+		guardarInformacionPersonal(datos_generales);
+	}, [datos_generales]);
 
 	return (
 		<>
@@ -110,11 +131,7 @@ export default function InformationPersonal() {
 						<InputLabel id="demo-simple-select-outlined-label">
 							Tipo de Documento
 						</InputLabel>
-						<Select
-							value={tipoDocumento}
-							onChange={handleChange}
-							label="Tipo de Documento"
-						>
+						<Select value={tipoDocumento} label="Tipo de Documento">
 							<MenuItem value="">
 								<em>Atrás</em>
 							</MenuItem>
@@ -140,43 +157,19 @@ export default function InformationPersonal() {
 					</Typography>
 
 					<FormControl variant="outlined" className={classes.formControl}>
-						<InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
-						<Select value={pais} onChange={handleChangePais} label="País">
-							<MenuItem value="">
-								<em>Atrás</em>
-							</MenuItem>
-
-							<MenuItem value={0}>Argentina </MenuItem>
-							<MenuItem value={1}>Belice </MenuItem>
-							<MenuItem value={2}>Bolivia </MenuItem>
-							<MenuItem value={3}>Brasil </MenuItem>
-							<MenuItem value={4}>Canada </MenuItem>
-							<MenuItem value={5}>Chile </MenuItem>
-							<MenuItem value={6}>Colombia </MenuItem>
-							<MenuItem value={7}>Costa Rica </MenuItem>
-							<MenuItem value={8}>Cuba</MenuItem>
-							<MenuItem value={9}>Ecuador </MenuItem>
-							<MenuItem value={10}>El Salvador </MenuItem>
-							<MenuItem value={11}>España </MenuItem>
-							<MenuItem value={12}>Estados Unidos </MenuItem>
-							<MenuItem value={13}>Groenlandia </MenuItem>
-							<MenuItem value={14}>Guatemala </MenuItem>
-							<MenuItem value={15}>Guayana Francesa </MenuItem>
-							<MenuItem value={16}>Guyana </MenuItem>
-							<MenuItem value={17}>Haiti</MenuItem>
-							<MenuItem value={18}>Honduras </MenuItem>
-							<MenuItem value={19}>Islas Malvinas </MenuItem>
-							<MenuItem value={20}>Mexico</MenuItem>
-							<MenuItem value={21}>Nicaragua </MenuItem>
-							<MenuItem value={22}>Panama </MenuItem>
-							<MenuItem value={23}>Paraguay </MenuItem>
-							<MenuItem value={24}>Peru </MenuItem>
-							<MenuItem value={25}>Puerto Rico</MenuItem>
-							<MenuItem value={26}>Republica dominicana</MenuItem>
-							<MenuItem value={27}>Surinam </MenuItem>
-							<MenuItem value={28}>Uruguay </MenuItem>
-							<MenuItem value={29}>Venezuela </MenuItem>
-							<MenuItem value={30}>Otro/Other</MenuItem>
+						<InputLabel htmlFor="outlined-pais-simple">País</InputLabel>
+						<Select
+							native
+							name="pais"
+							value={paisSeleccionado}
+							onChange={paisSelecionadoChangeHandler}
+						>
+							<option aria-label="None" key="-1" value="" />
+							{paises.map((paisContext) => (
+								<option key={paisContext.paisId} value={paisContext.nombre}>
+									{paisContext.nombre}
+								</option>
+							))}
 						</Select>
 					</FormControl>
 

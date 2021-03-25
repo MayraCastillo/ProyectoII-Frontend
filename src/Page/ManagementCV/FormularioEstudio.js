@@ -45,7 +45,7 @@ const FormularioEstudio = ({
 		});
 	};
 
-	const onSubmit = () => {
+	const onSubmit = (e) => {
 		if (!nombreTitulo.trim()) {
 			console.log('esta vacio el titulo');
 			swal({
@@ -126,7 +126,7 @@ const FormularioEstudio = ({
 		} else {
 			agregarEstudio(datos_generales);
 			swal({
-				title: 'Título registradossss',
+				title: 'Título registrado',
 				text: 'El título se registro con éxito',
 				icon: 'success',
 				button: 'Aceptar',

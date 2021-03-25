@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Divider } from '@material-ui/core';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Modal } from 'reactstrap';
 
 import shortid from 'shortid';
 import TablaExperienciaLaboral from './TablaExperienciaLaboral';
 import FormularioExperienciaLaboral from './FormularioExperienciaLaboral';
 import swal from 'sweetalert'; // Para poder realizar alertas
+import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
 const baseUrl = `http://localhost:8090/api/productos/ver/2`;
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ExperienciaLaboral() {
 	const classes = useStyles();
+	const {
+		arrayExperienciaLaboral,
+		setarrayExperienciaLaboral,
+		editarReferenciaLaboral,
+		setEditarReferenciaLaboral,
+	} = useContext(HojaDeVidaContext);
 
 	const empresaData = [
 		{
@@ -67,13 +74,10 @@ export default function ExperienciaLaboral() {
 		},
 	];
 
-	const [arrayExperienciaLaboral, setarrayExperienciaLaboral] = React.useState(
-		empresaData
-	);
 	const [modal, setModal] = React.useState(false);
 	const [modalEditar, setModalEditar] = React.useState(false);
 
-	const initialFormState = {
+	const initialFormStateExpLab = {
 		id: null,
 		nombreEmpresa: '',
 		cargoEmpresa: '',
@@ -82,13 +86,11 @@ export default function ExperienciaLaboral() {
 		calificacion: '',
 		contacto: '',
 	};
-	const [editarReferenciaLaboral, setEditarReferenciaLaboral] = React.useState(
-		initialFormState
-	);
+
 	//Para entrar modo edicion
 	const setModoEditar = (activarModo) => {
 		if (activarModo === false) {
-			setEditarReferenciaLaboral(initialFormState);
+			setEditarReferenciaLaboral(initialFormStateExpLab);
 			setModalEditar(false);
 		} else {
 			setModalEditar(activarModo);
@@ -153,6 +155,13 @@ export default function ExperienciaLaboral() {
 		});
 	};
 
+	useEffect(() => {
+		setarrayExperienciaLaboral(
+			arrayExperienciaLaboral.filter(
+				(arrayExperienciaLaboral) => arrayExperienciaLaboral.id !== ''
+			)
+		);
+	}, []);
 	//Para abrir y cerrar modal
 	const mostrarModal = () => {
 		setModal(!modal);
@@ -162,7 +171,7 @@ export default function ExperienciaLaboral() {
 		<>
 			<br />
 
-			<div className={classes.sendData}>
+			<div className={classes.sendData} className="col-12">
 				<Button
 					onClick={() => {
 						mostrarModal();
@@ -170,6 +179,7 @@ export default function ExperienciaLaboral() {
 					variant="contained"
 					color="primary"
 					style={{ textAlign: 'center' }}
+					className="m-4"
 				>
 					Agregar Experiencia Laboral
 				</Button>

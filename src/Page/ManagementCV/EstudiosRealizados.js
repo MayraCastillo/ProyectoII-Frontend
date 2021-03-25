@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 // core components
@@ -10,7 +10,8 @@ import Button from '@material-ui/core/Button';
 
 import { Divider } from '@material-ui/core';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
 	Table,
 	Container,
@@ -25,6 +26,7 @@ import shortid from 'shortid';
 import TablaEstudios from './TablaEstudios';
 import FormularioEstudio from './FormularioEstudio';
 import swal from 'sweetalert'; // Para poder realizar alertas
+import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
 const baseUrl = `http://localhost:8090/api/productos/ver/2`;
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EstudiosRealizados() {
 	const classes = useStyles();
+	const { setEstudios, estudios, estudioEditar, setEstudioEditar } = useContext(
+		HojaDeVidaContext
+	);
 
 	const dataPrueba = [
 		{
@@ -107,7 +112,7 @@ export default function EstudiosRealizados() {
 		},
 	];
 
-	const [estudios, setEstudios] = React.useState(estudioData);
+	//const [estudios, setEstudios] = React.useState(estudioData);
 	const [modal, setModal] = React.useState(false);
 	const [modalEditar, setModalEditar] = React.useState(false);
 
@@ -119,7 +124,7 @@ export default function EstudiosRealizados() {
 		tipo: '',
 		tiempo: '',
 	};
-	const [estudioEditar, setEstudioEditar] = React.useState(initialFormState);
+	//const [estudioEditar, setEstudioEditar] = React.useState(initialFormState);
 	//Para entrar modo edicion
 	const setModoEditar = (activarModo) => {
 		if (activarModo === false) {
@@ -178,6 +183,9 @@ export default function EstudiosRealizados() {
 			}
 		});
 	};
+	useEffect(() => {
+		setEstudios(estudios.filter((estudio) => estudio.id !== ''));
+	}, []);
 
 	//Para abrir y cerrar modal
 	const mostrarModal = () => {
@@ -188,7 +196,7 @@ export default function EstudiosRealizados() {
 		<>
 			<br />
 
-			<div className={classes.sendData}>
+			<div className={classes.sendData} className="col-12">
 				<Button
 					onClick={() => {
 						mostrarModal();
@@ -196,10 +204,12 @@ export default function EstudiosRealizados() {
 					variant="contained"
 					color="primary"
 					style={{ textAlign: 'center' }}
+					className="m-4"
 				>
 					Agregar Título
 				</Button>
 			</div>
+			<br />
 			<br />
 			<Divider />
 			<Container>

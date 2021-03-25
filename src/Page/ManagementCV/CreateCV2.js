@@ -11,15 +11,20 @@ import ManagementCV from './ManagementCV';
 import InformationPersonal from './InformationPersonal';
 import EstudiosRealizados from './EstudiosRealizados';
 
-import InformacionPersonalProvider from './CurriculumVitaeContext/InformacionPersonalContext';
+import HojaDeVidaContextProvider from './CurriculumVitaeContext/HojaDeVidaContext';
+import PaisesContextProvider from './CurriculumVitaeContext/PaisesContext';
 import Referencias from './Referencias';
 import ExperienciaLaboral from './ExperienciaLaboral';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-
+		width: '100%',
 		flexFlow: 1,
+		marginTop: '40px',
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
 	},
 }));
 
@@ -37,30 +42,32 @@ export default function CreateCV2() {
 	};
 
 	return (
-		<InformacionPersonalProvider>
-			<div className={classes.root}>
-				<Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
-					GESTION HOJA DE VIDA
-				</Typography>
-				<AppBar position="static" color="default">
-					<Tabs
-						value={value}
-						onChange={handleChange}
-						indicatorColor="primary"
-						textColor="primary"
-						variant="fullWidth"
-					>
-						<Tab label="Información Personal" />
-						<Tab label="Estudios Realizados" />
-						<Tab label="Experiencia Laboral" />
-						<Tab label="Referencias" />
-					</Tabs>
-				</AppBar>
-				{value === 0 && <InformationPersonal />}
-				{value === 1 && <EstudiosRealizados />}
-				{value === 2 && <ExperienciaLaboral />}
-				{value === 3 && <Referencias />}
-			</div>
-		</InformacionPersonalProvider>
+		<HojaDeVidaContextProvider>
+			<PaisesContextProvider>
+				<div className={classes.root}>
+					<Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
+						GESTION HOJA DE VIDA
+					</Typography>
+					<AppBar position="static" color="default">
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							indicatorColor="primary"
+							textColor="primary"
+							variant="fullWidth"
+						>
+							<Tab label="Información Personal" />
+							<Tab label="Estudios Realizados" />
+							<Tab label="Experiencia Laboral" />
+							<Tab label="Referencias" />
+						</Tabs>
+					</AppBar>
+					{value === 0 && <InformationPersonal />}
+					{value === 1 && <EstudiosRealizados />}
+					{value === 2 && <ExperienciaLaboral />}
+					{value === 3 && <Referencias />}
+				</div>
+			</PaisesContextProvider>
+		</HojaDeVidaContextProvider>
 	);
 }

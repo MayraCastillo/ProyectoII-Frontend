@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { Table, Modal } from 'reactstrap';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -8,8 +8,14 @@ import IconButton from '@material-ui/core/IconButton';
 const TablaEstudios = (props) => {
 	//console.log(props);
 
+	const eliminar = (estudio) => {
+		if (estudio.nombreTitulo === '') {
+			props.eliminarEstudio(estudio.id);
+		}
+	};
+
 	return (
-		<Table>
+		<Table style={{ width: '100%' }}>
 			<thead>
 				<tr>
 					<th>Titulo</th>
@@ -46,6 +52,7 @@ const TablaEstudios = (props) => {
 									color="secondary"
 									onClick={() => {
 										props.eliminarEstudio(estudio.id);
+										eliminar(estudio);
 									}}
 								>
 									<DeleteIcon />
