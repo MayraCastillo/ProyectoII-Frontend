@@ -61,7 +61,7 @@ export default function Terceros(){
     });
 
     const cargarTerceros = async() => {
-        await axios.get('https://localhost:8091/listarTerceros')
+        await axios.get('http://localhost:8091/listarTerceros')
                 .then((response) => {
                     setState({terceros: response.data});
                 })

@@ -1,14 +1,19 @@
-import './App.css';
+import './assets/css/App.css';
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Main from "./main.js";
-import CustomizedTable from "./components/crear_nomina";
-import Curriculum from "./components/crear_hv";
-import Employees from "./components/crear_empleado";
-import Accounts from "./components/crear_cuenta";
-import Configuration from "./components/crear_config";
-import Entidad from "./components/crear_entidad";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+
+//Views
+import Main from "./main.js";
+import CustomizedTable from "./views/ManagementNomina/crear_nomina";
+import Curriculum from "./views/ManagementCV/CreateCV2";
+import Employees from "./views/ManagementEmp/crear_empleado";
+import Accounts from "./views/ManagementAccount/crear_cuenta";
+import Configuration from "./views/ManagementConfig/crear_config";
+import Entidad from "./views/ManagementConfig/Terceros/crear_entidad";
+import LegalParameters from "./views/ManagementConfig/LegalParameters/LegalParameters"
+import ActiveParameters from "./views/ManagementEmp/ActiveEmployees"
+import InactiveParameters from "./views/ManagementEmp/InactiveEmployees"
 
 const styles = makeStyles({
   root: {
@@ -43,6 +48,9 @@ function App() {
             <Route path="/gestion_cuentas" component={Accounts}/>
             <Route path="/configuracion" component={Configuration}/>
             <Route path="/crear_entidad" component={Entidad}/>
+            <Route path="/parametros_legales" component={LegalParameters}/>
+            <Route path="/empleados_activos" component={ActiveParameters}/>
+            <Route path="/empleados_inactivos" component={InactiveParameters}/>
         </Switch>
        </Router>
     </div>

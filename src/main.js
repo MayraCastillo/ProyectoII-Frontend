@@ -281,22 +281,30 @@ class MiniDrawer extends React.Component {
       </ListItem>
       <Collapse in={this.state.openUser} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+          
           <ListItem button className={classes.nested}>
+          <Link to="/empleados_activos">
             <ListItemIcon>
               <ToggleOnIcon />
             </ListItemIcon>
-           
-              
+          </Link>
+              <Link to="/empleados_activos">
               <ListItemText primary="Activos" />
-         
+              </Link>
           </ListItem>
+
           <ListItem button className={classes.nested}>
+          <Link to="/empleados_inactivos">
             <ListItemIcon>
               <ToggleOffIcon />
             </ListItemIcon>
-           
+            </Link>
+               <Link to="/empleados_inactivos">
               <ListItemText primary="Inactivos" />
-                     </ListItem>
+              </Link>
+          </ListItem>
+
+                     
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <PersonAddIcon />
@@ -407,6 +415,16 @@ class MiniDrawer extends React.Component {
               <ListItemText primary="Tarifa seguridad social" />
                      </ListItem>
 
+          <ListItem button className={classes.nested}>
+           <Link to="/parametros_legales">
+            <ListItemIcon>
+              <ContactMailIcon />
+            </ListItemIcon>
+          </Link>
+               <Link to="/parametros_legales">
+              <ListItemText primary="Parametros Legales" />
+              </Link>
+          </ListItem>
          
         <ListItem button className={classes.nested}>
            <Link to="/crear_entidad">
