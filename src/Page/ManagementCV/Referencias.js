@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& .MuiTextField-root': {
@@ -25,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Referencias() {
 	const classes = useStyles();
+	const {
+		referencias_Familiares_Context,
+		guardarReferenciasFamiliaresRF1,
+		referencias_Familiares_rf2_Context,
+		guardarReferenciasFamiliaresRF2,
+		referencias_Personales_rp1_Context,
+		guardarReferenciasPersonales1,
+		referencias_Personales_rp2_Context,
+		guardarReferenciasPersonales2,
+	} = useContext(HojaDeVidaContext);
 
 	const [
 		referencias_Familiares,
@@ -118,6 +129,21 @@ export default function Referencias() {
 		});
 		console.log(referencias_Personales_rp2);
 	};
+
+	useEffect(() => {
+		guardarReferenciasFamiliaresRF1(referencias_Familiares);
+	}, [referencias_Familiares]);
+	useEffect(() => {
+		guardarReferenciasFamiliaresRF2(referencias_Familiares_rf2);
+	}, [referencias_Familiares_rf2]);
+
+	useEffect(() => {
+		guardarReferenciasPersonales1(referencias_Personales_rp1);
+	}, [referencias_Personales_rp1]);
+	useEffect(() => {
+		guardarReferenciasPersonales2(referencias_Personales_rp2);
+	}, [referencias_Personales_rp2]);
+
 	return (
 		<>
 			<form className={classes.root} autoComplete="off">
@@ -133,6 +159,7 @@ export default function Referencias() {
 						label="Nombres*"
 						name="nombresRF1"
 						value={nombresRF1}
+						defaultValue={referencias_Familiares_rf2_Context.nombresRF1}
 						fullWidth
 						variant="outlined"
 						helperText="Este campo es obligatorio*"
@@ -189,8 +216,8 @@ export default function Referencias() {
 					/>
 					<TextField
 						margin="normal"
-						label="telefono"
-						name="telefonoRF1"
+						label="Teléfono"
+						name="telefonoRF2"
 						value={telefonoRF2}
 						fullWidth
 						variant="outlined"
@@ -198,8 +225,8 @@ export default function Referencias() {
 					/>
 					<TextField
 						margin="normal"
-						label="telefono"
-						name="parentescoRF1"
+						label="parentesco"
+						name="parentescoRF2"
 						value={parentescoRF2}
 						fullWidth
 						variant="outlined"
@@ -242,30 +269,30 @@ export default function Referencias() {
 					<br />
 					<TextField
 						margin="normal"
-						label="Nombres*"
+						label="Nombres"
 						name="nombresRP2"
 						value={nombresRP2}
 						fullWidth
 						variant="outlined"
-						onChange={obtenerInfoRefPersonales1}
+						onChange={obtenerInfoRefPersonales2}
 					/>
 					<TextField
 						margin="normal"
-						label="Apellidos*"
+						label="Apellidos"
 						name="apellidosRP2"
 						value={apellidosRP2}
 						fullWidth
 						variant="outlined"
-						onChange={obtenerInfoRefPersonales1}
+						onChange={obtenerInfoRefPersonales2}
 					/>
 					<TextField
 						margin="normal"
-						label="Teléfono*"
+						label="Teléfono"
 						name="telefonoRP2"
 						value={telefonoRP2}
 						fullWidth
 						variant="outlined"
-						onChange={obtenerInfoRefPersonales1}
+						onChange={obtenerInfoRefPersonales2}
 					/>
 
 					<br />

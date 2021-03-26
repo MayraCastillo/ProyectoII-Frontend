@@ -1,5 +1,7 @@
 //Imports
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import swal from 'sweetalert'; // Para poder realizar alertas
 
 //Creamos el Context
 export const HojaDeVidaContext = createContext();
@@ -19,6 +21,8 @@ const HojaDeVidaContextProvider = (props) => {
 		telefono: '',
 		correo: '',
 	});
+	const { pais, departamento, ciudad } = informacionPersonal;
+	const [mensaje, setMensaje] = useState(pais);
 	//INICIO  SECCION ----ESTUDIOS REALIZADOS
 	const estudioData = [
 		{
@@ -70,9 +74,144 @@ const HojaDeVidaContextProvider = (props) => {
 	const [editarReferenciaLaboral, setEditarReferenciaLaboral] = useState(
 		initialFormStateExpLab
 	);
+
+	//SECCION REFERENCIAS PERSONALES/FAMILIARES
+	const [
+		referencias_Familiares_Context,
+		guardarReferenciasFamiliaresRF1,
+	] = useState({
+		nombresRF1: '',
+		apellidosRF1: '',
+		telefonoRF1: '',
+		parentescoRF1: '',
+	});
+	const {
+		nombresRF1,
+		apellidosRF1,
+		telefonoRF1,
+		parentescoRF1,
+	} = referencias_Familiares_Context;
+
+	//RF2
+	const [
+		referencias_Familiares_rf2_Context,
+		guardarReferenciasFamiliaresRF2,
+	] = useState({
+		nombresRF2: '',
+		apellidosRF2: '',
+		telefonoRF2: '',
+		parentescoRF2: '',
+	});
+	const {
+		nombresRF2,
+		apellidosRF2,
+		telefonoRF2,
+		parentescoRF2,
+	} = referencias_Familiares_rf2_Context;
+
+	//REFERENCIAS PERSONALES
+	const [
+		referencias_Personales_rp1_Context,
+		guardarReferenciasPersonales1,
+	] = useState({
+		nombresRP1: '',
+		apellidosRP1: '',
+		telefonoRP1: '',
+	});
+	const {
+		nombresRP1,
+		apellidosRP1,
+		telefonoRP1,
+	} = referencias_Personales_rp1_Context;
+	//Referencias_Personales_2
+
+	const [
+		referencias_Personales_rp2_Context,
+		guardarReferenciasPersonales2,
+	] = useState({
+		nombresRP2: '',
+		apellidosRP2: '',
+		telefonoRP2: '',
+	});
+	const {
+		nombresRP2,
+		apellidosRP2,
+		telefonoRP2,
+	} = referencias_Personales_rp2_Context;
+
+	//SECCION PAISES-DEPARTAMENTOS-MUNICIPIOS
+	//Crear el state del context
+	const [paises, setPaises] = useState([]);
+	//Pais seleccionado
+	const [paisSeleccionadoContext, setPaisSeleccionadoContext] = useState({
+		paisId: '',
+		nombre: '',
+	});
+	//Crear el array departamentos segun sea el pais
+	const [departamentos, setDepartamentos] = useState([]);
+	//Departamento seleccionado
+	const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState({
+		departamentoId: '',
+		nombre: '',
+	});
+	//Crear el array municipios segun sea el departamento
+	const [municipios, setMunicipios] = useState([]);
+	const [municipioSeleccionado, setMunicipioSeleccionado] = useState({
+		municipioId: '',
+		nombre: '',
+	});
+
+	//Limpiar paisesContext
+	/*const limpiarPaises = () => {
+		console.log('Limpiando');
+		setPaises([]);
+		setPaisSeleccionado({
+			paisId: '',
+			nombre: '',
+		});
+		setDepartamentos([]),
+			setDepartamentoSeleccionado({
+				paisId: '',
+				nombre: '',
+			}),
+			setMunicipios([]);
+	};*/
+	//Ejecutamos el llamado a la API para traer los paises
+	useEffect(() => {
+		const peticionGet = async () => {
+			const url = 'http://localhost:8091/listarPaises';
+			const paises = await axios.get(url);
+			setPaises(paises.data);
+		};
+		peticionGet();
+	}, []);
+
+	useEffect(() => {
+		const peticionGetDepartamentos = async () => {
+			const url = `http://localhost:8091/listarDepartamentosPorPais/${pais}`;
+			const departamentos = await axios.get(url);
+			setDepartamentos(departamentos.data);
+		};
+		peticionGetDepartamentos();
+
+		//setPaisSeleccionadoContext(pais);
+	}, [pais]);
+
+	useEffect(() => {
+		const peticionGetMunicipios = async () => {
+			const url = `http://localhost:8091/listarMunicipiosPorDepartamento/${departamento}`;
+			const municipios = await axios.get(url);
+			setMunicipios(municipios.data);
+		};
+		peticionGetMunicipios();
+	}, [departamento]);
+
+	//FIN SECCION PAISES-DEPARTAMENTOS-MUNICIPIOS
+
 	return (
 		<HojaDeVidaContext.Provider
 			value={{
+				mensaje,
 				guardarInformacionPersonal,
 				estudios,
 				setEstudios,
@@ -82,6 +221,21 @@ const HojaDeVidaContextProvider = (props) => {
 				setarrayExperienciaLaboral,
 				editarReferenciaLaboral,
 				setEditarReferenciaLaboral,
+				paises,
+				paisSeleccionadoContext,
+				setPaisSeleccionadoContext,
+				departamentos,
+				setDepartamentoSeleccionado,
+				municipios,
+				setMunicipios,
+				referencias_Familiares_Context,
+				guardarReferenciasFamiliaresRF1,
+				referencias_Familiares_rf2_Context,
+				guardarReferenciasFamiliaresRF2,
+				referencias_Personales_rp1_Context,
+				guardarReferenciasPersonales1,
+				referencias_Personales_rp2_Context,
+				guardarReferenciasPersonales2,
 			}}
 		>
 			{props.children}

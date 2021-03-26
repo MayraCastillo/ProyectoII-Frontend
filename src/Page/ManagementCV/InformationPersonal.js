@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import axios from 'axios';
 
-import { PaisesContext } from './CurriculumVitaeContext/PaisesContext';
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 			width: '25ch',
 		},
 	},
+
 	formControl: {
 		margin: theme.spacing(1),
 		minWidth: 200,
@@ -36,14 +36,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InformationPersonal() {
 	const classes = useStyles();
-	const [paisData, setPaisData] = React.useState([]);
-	const [paisSeleccionado, setPaisSeleccionado] = useState();
 
-	const { paises } = useContext(PaisesContext);
-	/*{
-		console.log(paises);
-	}*/
-	const { guardarInformacionPersonal } = useContext(HojaDeVidaContext);
+	const [paisSeleccionado, setPaisSeleccionado] = useState();
+	const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState();
+	const [municipioSeleccionado, setMunicipioSeleccionado] = useState();
+	const [tipoDocumentoSeleccionado, setTipoDocumento] = useState();
+
+	const {
+		guardarInformacionPersonal,
+		paises,
+		paisSeleccionadoContext,
+		departamentos,
+		municipios,
+	} = useContext(HojaDeVidaContext);
 
 	const [datos_generales, modificarDatosGenerales] = React.useState({
 		nombres: '',
@@ -88,14 +93,36 @@ export default function InformationPersonal() {
 		//console.log(e.target.value);
 		//console.log(paisSeleccionado);
 	};
-	useEffect(() => {
-		console.log(paisSeleccionado);
-		console.log(datos_generales);
-	}, [paisSeleccionado]);
+	const departamentoSelecionadoChangeHandler = (e) => {
+		setDepartamentoSeleccionado(e.target.value);
+		modificarDatosGenerales({
+			...datos_generales,
+			departamento: e.target.value,
+		});
+		console.log('Departamento id: ' + e.target.value);
+		//	console.log(datos_generales);
+	};
+
+	const municipioSelecionadoChangeHandler = (e) => {
+		setMunicipioSeleccionado(e.target.value);
+		modificarDatosGenerales({
+			...datos_generales,
+			ciudad: e.target.value,
+		});
+		console.log('municipio id: ' + e.target.value);
+		//	console.log(datos_generales);
+	};
+	const tipoDocumentoChangeHandler = (e) => {
+		setMunicipioSeleccionado(e.target.value);
+		modificarDatosGenerales({
+			...datos_generales,
+			tipoDocumento: e.target.value,
+		});
+		console.log('tipo documento: ' + e.target.value);
+		//	console.log(datos_generales);
+	};
 
 	useEffect(() => {
-		//	console.log(paisSeleccionado);
-		//	console.log(datos_generales);
 		guardarInformacionPersonal(datos_generales);
 	}, [datos_generales]);
 
@@ -131,13 +158,19 @@ export default function InformationPersonal() {
 						<InputLabel id="demo-simple-select-outlined-label">
 							Tipo de Documento
 						</InputLabel>
-						<Select value={tipoDocumento} label="Tipo de Documento">
+						<Select
+							value={tipoDocumentoSeleccionado}
+							label="Tipo de Documento"
+							onChange={tipoDocumentoChangeHandler}
+						>
 							<MenuItem value="">
 								<em>Atrás</em>
 							</MenuItem>
-							<MenuItem value={10}>Tarjeta Identidad</MenuItem>
-							<MenuItem value={20}>Cédula Ciudadanía</MenuItem>
-							<MenuItem value={30}>Cédula Extranjería</MenuItem>
+							<MenuItem value={'TARJETA_IDENTIDAD'}>Tarjeta Identidad</MenuItem>
+							<MenuItem value={'CEDULA'}>Cédula Ciudadanía</MenuItem>
+							<MenuItem value={'CEDULA_EXTRANJERIA'}>
+								Cédula Extranjería
+							</MenuItem>
 						</Select>
 					</FormControl>
 					<TextField
@@ -166,8 +199,52 @@ export default function InformationPersonal() {
 						>
 							<option aria-label="None" key="-1" value="" />
 							{paises.map((paisContext) => (
-								<option key={paisContext.paisId} value={paisContext.nombre}>
+								<option key={paisContext.paisId} value={paisContext.paisId}>
 									{paisContext.nombre}
+								</option>
+							))}
+						</Select>
+					</FormControl>
+
+					<FormControl variant="outlined" className={classes.formControl}>
+						<InputLabel htmlFor="outlined-departamento-simple">
+							Departamento
+						</InputLabel>
+						<Select
+							native
+							name="departamentos"
+							value={departamentoSeleccionado}
+							onChange={departamentoSelecionadoChangeHandler}
+						>
+							<option aria-label="None" key="-1" value="" />
+							{departamentos.map((departamentoContext) => (
+								<option
+									key={departamentoContext.departamentoId}
+									value={departamentoContext.departamentoId}
+								>
+									{departamentoContext.nombre}
+								</option>
+							))}
+						</Select>
+					</FormControl>
+
+					<FormControl variant="outlined" className={classes.formControl}>
+						<InputLabel htmlFor="outlined-municipio-simple">
+							Município
+						</InputLabel>
+						<Select
+							native
+							name="municipios"
+							value={municipioSeleccionado}
+							onChange={municipioSelecionadoChangeHandler}
+						>
+							<option aria-label="None" key="-1" value="" />
+							{municipios.map((municipioContext) => (
+								<option
+									key={municipioContext.municipioId}
+									value={municipioContext.municipioId}
+								>
+									{municipioContext.nombre}
 								</option>
 							))}
 						</Select>
@@ -175,24 +252,10 @@ export default function InformationPersonal() {
 
 					<TextField
 						id="outlined-helperText"
-						label="Departamento"
-						helperText="Some important text"
-						variant="outlined"
-						onChange={obtenerInfo}
-					/>
-					<TextField
-						id="outlined-helperText"
-						label="Ciudad"
-						helperText="Some important text"
-						variant="outlined"
-						onChange={obtenerInfo}
-					/>
-					<TextField
-						id="outlined-helperText"
 						label="Dirección"
 						name="direccion"
+						fullWidth
 						value={direccion}
-						helperText="Some important text"
 						variant="outlined"
 						onChange={obtenerInfo}
 					/>
