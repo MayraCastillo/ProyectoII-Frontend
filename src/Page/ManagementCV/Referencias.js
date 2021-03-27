@@ -182,6 +182,7 @@ export default function Referencias() {
 						value={telefonoRF1}
 						fullWidth
 						variant="outlined"
+						type="number"
 						helperText="Este campo es obligatorio*"
 						onChange={obtenerInfoRefFamiliaresRF1}
 					/>
@@ -220,6 +221,7 @@ export default function Referencias() {
 						name="telefonoRF2"
 						value={telefonoRF2}
 						fullWidth
+						type="number"
 						variant="outlined"
 						onChange={obtenerInfoRefFamiliaresRF2}
 					/>
@@ -262,6 +264,7 @@ export default function Referencias() {
 						name="telefonoRP1"
 						value={telefonoRP1}
 						fullWidth
+						type="number"
 						variant="outlined"
 						helperText="Este campo es obligatorio*"
 						onChange={obtenerInfoRefPersonales1}
@@ -291,6 +294,7 @@ export default function Referencias() {
 						name="telefonoRP2"
 						value={telefonoRP2}
 						fullWidth
+						type="number"
 						variant="outlined"
 						onChange={obtenerInfoRefPersonales2}
 					/>

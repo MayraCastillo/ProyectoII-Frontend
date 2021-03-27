@@ -2,13 +2,15 @@ import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { Divider } from '@material-ui/core';
+
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Modal } from 'reactstrap';
+import Container from '@material-ui/core/Container';
+import Modal from '@material-ui/core/Modal';
+import Grid from '@material-ui/core/Grid';
 
 import shortid from 'shortid';
-import TablaExperienciaLaboral from './TablaExperienciaLaboral';
-import FormularioExperienciaLaboral from './FormularioExperienciaLaboral';
+import TablaExperienciaLaboral from './Tablas/TablaExperienciaLaboral';
+import FormularioExperienciaLaboral from './Formularios/FormularioExperienciaLaboral';
 import swal from 'sweetalert'; // Para poder realizar alertas
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(1),
 			width: '50ch',
 		},
+		flexGrow: 1,
 	},
 	appBar: {
 		position: 'relative',
@@ -51,31 +54,29 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'row',
 		display: 'flex',
 	},
+	paper: {
+		position: 'absolute',
+		//width: 400,
+		//backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(5, 55, 3),
+	},
 }));
 
 export default function ExperienciaLaboral() {
 	const classes = useStyles();
+	const [modal, setModal] = React.useState(false);
+	const [modalEditar, setModalEditar] = React.useState(false);
+	const handleClose = () => {
+		setModal(false);
+	};
 	const {
 		arrayExperienciaLaboral,
 		setarrayExperienciaLaboral,
 		editarReferenciaLaboral,
 		setEditarReferenciaLaboral,
 	} = useContext(HojaDeVidaContext);
-
-	const empresaData = [
-		{
-			id: '',
-			nombreEmpresa: '',
-			cargoEmpresa: '',
-			telefonoEmpresa: '',
-			tiempo: '',
-			calificacion: '',
-			contacto: '',
-		},
-	];
-
-	const [modal, setModal] = React.useState(false);
-	const [modalEditar, setModalEditar] = React.useState(false);
 
 	const initialFormStateExpLab = {
 		id: null,
@@ -101,7 +102,7 @@ export default function ExperienciaLaboral() {
 	const editRow = (editarReferenciaLaboral) => {
 		mostrarModal();
 		setModoEditar(true);
-		console.log(editarReferenciaLaboral);
+		//console.log(editarReferenciaLaboral);
 		setEditarReferenciaLaboral({
 			id: editarReferenciaLaboral.id,
 			nombreEmpresa: editarReferenciaLaboral.nombreEmpresa,
@@ -119,7 +120,6 @@ export default function ExperienciaLaboral() {
 		if (modalEditar === true) {
 			const indice = arrayExperienciaLaboral.findIndex((elemento, indice) => {
 				if (elemento.id === nuevaExperienciaLaboral.id) {
-					console.log('Encontrado ' + indice);
 					arrayExperienciaLaboral[indice] = nuevaExperienciaLaboral;
 					return true;
 				}
@@ -168,10 +168,9 @@ export default function ExperienciaLaboral() {
 	};
 
 	return (
-		<>
+		<Container maxWidth="lg" className={classes.root}>
 			<br />
-
-			<div className={classes.sendData} className="col-12">
+			<div xs={12}>
 				<Button
 					onClick={() => {
 						mostrarModal();
@@ -185,7 +184,7 @@ export default function ExperienciaLaboral() {
 				</Button>
 			</div>
 			<br />
-			<Divider />
+
 			<Container>
 				<TablaExperienciaLaboral
 					arrayExperienciaLaboral={arrayExperienciaLaboral}
@@ -195,7 +194,7 @@ export default function ExperienciaLaboral() {
 				/>
 			</Container>
 
-			<Modal isOpen={modal} style={{ marginTop: '70px' }}>
+			<Modal open={modal} className={classes.paper} onClose={handleClose}>
 				<FormularioExperienciaLaboral
 					agregarExperienciaLaboral={agregarExperienciaLaboral}
 					mostrarModal={mostrarModal}
@@ -205,6 +204,6 @@ export default function ExperienciaLaboral() {
 					//editRow={editRow}
 				/>
 			</Modal>
-		</>
+		</Container>
 	);
 }

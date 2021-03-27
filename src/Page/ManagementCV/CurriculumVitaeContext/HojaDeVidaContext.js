@@ -9,20 +9,66 @@ export const HojaDeVidaContext = createContext();
 //Provider es donde se encuentran las funciones y el state
 const HojaDeVidaContextProvider = (props) => {
 	//Crear el state del context
-	const [informacionPersonal, guardarInformacionPersonal] = useState({
+	const [informacionPersonalContext, guardarInformacionPersonal] = useState({
 		nombres: '',
 		apellidos: '',
 		tipoDocumento: '',
 		numeroDocumento: '',
 		pais: '',
 		departamento: '',
-		ciudad: '',
+		municipio: '',
 		direccion: '',
 		telefono: '',
 		correo: '',
 	});
-	const { pais, departamento, ciudad } = informacionPersonal;
-	const [mensaje, setMensaje] = useState(pais);
+	const {
+		nombres,
+		apellidos,
+		tipoDocumento,
+		numeroDocumento,
+		pais,
+		departamento,
+		ciudad,
+		direccion,
+		telefono,
+		correo,
+	} = informacionPersonalContext;
+
+	const obtenerInfo = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const tipoDocumentoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			tipoDocumento: e.target.value,
+		});
+	};
+
+	const paisSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			pais: e.target.value,
+		});
+	};
+
+	const departamentoSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			departamento: e.target.value,
+		});
+	};
+
+	const municipioSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			municipio: e.target.value,
+		});
+	};
+
 	//INICIO  SECCION ----ESTUDIOS REALIZADOS
 	const estudioData = [
 		{
@@ -34,14 +80,14 @@ const HojaDeVidaContextProvider = (props) => {
 			tipo: '',
 		},
 	];
-	const initialFormState = {
+	const [initialFormState, guardarEstudiosRealizados] = useState({
 		id: null,
 		nombreTitulo: '',
 		entidad: '',
 		calificacion: '',
 		tipo: '',
 		tiempo: '',
-	};
+	});
 
 	const [estudios, setEstudios] = useState(estudioData);
 
@@ -161,21 +207,6 @@ const HojaDeVidaContextProvider = (props) => {
 		nombre: '',
 	});
 
-	//Limpiar paisesContext
-	/*const limpiarPaises = () => {
-		console.log('Limpiando');
-		setPaises([]);
-		setPaisSeleccionado({
-			paisId: '',
-			nombre: '',
-		});
-		setDepartamentos([]),
-			setDepartamentoSeleccionado({
-				paisId: '',
-				nombre: '',
-			}),
-			setMunicipios([]);
-	};*/
 	//Ejecutamos el llamado a la API para traer los paises
 	useEffect(() => {
 		const peticionGet = async () => {
@@ -211,8 +242,13 @@ const HojaDeVidaContextProvider = (props) => {
 	return (
 		<HojaDeVidaContext.Provider
 			value={{
-				mensaje,
-				guardarInformacionPersonal,
+				paisSelecionadoChangeHandler,
+				departamentoSelecionadoChangeHandler,
+				municipioSelecionadoChangeHandler,
+				tipoDocumentoChangeHandler,
+				informacionPersonalContext,
+				obtenerInfo,
+
 				estudios,
 				setEstudios,
 				estudioEditar,
