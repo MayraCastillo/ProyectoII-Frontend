@@ -54,19 +54,17 @@ const columns = [
 
    { field: 'Recargo_nocturno', headerName: 'Recargo nocturno', headerClassName: 'super-app-theme--header', width: 200, align: 'center'},
      { field: 'Recargo_diurno_domfes', headerName: 'Recargo diurno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' },
-       { field: 'Recargo_nocturno_domfes', headerName: 'Recargo nocturno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' },
-         { field: 'otros_pagos', headerName: 'Otros pagos', headerClassName: 'super-app-theme--header',width: 130, align: 'center' },
-    { field: 'total', headerName: 'Sueldo total', headerClassName: 'super-app-theme--header',width: 130, align: 'center'},
+       { field: 'Recargo_nocturno_domfes', headerName: 'Recargo nocturno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' }
 ];
 
 const rows = [
-  { id: 1, Nombre:'Jane Doe', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 2, Nombre:'Erick Hampton', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 3, Nombre:'Dorian Gray', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 5, Nombre:'Elle Duncan', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 6, Nombre:'Demsell Washington', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 7, Nombre:'James Cameron', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
+  { id: 1, Nombre:'Jane Doe', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250 },
+  { id: 2, Nombre:'Erick Hampton', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 3, Nombre:'Dorian Gray', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 5, Nombre:'Elle Duncan', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 6, Nombre:'Demsell Washington', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 7, Nombre:'James Cameron', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
 
 
 ];
@@ -110,7 +108,7 @@ const styles = makeStyles ({
 
 
 
-export default function CustomizedTable() {
+export default function VerPlanilla() {
   const classes = styles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -127,7 +125,7 @@ export default function CustomizedTable() {
   return (
     <div className={classes.root}>
          <Typography paragraph>
-             <Typography variant="h3">Nómina</Typography>
+             <Typography variant="h3">Planilla de horas laboradas</Typography>
           </Typography>
           <Typography paragraph>YYYY-MM-DD</Typography>
        
