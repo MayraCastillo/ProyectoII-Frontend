@@ -81,46 +81,46 @@ export default function Terceros(){
             <div className={classes.root}>  
 
                 <TableContainer className={classes.container}>  
-                    <Table stickyHeader className={classes.table} size="medium">
+                    <Table stickyHeader className={classes.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell  className={classes.head} align="center">
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Id
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Nombre
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Dirección
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Teléfono
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Ciudad
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Tipo
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Sigla
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="h6" gutterBottom align ="center">
                                         Correo
                                     </Typography>
                                 </TableCell>

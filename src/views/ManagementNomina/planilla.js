@@ -18,7 +18,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 const columns = [
    { field: 'Nombre', headerName: 'Nombre del empleado',headerClassName: 'super-app-theme--header', width: 198, align: 'center'},
    { field: 'Identificación', headerName: 'Identificación',headerClassName: 'super-app-theme--header', width: 140, align: 'center' },
-   { field: 'Tiempo', headerName: 'Tiempo',headerClassName: 'super-app-theme--header', width: 110, align: 'center' },
+   { field: 'HorasLaboradas', headerName: 'Horas laboradas',headerClassName: 'super-app-theme--header', width: 110, align: 'center' },
   {
     field: 'Diuror',
     headerName: 'Diurno ordinario',
@@ -58,13 +58,13 @@ const columns = [
 ];
 
 const rows = [
-  { id: 1, Nombre:'Jane Doe', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250 },
-  { id: 2, Nombre:'Erick Hampton', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 3, Nombre:'Dorian Gray', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 5, Nombre:'Elle Duncan', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 6, Nombre:'Demsell Washington', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 7, Nombre:'James Cameron', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 1, Nombre:'Jane Doe', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250 },
+  { id: 2, Nombre:'Erick Hampton', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 3, Nombre:'Dorian Gray', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 5, Nombre:'Elle Duncan', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 6, Nombre:'Demsell Washington', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 7, Nombre:'James Cameron', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
 
 
 ];
@@ -74,8 +74,8 @@ const styles = makeStyles ({
   root: {
     marginLeft:"2%",
     marginRight:"10%",
-    marginTop:"90px",
-    
+    marginTop:"100px",
+    padding:"100px",
     alignItems: "center",
     width:'100%',
     background: '#ffffff',
@@ -125,10 +125,10 @@ export default function VerPlanilla() {
   return (
     <div className={classes.root}>
          <Typography paragraph>
-             <Typography variant="h3">Planilla de horas laboradas</Typography>
+             <Typography variant="h3" align="center" color="primary">Planilla de horas laboradas</Typography>
           </Typography>
-          <Typography paragraph>YYYY-MM-DD</Typography>
-       
+         
+          <br/>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -173,16 +173,6 @@ export default function VerPlanilla() {
       />
          <Divider style={{marginTop:"18px",marginBottom:'1em'}} />
       
-      <Button variant="contained" color="primary" size="large" startIcon={<CancelIcon />} style={{marginRight:"18px"}}>
-        Cancelar
-      </Button>
-      <Button variant="contained" color="secondary" size="large" startIcon={<SaveIcon />} style={{marginRight:"18px"}}>
-      Guardar
-      </Button>
-
-       <Button variant="contained" color="primary" size="large" startIcon={<AutorenewIcon />}>
-      Generar
-      </Button>
     </div>
   );
 }

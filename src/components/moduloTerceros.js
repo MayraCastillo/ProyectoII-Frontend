@@ -7,7 +7,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
@@ -45,12 +45,12 @@ const useStyles = makeStyles((theme) => ({
 
         formControl: {
             marginRight: "14px",
-            minWidth: 100,
+            width:"30ch",
             size: 'medium'
         },
 
         list: {
-            width: "21.5%",
+            width: "30ch",
             marginRight: "14px"
         },
         selectEmpty: {
@@ -67,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
         },
         paper: {
             position: "absolute",
-            width: 580,
-            height: 450,
+            width: 700,
+            height: 600,
             backgroundColor: theme.palette.background.paper,
             border: "2px solid #000",
             boxShadow: theme.shadows[5],
@@ -98,12 +98,16 @@ const useStyles = makeStyles((theme) => ({
         head: {
             backgroundColor: "#3949ab",
             color: theme.palette.common.white,
+        },
+
+        form:{
+            marginLeft:"8px"
         }
 
     }));
 
 function getModalStyle() {
-    const top = 50;
+    const top = 60;
     const left = 50;
 
     return {
@@ -139,6 +143,8 @@ export default function ModuloTerceros(){
     };
     
     const [terceros, setTerceros] = React.useState([]);
+    const [paises, setPaises] = React.useState([]);
+    const [dptos, setDptos] = React.useState([]);
     const [ciudades, setCiudades] = React.useState([]);
     const [listTerceros, setListTerceros] = React.useState([]);
     const [nameNombre, setNameNombre] = React.useState('');
@@ -147,16 +153,46 @@ export default function ModuloTerceros(){
     const [nameTelefono, setNameTelefono] = React.useState('');
     const [nameTipo, setNameTipo] = React.useState('');
     const [nameCiudad, setNameCiudad] = React.useState('');
-    
+    const [namePais, setNamePais] = React.useState('');
+    const [nameDpto, setNameDpto] = React.useState('');
+
     const url = "http://localhost:8091/";
     
     React.useEffect(() => {
+        //cargarPaises();
+        cargarDeptos();
         cargarTerceros();
-        cargarMunicipios();
+        //cargarMunicipios();
         cargarTipos();
     }, []);
     
-    
+    /*
+    const cargarPaises = async() => {
+        await axios.get(url+'listarPaises')
+        .then((response) => {
+            //setState({terceros: response.data});
+            setPaises(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    };
+    */
+
+    const cargarDeptos = async() => {
+        await axios.get(url+'listarDepartamentosPorPais/1')
+        .then((response) => {
+            //setState({terceros: response.data});
+           
+            setDptos(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    };
+
+
+
     const cargarTerceros = async() => {
         await axios.get(url+'listarTerceros')
                 .then((response) => {
@@ -168,8 +204,8 @@ export default function ModuloTerceros(){
                 })
     };
     
-    const cargarMunicipios = async() => {
-        await axios.get(url+'listarMunicipios')
+    const cargarMunicipios = async(id) => {
+        await axios.get(url+'listarMunicipiosPorDepartamento/'+id)
                 .then((response) => {
                     //setState({municipios: response.data});
                     setCiudades(response.data);
@@ -189,6 +225,14 @@ export default function ModuloTerceros(){
                     console.log(error);
                 })
     };
+
+    const handleMunicipios = (evt) => {
+        setNameDpto(evt.target.value);
+        cargarMunicipios();
+        evt.preventDefault();
+    } 
+
+
     
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -221,12 +265,14 @@ export default function ModuloTerceros(){
     
     
       const body = (
-            <div style={modalStyle} className={classes.paper} align="justify">
+            <div style={modalStyle} className={classes.paper} align="center">
+                <br/>
                 <Typography variant="h3" color="primary" gutterBottom  align ="center">
                     Registrar Tercero
                 </Typography>
-            
-                <form>
+                <br/>
+                <br/>
+                <form className={classes.form}>
                     <div>
                         <TextField
                             required
@@ -271,7 +317,31 @@ export default function ModuloTerceros(){
             
             
                     <div style={{marginTop: "18px"}}>
-                        <FormControl variant="outlined" className={classes.list}>
+
+                 
+
+                        <FormControl required variant="outlined" className={classes.list}>
+                            <InputLabel id="demo-simple-select-outlined-label">Departamento</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                className={classes.selectEmpty}
+                                onChange={(e) => cargarMunicipios(e.target.value)}
+                                >
+                                <MenuItem value="">
+                                   <em>None</em>
+                                </MenuItem>
+                                
+                                {dptos.map((dpto) => (
+                                <MenuItem value={dpto.departamentoId}>{dpto.nombre}</MenuItem>
+                                                ))}
+                                
+                            </Select>
+                        </FormControl>
+
+                        <br/>
+                        <br/>      
+                        <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Ciudad</InputLabel>
                             <Select
                                 labelId="demo-simple-select-outlined-label"
@@ -292,7 +362,7 @@ export default function ModuloTerceros(){
             
             
             
-                        <FormControl variant="outlined" className={classes.list}>
+                        <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Tipo</InputLabel>
                             <Select
             
@@ -309,11 +379,10 @@ export default function ModuloTerceros(){
                                                 ))}
                             </Select>
                         </FormControl>
-            
                     </div>
             
             
-            
+                    <br/>
             
                     <div style={{marginTop: "18px"}}>
                         <Button  
@@ -358,46 +427,46 @@ export default function ModuloTerceros(){
                                            
                                            
                                               <TableContainer className={classes.container}>  
-                    <Table stickyHeader className={classes.table} size="medium">
+                    <Table stickyHeader className={classes.table} size="small">
                         <TableHead>
                             <TableRow>
                                 <TableCell  className={classes.head} align="center">
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Id
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Nombre
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Dirección
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Teléfono
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Ciudad
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Tipo
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Sigla
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
-                                    <Typography variant="h5" gutterBottom align ="center">
+                                    <Typography variant="body1" gutterBottom align ="center">
                                         Correo
                                     </Typography>
                                 </TableCell>
@@ -409,49 +478,49 @@ export default function ModuloTerceros(){
                                 <TableRow hover  tabIndex={-1} key={row.id}>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.terceroId}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.nombre}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.direccion}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.telefono}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.municipio.nombre}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.tipoTercero.nombre}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.tipoTercero.abrevicion}
                                         </Typography>
                                     </TableCell>
                 
                                     <TableCell align="center">
-                                        <Typography variant="h6" gutterBottom align ="center">
+                                        <Typography variant="body1" gutterBottom align ="center">
                                             {row.correo}
                                         </Typography>
                                     </TableCell>
