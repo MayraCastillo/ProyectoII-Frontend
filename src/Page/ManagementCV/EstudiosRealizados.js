@@ -109,19 +109,24 @@ export default function EstudiosRealizados() {
 			tiempo: estudioEditar.tiempo,
 		});
 	};
-	const [bandera, setBandera] = React.useState(0);
-	function tituloRepetido(nuevoEstudio) {
-		estudios.map((element) => {
-			if (element.nombreTitulo == nuevoEstudio.nombreTitulo) {
-				return setBandera(1);
-			} else {
-				return setBandera(0);
+	//const [bandera, setBandera] = React.useState(false);
+	const tituloRepetido = (nuevoEstudio) => {
+		let bandera = false;
+		estudios.forEach((element) => {
+			if (
+				element.nombreTitulo.toLowerCase() ==
+				nuevoEstudio.nombreTitulo.toLowerCase()
+			) {
+				console.log('Encontrado');
+				bandera = true;
 			}
 		});
-	}
-	//Agregar Estudio
+		return bandera;
+	};
 
+	//Agregar Estudio
 	const agregarEstudio = (nuevoEstudio) => {
+		let registroExitoso = false;
 		console.log(nuevoEstudio);
 		if (modalEditar === true) {
 			const indice = estudios.findIndex((elemento, indice) => {
@@ -130,11 +135,18 @@ export default function EstudiosRealizados() {
 					return true;
 				}
 			});
+			registroExitoso = true;
 		} else {
-			nuevoEstudio.id = shortid.generate();
-			setEstudios([...estudios, nuevoEstudio]);
+			if (!tituloRepetido(nuevoEstudio)) {
+				console.log('Pasamos derecho');
+				nuevoEstudio.id = shortid.generate();
+				setEstudios([...estudios, nuevoEstudio]);
+				registroExitoso = true;
+			}
+
 			//console.log(nuevoEstudio);
 		}
+		return registroExitoso;
 	};
 
 	//Eliminar Estudio

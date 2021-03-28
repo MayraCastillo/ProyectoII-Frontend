@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 import swal from 'sweetalert'; // Para poder realizar alertas
 import CalificacionEstrellas from '../Calificacion/CalificacionEstrellas';
-//import { HojaDeVidaContext } from '../CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
+import { HojaDeVidaContext } from '../CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
 const useStyles = makeStyles((theme) => ({
 	ocultar: {
@@ -32,6 +32,9 @@ const FormularioEstudio = ({
 	setModoEditar,
 }) => {
 	const classes = useStyles();
+	const { setEstudios, estudios, estudioEditar, setEstudioEditar } = useContext(
+		HojaDeVidaContext
+	);
 	const [datos_generales, modificarDatosGenerales] = React.useState({
 		id: camposFormulario.id,
 		nombreTitulo: camposFormulario.nombreTitulo,
@@ -143,25 +146,25 @@ const FormularioEstudio = ({
 				timer: '3000',
 			});
 			mostrarModal();
-			/*
-			editRow(datos_generales);
-			swal({
-				title: 'Título registradossss',
-				text: 'El título se registro con éxito',
-				icon: 'success',
-				button: 'Aceptar',
-				timer: '3000',
-			});*/
+
 			return;
 		} else {
-			agregarEstudio(datos_generales);
-			swal({
-				title: 'Título registrado',
-				text: 'El título se registro con éxito',
-				icon: 'success',
-				button: 'Aceptar',
-				timer: '3000',
-			});
+			if (agregarEstudio(datos_generales)) {
+				swal({
+					title: 'Título registrado',
+					text: 'El título se registro con éxito',
+					icon: 'success',
+					button: 'Aceptar',
+					timer: '3000',
+				});
+			} else {
+				swal({
+					title: 'Datos Repetidos',
+					text: 'Este título ya se encuentra registrado',
+					icon: 'warning',
+					timer: '10000',
+				});
+			}
 
 			mostrarModal();
 			return;
@@ -209,6 +212,7 @@ const FormularioEstudio = ({
 					/>
 
 					<TextField
+						style={{ display: 'none' }}
 						margin="normal"
 						label="Calificacion"
 						name="calificacion"
@@ -244,7 +248,10 @@ const FormularioEstudio = ({
 						<label>
 							<strong>Califique este título:</strong>
 						</label>
-						<CalificacionEstrellas />
+						<CalificacionEstrellas
+							calificacion={calificacion}
+							obtenerInfoEstudiosRealizados={obtenerInfoEstudiosRealizados}
+						/>
 					</Container>
 					<Button
 						color="primary"

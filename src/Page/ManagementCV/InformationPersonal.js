@@ -211,6 +211,7 @@ export default function InformationPersonal() {
 						id="outlined-helperText"
 						label="Correo Electrónico"
 						name="correo"
+						type="email"
 						value={correo}
 						helperText="Some important text"
 						variant="outlined"
