@@ -35,6 +35,7 @@ export default function Referencias() {
 		guardarReferenciasPersonales1,
 		referencias_Personales_rp2_Context,
 		guardarReferenciasPersonales2,
+		guardarHV,
 	} = useContext(HojaDeVidaContext);
 
 	const [
@@ -305,6 +306,7 @@ export default function Referencias() {
 						color="primary"
 						variant="contained"
 						style={{ margin: '12px' }}
+						onClick={guardarHV}
 					>
 						Agregar Hoja de Vida
 					</Button>

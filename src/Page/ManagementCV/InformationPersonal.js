@@ -83,6 +83,7 @@ export default function InformationPersonal() {
 						fullWidth
 						variant="outlined"
 						onChange={obtenerInfo}
+						required
 					/>
 					<TextField
 						margin="normal"
@@ -119,6 +120,7 @@ export default function InformationPersonal() {
 						value={numeroDocumento}
 						fullWidth
 						variant="outlined"
+						type="number"
 						onChange={obtenerInfo}
 					/>
 					<br />
@@ -151,7 +153,7 @@ export default function InformationPersonal() {
 							value={departamento}
 							onChange={departamentoSelecionadoChangeHandler}
 						>
-							<option aria-label="None" key="-1" value="" />
+							<option aria-label="None" key="" value="" />
 							{departamentos.map((departamentoContext) => (
 								<option
 									key={departamentoContext.departamentoId}
@@ -202,10 +204,11 @@ export default function InformationPersonal() {
 						label="Teléfono"
 						name="telefono"
 						value={telefono}
-						helperText="Some important text"
+						helperText="Formato: 3xx-xxx-xx-xx"
 						variant="outlined"
 						onChange={obtenerInfo}
-						type="number"
+						required
+						type="tel"
 					/>
 					<TextField
 						id="outlined-helperText"

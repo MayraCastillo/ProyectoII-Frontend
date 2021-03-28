@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert'; // Para poder realizar alertas
+import { Tab } from '@material-ui/core';
 
 //Creamos el Context
 export const HojaDeVidaContext = createContext();
@@ -238,6 +239,95 @@ const HojaDeVidaContextProvider = (props) => {
 	}, [departamento]);
 
 	//FIN SECCION PAISES-DEPARTAMENTOS-MUNICIPIOS
+	function validarCorreo(correo) {
+		var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+		var esValido = expReg.test(correo);
+		if (esValido == false) {
+			swal({
+				title: 'Correo incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el correo',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+
+	function validarTelefono(telefono) {
+		let expReg = /[3-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}/;
+		let esValido = expReg.test(telefono);
+		if (esValido == false) {
+			swal({
+				title: 'Teléfono incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text:
+					'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+	function validarDocumento(documento) {
+		let expReg = /[1-9]/;
+		let esValido = expReg.test(documento);
+
+		if (esValido == false) {
+			swal({
+				title: 'Documento incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el Documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+
+	const guardarHV = () => {
+		if (informacionPersonalContext.nombres == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'El nombre no puede estar vacío',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		if (informacionPersonalContext.apellidos == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Los apellidos no pueder estar vacios',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		if (informacionPersonalContext.tipoDocumento == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Debes elegir un tipo de Documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		validarDocumento(informacionPersonalContext.numeroDocumento);
+		if (informacionPersonalContext.numeroDocumento == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Debes ingresar un numero de documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		validarDocumento(informacionPersonalContext.numeroDocumento);
+		//validarCorreo(informacionPersonalContext.correo);
+		validarTelefono(informacionPersonalContext.telefono);
+	};
 
 	return (
 		<HojaDeVidaContext.Provider
@@ -272,6 +362,7 @@ const HojaDeVidaContextProvider = (props) => {
 				guardarReferenciasPersonales1,
 				referencias_Personales_rp2_Context,
 				guardarReferenciasPersonales2,
+				guardarHV,
 			}}
 		>
 			{props.children}

@@ -103,7 +103,9 @@ const TablaEstudios = (props) => {
 						))
 					) : (
 						<tr>
-							<td>Sin estudios registrados</td>
+							<StyledTableCell maginLeft="5%">
+								Sin estudios registrados
+							</StyledTableCell>
 						</tr>
 					)}
 				</TableBody>

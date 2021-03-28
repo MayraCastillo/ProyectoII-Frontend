@@ -191,7 +191,7 @@ export default function EstudiosRealizados() {
 			</div>
 			<br />
 
-			<Container>
+			<Container style={{ paddingLeft: '1px' }}>
 				<TablaEstudios
 					estudios={estudios}
 					eliminarEstudio={eliminarEstudio}
