@@ -7,7 +7,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
@@ -118,8 +117,9 @@ function getModalStyle() {
 }
 
 
-export default function ModuloTerceros(){
+export default function ModuloTerceros(props){
    const classes = useStyles();
+  
    const [modalStyle] = React.useState(getModalStyle);
    const [open, setOpen] = React.useState(false);
    const [page, setPage] = React.useState(0);
