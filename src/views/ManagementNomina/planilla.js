@@ -1,21 +1,10 @@
 import * as React from 'react';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
-import BusinessIcon from '@material-ui/icons/Business';
-import SecurityIcon from '@material-ui/icons/Security';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
-import HourglassFullIcon from '@material-ui/icons/HourglassFull';
-import PaymentIcon from '@material-ui/icons/Payment';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CancelIcon from '@material-ui/icons/Cancel';
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -23,14 +12,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import TablePagination from '@material-ui/core/TablePagination';
-
+import Checkbox from '@material-ui/core/Checkbox';
 
 const columns = [
    { field: 'Nombre', headerName: 'Nombre del empleado',headerClassName: 'super-app-theme--header', width: 198, align: 'center'},
    { field: 'Identificación', headerName: 'Identificación',headerClassName: 'super-app-theme--header', width: 140, align: 'center' },
-   { field: 'Tiempo', headerName: 'Tiempo',headerClassName: 'super-app-theme--header', width: 110, align: 'center' },
+   { field: 'HorasLaboradas', headerName: 'Horas laboradas',headerClassName: 'super-app-theme--header', width: 110, align: 'center' },
   {
     field: 'Diuror',
     headerName: 'Diurno ordinario',
@@ -66,19 +54,17 @@ const columns = [
 
    { field: 'Recargo_nocturno', headerName: 'Recargo nocturno', headerClassName: 'super-app-theme--header', width: 200, align: 'center'},
      { field: 'Recargo_diurno_domfes', headerName: 'Recargo diurno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' },
-       { field: 'Recargo_nocturno_domfes', headerName: 'Recargo nocturno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' },
-         { field: 'otros_pagos', headerName: 'Otros pagos', headerClassName: 'super-app-theme--header',width: 130, align: 'center' },
-    { field: 'total', headerName: 'Sueldo total', headerClassName: 'super-app-theme--header',width: 130, align: 'center'},
+       { field: 'Recargo_nocturno_domfes', headerName: 'Recargo nocturno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' }
 ];
 
 const rows = [
-  { id: 1, Nombre:'Jane Doe', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 2, Nombre:'Erick Hampton', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 3, Nombre:'Dorian Gray', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 5, Nombre:'Elle Duncan', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 6, Nombre:'Demsell Washington', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
-  { id: 7, Nombre:'James Cameron', Identificación:104567, Tiempo:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250, otros_pagos:6000, total:998000 },
+  { id: 1, Nombre:'Jane Doe', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250 },
+  { id: 2, Nombre:'Erick Hampton', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 3, Nombre:'Dorian Gray', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 5, Nombre:'Elle Duncan', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 6, Nombre:'Demsell Washington', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
+  { id: 7, Nombre:'James Cameron', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
 
 
 ];
@@ -88,8 +74,8 @@ const styles = makeStyles ({
   root: {
     marginLeft:"2%",
     marginRight:"10%",
-    marginTop:"90px",
-    
+    marginTop:"100px",
+    padding:"100px",
     alignItems: "center",
     width:'100%',
     background: '#ffffff',
@@ -122,11 +108,11 @@ const styles = makeStyles ({
 
 
 
-export default function CustomizedTable() {
+export default function VerPlanilla() {
   const classes = styles();
+  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -136,13 +122,42 @@ export default function CustomizedTable() {
     setPage(0);
   };
 
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
   return (
     <div className={classes.root}>
          <Typography paragraph>
-             <Typography variant="h3">Nómina</Typography>
+             <Typography variant="h3" align="center" color="primary">Planilla de horas laboradas</Typography>
           </Typography>
-          <Typography paragraph>YYYY-MM-DD</Typography>
-       
+         
+          <br/>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -187,16 +202,6 @@ export default function CustomizedTable() {
       />
          <Divider style={{marginTop:"18px",marginBottom:'1em'}} />
       
-      <Button variant="contained" color="primary" size="large" startIcon={<CancelIcon />} style={{marginRight:"18px"}}>
-        Cancelar
-      </Button>
-      <Button variant="contained" color="secondary" size="large" startIcon={<SaveIcon />} style={{marginRight:"18px"}}>
-      Guardar
-      </Button>
-
-       <Button variant="contained" color="primary" size="large" startIcon={<AutorenewIcon />}>
-      Generar
-      </Button>
     </div>
   );
 }

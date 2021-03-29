@@ -17,8 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Button from '@material-ui/core/Button';
-import ListSubheader from '@material-ui/core/ListSubheader';
+
 import Collapse from '@material-ui/core/Collapse';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
@@ -38,8 +37,6 @@ import SecurityIcon from '@material-ui/icons/Security';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import PaymentIcon from '@material-ui/icons/Payment';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CancelIcon from '@material-ui/icons/Cancel';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 280;
@@ -143,6 +140,7 @@ class MiniDrawer extends React.Component {
     openNomina: false,
     openConfig: false,
     openConfiguration: false,
+    openHv:false,
     anchorEl: null
   };
 
@@ -183,6 +181,9 @@ class MiniDrawer extends React.Component {
      this.setState({openUser: !this.state.openUser});
   };
 
+  const handleClickHv = () => {
+    this.setState({openHv: !this.state.openHv});
+ };
 
 
     return (
@@ -265,15 +266,40 @@ class MiniDrawer extends React.Component {
           <div className={classes.toolbar} />
           <List className={classes.list}>
            
-            <ListItem button>
+            <ListItem button onClick={handleClickHv}>
         <ListItemIcon>
           <PermContactCalendarIcon />
         </ListItemIcon>
-           <Link to="/gestion_hv">
+          
           <ListItemText primary="Gestión HV" classes={{primary:classes.listItemText}}/>
-           </Link>
+          {open ? <ExpandLess /> : <ExpandMore />}
         
       </ListItem>
+      <Collapse in={this.state.openHv} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          
+          <ListItem button className={classes.nested}>
+          <Link to="/gestion_hv">
+            <ListItemIcon>
+              <ToggleOnIcon />
+            </ListItemIcon>
+          </Link>
+              <Link to="/gestion_hv">
+              <ListItemText primary="Registro" />
+              </Link>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+          <Link to="/gestion_hv">
+            <ListItemIcon>
+              <ToggleOnIcon />
+            </ListItemIcon>
+          </Link>
+              <Link to="/gestion_hv">
+              <ListItemText primary="Ver Hojas de vida" />
+              </Link>
+          </ListItem>
+          </List>
+          </Collapse>
        <Divider />
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
@@ -284,22 +310,30 @@ class MiniDrawer extends React.Component {
       </ListItem>
       <Collapse in={this.state.openUser} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+          
           <ListItem button className={classes.nested}>
+          <Link to="/empleados_activos">
             <ListItemIcon>
               <ToggleOnIcon />
             </ListItemIcon>
-           
-              
+          </Link>
+              <Link to="/empleados_activos">
               <ListItemText primary="Activos" />
-         
+              </Link>
           </ListItem>
+
           <ListItem button className={classes.nested}>
+          <Link to="/empleados_inactivos">
             <ListItemIcon>
               <ToggleOffIcon />
             </ListItemIcon>
-           
+            </Link>
+               <Link to="/empleados_inactivos">
               <ListItemText primary="Inactivos" />
-                     </ListItem>
+              </Link>
+          </ListItem>
+
+                     
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <PersonAddIcon />
@@ -362,20 +396,28 @@ class MiniDrawer extends React.Component {
               <MonetizationOnIcon />
             </ListItemIcon>
            
-              
+            <Link to="ver_nomina">
               <ListItemText primary="Pagadas" />
-         
+              </Link>
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
               <SaveIcon />
             </ListItemIcon>
-             <Link to="gestion_nomina">
-              <ListItemText primary="Guardadas" />
+             <Link to="crear_nomina">
+              <ListItemText primary="Generar Nómina" />
                  </Link>
 
                      </ListItem>
-        
+                     <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <SaveIcon />
+            </ListItemIcon>
+             <Link to="ver_planilla">
+              <ListItemText primary="Planilla" />
+                 </Link>
+
+                     </ListItem>
 
           </List>
           </Collapse>
@@ -398,7 +440,7 @@ class MiniDrawer extends React.Component {
               <BusinessIcon />
             </ListItemIcon>
            
-               <Link to="/crear_entidad">
+               <Link to="/">
               <ListItemText primary="Datos Empresa" />
                 </Link>
           </ListItem>
@@ -409,14 +451,27 @@ class MiniDrawer extends React.Component {
            
               <ListItemText primary="Tarifa seguridad social" />
                      </ListItem>
+
           <ListItem button className={classes.nested}>
+           <Link to="/parametros_legales">
             <ListItemIcon>
               <ContactMailIcon />
             </ListItemIcon>
+          </Link>
+               <Link to="/parametros_legales">
+              <ListItemText primary="Parametros Legales" />
+              </Link>
+          </ListItem>
          
-             
+        <ListItem button className={classes.nested}>
+           <Link to="/crear_entidad">
+            <ListItemIcon>
+              <ContactMailIcon />
+            </ListItemIcon>
+          </Link>
+               <Link to="/crear_entidad">
               <ListItemText primary="Información terceros" />
-            
+              </Link>
           </ListItem>
 
            <ListItem button className={classes.nested}>

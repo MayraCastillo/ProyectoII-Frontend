@@ -8,31 +8,28 @@ const useStyles = makeStyles({
      marginTop:"90px",
      padding:"100px",
      alignItems: "center",
-     background: '#ffffff',
-     background: '#ffffff',
-    '& .super-app-theme--header': {
-      backgroundColor: '#ffffff',
-      color: '#ffff',
-      display: "flex"
-    },
+     background: '#ffffff'
   },
 });
-
-export default function Curriculum() {
+export default function Accounts() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Typography variant="h3" component="h2" gutterBottom>
-        Gestión de Hojas de Vida
+        Crear cuenta
       </Typography>
-     
+    
+      <Typography variant="subtitle1" gutterBottom>
+        subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
+      </Typography>
+      
       <Typography variant="body1" gutterBottom>
         body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
         unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
         dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
       </Typography>
-      
+     
     </div>
   );
 }
