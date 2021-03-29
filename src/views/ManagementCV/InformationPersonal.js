@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -37,31 +38,18 @@ const useStyles = makeStyles((theme) => ({
 export default function InformationPersonal() {
 	const classes = useStyles();
 
-	const [paisSeleccionado, setPaisSeleccionado] = useState();
-	const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState();
-	const [municipioSeleccionado, setMunicipioSeleccionado] = useState();
-	const [tipoDocumentoSeleccionado, setTipoDocumento] = useState();
-
 	const {
-		guardarInformacionPersonal,
+		informacionPersonalContext,
+		obtenerInfo,
+		tipoDocumentoChangeHandler,
+		paisSelecionadoChangeHandler,
+		departamentoSelecionadoChangeHandler,
+		municipioSelecionadoChangeHandler,
 		paises,
-		paisSeleccionadoContext,
 		departamentos,
 		municipios,
 	} = useContext(HojaDeVidaContext);
 
-	const [datos_generales, modificarDatosGenerales] = React.useState({
-		nombres: '',
-		apellidos: '',
-		tipoDocumento: '',
-		numeroDocumento: '',
-		pais: '',
-		departamento: '',
-		ciudad: '',
-		direccion: '',
-		telefono: '',
-		correo: '',
-	});
 	const {
 		nombres,
 		apellidos,
@@ -69,65 +57,17 @@ export default function InformationPersonal() {
 		numeroDocumento,
 		pais,
 		departamento,
-		ciudad,
+		municipio,
 		direccion,
 		telefono,
 		correo,
-	} = datos_generales;
-
-	const obtenerInfo = (e) => {
-		//console.log(e.target.name, e.target.value);
-
-		modificarDatosGenerales({
-			...datos_generales,
-			[e.target.name]: e.target.value,
-		});
-		console.log(datos_generales);
-	};
-	const paisSelecionadoChangeHandler = (e) => {
-		setPaisSeleccionado(e.target.value);
-		modificarDatosGenerales({
-			...datos_generales,
-			pais: e.target.value,
-		});
-		//console.log(e.target.value);
-		//console.log(paisSeleccionado);
-	};
-	const departamentoSelecionadoChangeHandler = (e) => {
-		setDepartamentoSeleccionado(e.target.value);
-		modificarDatosGenerales({
-			...datos_generales,
-			departamento: e.target.value,
-		});
-		console.log('Departamento id: ' + e.target.value);
-		//	console.log(datos_generales);
-	};
-
-	const municipioSelecionadoChangeHandler = (e) => {
-		setMunicipioSeleccionado(e.target.value);
-		modificarDatosGenerales({
-			...datos_generales,
-			ciudad: e.target.value,
-		});
-		console.log('municipio id: ' + e.target.value);
-		//	console.log(datos_generales);
-	};
-	const tipoDocumentoChangeHandler = (e) => {
-		setMunicipioSeleccionado(e.target.value);
-		modificarDatosGenerales({
-			...datos_generales,
-			tipoDocumento: e.target.value,
-		});
-		console.log('tipo documento: ' + e.target.value);
-		//	console.log(datos_generales);
-	};
-
-	useEffect(() => {
-		guardarInformacionPersonal(datos_generales);
-	}, [datos_generales]);
+	} = informacionPersonalContext;
+	{
+		console.log(paises);
+	}
 
 	return (
-		<>
+		<Container maxWidth="lg">
 			<form className={classes.root} autoComplete="off">
 				<br />
 				<div>
@@ -135,7 +75,6 @@ export default function InformationPersonal() {
 					<Typography variant="h6" gutterBottom>
 						Datos Personales:
 					</Typography>
-
 					<TextField
 						margin="normal"
 						label="Nombres"
@@ -144,6 +83,7 @@ export default function InformationPersonal() {
 						fullWidth
 						variant="outlined"
 						onChange={obtenerInfo}
+						required
 					/>
 					<TextField
 						margin="normal"
@@ -159,7 +99,7 @@ export default function InformationPersonal() {
 							Tipo de Documento
 						</InputLabel>
 						<Select
-							value={tipoDocumentoSeleccionado}
+							value={tipoDocumento}
 							label="Tipo de Documento"
 							onChange={tipoDocumentoChangeHandler}
 						>
@@ -180,6 +120,7 @@ export default function InformationPersonal() {
 						value={numeroDocumento}
 						fullWidth
 						variant="outlined"
+						type="number"
 						onChange={obtenerInfo}
 					/>
 					<br />
@@ -188,16 +129,14 @@ export default function InformationPersonal() {
 					<Typography variant="h6" gutterBottom>
 						Lugar de Residencia:
 					</Typography>
-
 					<FormControl variant="outlined" className={classes.formControl}>
-						<InputLabel htmlFor="outlined-pais-simple">País</InputLabel>
+						<InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
 						<Select
-							native
-							name="pais"
-							value={paisSeleccionado}
+							label="País"
+							value={pais}
 							onChange={paisSelecionadoChangeHandler}
 						>
-							<option aria-label="None" key="-1" value="" />
+							<option aria-label="None" key="" value="" />
 							{paises.map((paisContext) => (
 								<option key={paisContext.paisId} value={paisContext.paisId}>
 									{paisContext.nombre}
@@ -205,18 +144,16 @@ export default function InformationPersonal() {
 							))}
 						</Select>
 					</FormControl>
-
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel htmlFor="outlined-departamento-simple">
 							Departamento
 						</InputLabel>
 						<Select
-							native
-							name="departamentos"
-							value={departamentoSeleccionado}
+							label="Departamento"
+							value={departamento}
 							onChange={departamentoSelecionadoChangeHandler}
 						>
-							<option aria-label="None" key="-1" value="" />
+							<option aria-label="None" key="" value="" />
 							{departamentos.map((departamentoContext) => (
 								<option
 									key={departamentoContext.departamentoId}
@@ -227,15 +164,13 @@ export default function InformationPersonal() {
 							))}
 						</Select>
 					</FormControl>
-
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel htmlFor="outlined-municipio-simple">
 							Município
 						</InputLabel>
 						<Select
-							native
-							name="municipios"
-							value={municipioSeleccionado}
+							label="Município"
+							value={municipio}
 							onChange={municipioSelecionadoChangeHandler}
 						>
 							<option aria-label="None" key="-1" value="" />
@@ -249,7 +184,6 @@ export default function InformationPersonal() {
 							))}
 						</Select>
 					</FormControl>
-
 					<TextField
 						id="outlined-helperText"
 						label="Dirección"
@@ -270,14 +204,17 @@ export default function InformationPersonal() {
 						label="Teléfono"
 						name="telefono"
 						value={telefono}
-						helperText="Some important text"
+						helperText="Formato: 3xx-xxx-xx-xx"
 						variant="outlined"
 						onChange={obtenerInfo}
+						required
+						type="tel"
 					/>
 					<TextField
 						id="outlined-helperText"
 						label="Correo Electrónico"
 						name="correo"
+						type="email"
 						value={correo}
 						helperText="Some important text"
 						variant="outlined"
@@ -285,6 +222,6 @@ export default function InformationPersonal() {
 					/>
 				</div>
 			</form>
-		</>
+		</Container>
 	);
 }

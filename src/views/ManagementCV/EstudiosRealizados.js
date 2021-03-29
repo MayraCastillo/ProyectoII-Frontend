@@ -1,40 +1,26 @@
 import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-// core components
-
-import TextField from '@material-ui/core/TextField';
-//import { toast } from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
 import Button from '@material-ui/core/Button';
-
-import { Divider } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from '@material-ui/core/Container';
+import Modal from '@material-ui/core/Modal';
 
-import {
-	Table,
-	Container,
-	Modal,
-	ModalBody,
-	ModalHeader,
-	FormGroup,
-	ModalFooter,
-} from 'reactstrap';
-import Axios from 'axios';
 import shortid from 'shortid';
-import TablaEstudios from './TablaEstudios';
-import FormularioEstudio from './FormularioEstudio';
+import TablaEstudios from './Tablas/TablaEstudios';
+import FormularioEstudio from './Formularios/FormularioEstudio';
 import swal from 'sweetalert'; // Para poder realizar alertas
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
-const baseUrl = `http://localhost:8090/api/productos/ver/2`;
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& .MuiTextField-root': {
 			margin: theme.spacing(1),
 			width: '50ch',
 		},
+		flexGrow: 1,
 	},
 	appBar: {
 		position: 'relative',
@@ -67,55 +53,29 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'row',
 		display: 'flex',
 	},
+	paper: {
+		position: 'absolute',
+		//width: 400,
+		//backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, '35%', 3),
+		top: '50%',
+		left: '50%',
+		//transform: 'translate(-50%, -50%)',
+	},
 }));
 
 export default function EstudiosRealizados() {
 	const classes = useStyles();
+	const [modal, setModal] = React.useState(false);
+	const [modalEditar, setModalEditar] = React.useState(false);
+	const handleClose = () => {
+		setModal(false);
+	};
 	const { setEstudios, estudios, estudioEditar, setEstudioEditar } = useContext(
 		HojaDeVidaContext
 	);
-
-	const dataPrueba = [
-		{
-			id: shortid.generate(),
-			nombreTitulo: 'Ingeniero de Sistemas',
-			entidad: 'Unicauca',
-			calificacion: 4.6,
-			tipo: 'virtual',
-			tiempo: '5 años',
-		},
-		{
-			id: shortid.generate(),
-			nombreTitulo: 'Especilizacion en BD',
-			entidad: 'Univalle',
-			calificacion: 3.6,
-			tipo: 'virtual',
-			tiempo: '3 años',
-		},
-		{
-			id: shortid.generate(),
-			nombreTitulo: 'Maestria en la Computación',
-			entidad: 'Unicauca',
-			calificacion: 4.6,
-			tipo: 'virtual',
-			tiempo: '5 años',
-		},
-	];
-	const estudioData = [
-		{
-			id: '',
-			nombreTitulo: '',
-			entidad: '',
-			calificacion: '',
-			tiempo: '',
-			tipo: '',
-		},
-	];
-
-	//const [estudios, setEstudios] = React.useState(estudioData);
-	const [modal, setModal] = React.useState(false);
-	const [modalEditar, setModalEditar] = React.useState(false);
-
 	const initialFormState = {
 		id: null,
 		nombreTitulo: '',
@@ -124,7 +84,7 @@ export default function EstudiosRealizados() {
 		tipo: '',
 		tiempo: '',
 	};
-	//const [estudioEditar, setEstudioEditar] = React.useState(initialFormState);
+
 	//Para entrar modo edicion
 	const setModoEditar = (activarModo) => {
 		if (activarModo === false) {
@@ -139,7 +99,7 @@ export default function EstudiosRealizados() {
 	const editRow = (estudioEditar) => {
 		mostrarModal();
 		setModoEditar(true);
-		console.log(estudioEditar);
+		//console.log(estudioEditar);
 		setEstudioEditar({
 			id: estudioEditar.id,
 			nombreTitulo: estudioEditar.nombreTitulo,
@@ -149,25 +109,46 @@ export default function EstudiosRealizados() {
 			tiempo: estudioEditar.tiempo,
 		});
 	};
+	//const [bandera, setBandera] = React.useState(false);
+	const tituloRepetido = (nuevoEstudio) => {
+		let bandera = false;
+		estudios.forEach((element) => {
+			if (
+				element.nombreTitulo.toLowerCase() ==
+				nuevoEstudio.nombreTitulo.toLowerCase()
+			) {
+				console.log('Encontrado');
+				bandera = true;
+			}
+		});
+		return bandera;
+	};
 
 	//Agregar Estudio
 	const agregarEstudio = (nuevoEstudio) => {
+		let registroExitoso = false;
 		console.log(nuevoEstudio);
 		if (modalEditar === true) {
 			const indice = estudios.findIndex((elemento, indice) => {
 				if (elemento.id === nuevoEstudio.id) {
-					console.log('Encontrado ' + indice);
 					estudios[indice] = nuevoEstudio;
 					return true;
 				}
 			});
-			//setEstudios([...estudios, nuevoEstudio]);
+			registroExitoso = true;
 		} else {
-			nuevoEstudio.id = shortid.generate();
-			setEstudios([...estudios, nuevoEstudio]);
-			console.log(nuevoEstudio);
+			if (!tituloRepetido(nuevoEstudio)) {
+				console.log('Pasamos derecho');
+				nuevoEstudio.id = shortid.generate();
+				setEstudios([...estudios, nuevoEstudio]);
+				registroExitoso = true;
+			}
+
+			//console.log(nuevoEstudio);
 		}
+		return registroExitoso;
 	};
+
 	//Eliminar Estudio
 	const eliminarEstudio = (id) => {
 		swal({
@@ -193,10 +174,9 @@ export default function EstudiosRealizados() {
 	};
 
 	return (
-		<>
+		<Container maxWidth="lg" className={classes.root}>
 			<br />
-
-			<div className={classes.sendData} className="col-12">
+			<div xs={12}>
 				<Button
 					onClick={() => {
 						mostrarModal();
@@ -210,9 +190,8 @@ export default function EstudiosRealizados() {
 				</Button>
 			</div>
 			<br />
-			<br />
-			<Divider />
-			<Container>
+
+			<Container style={{ paddingLeft: '1px' }}>
 				<TablaEstudios
 					estudios={estudios}
 					eliminarEstudio={eliminarEstudio}
@@ -221,16 +200,19 @@ export default function EstudiosRealizados() {
 				/>
 			</Container>
 
-			<Modal isOpen={modal} style={{ marginTop: '70px' }}>
-				<FormularioEstudio
-					agregarEstudio={agregarEstudio}
-					mostrarModal={mostrarModal}
-					camposFormulario={estudioEditar}
-					modoEditar={modalEditar}
-					setModoEditar={setModoEditar}
-					//editRow={editRow}
-				/>
-			</Modal>
-		</>
+			<Grid xs={6} sm={3}>
+				<Modal open={modal} className={classes.paper} onClose={handleClose}>
+					<FormularioEstudio
+						agregarEstudio={agregarEstudio}
+						mostrarModal={mostrarModal}
+						camposFormulario={estudioEditar}
+						modoEditar={modalEditar}
+						setModoEditar={setModoEditar}
+
+						//editRow={editRow}
+					/>
+				</Modal>
+			</Grid>
+		</Container>
 	);
 }

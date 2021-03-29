@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-const CalificacionEstrellas = () => {
-	const [calificacion, setCalificacion] = useState(null);
+const CalificacionEstrellas = ({
+	calificacion,
+	obtenerInfoEstudiosRealizados,
+}) => {
+	//const [calificacion, setCalificacion] = useState(null);
 	const [hover, setHover] = useState(null);
+
 	return (
 		<div>
 			{[...Array(5)].map((star, i) => {
-				const calificacionValor = i + 1;
+				const calificacionValue = i + 1;
 				return (
 					<label>
 						<input
 							type="radio"
-							id="rating"
 							style={{ display: 'none' }}
-							value={calificacionValor}
-							onClick={() => setCalificacion(calificacionValor)}
+							value={calificacionValue}
+							name={'calificacion'}
+							onClick={(e) => {
+								obtenerInfoEstudiosRealizados(e);
+							}}
 						/>
 						<FaStar
 							color={
-								calificacionValor <= (hover || calificacion)
+								calificacionValue <= (hover || calificacion)
 									? '#ffc107'
 									: '#424242'
 							}
-							onMouseEnter={() => setHover(calificacionValor)}
+							onMouseEnter={() => setHover(calificacionValue)}
 							onMouseLeave={() => setHover(null)}
 						/>
 					</label>

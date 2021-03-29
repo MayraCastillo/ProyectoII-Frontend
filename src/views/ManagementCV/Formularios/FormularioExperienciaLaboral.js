@@ -2,38 +2,48 @@ import React from 'react';
 import { ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 
+import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert'; // Para poder realizar alertas
-import CalificacionEstrellas from './Calificacion/CalificacionEstrellas';
-const styles = () => ({
+const styles = makeStyles((theme) => ({
 	ocultar: {
 		display: 'none',
 	},
-});
+	paper: {
+		position: 'absolute',
+		width: 400,
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(0, 4, 1),
+	},
+}));
 
-const FormularioEstudio = ({
+const FormularioExperienciaLaboral = ({
 	mostrarModal,
-	agregarEstudio,
+	agregarExperienciaLaboral,
 	modoEditar,
 	camposFormulario,
 	setModoEditar,
-	editRow,
 }) => {
 	const classes = styles();
 	const [datos_generales, modificarDatosGenerales] = React.useState({
-		nombreTitulo: camposFormulario.nombreTitulo,
-		entidad: camposFormulario.entidad,
+		nombreEmpresa: camposFormulario.nombreEmpresa,
+		cargoEmpresa: camposFormulario.cargoEmpresa,
 		calificacion: camposFormulario.calificacion,
-		tipo: camposFormulario.tipo,
+		telefonoEmpresa: camposFormulario.telefonoEmpresa,
 		tiempo: camposFormulario.tiempo,
 		id: camposFormulario.id,
+		contacto: camposFormulario.contacto,
 	});
 	const {
-		nombreTitulo,
-		entidad,
+		nombreEmpresa,
+		cargoEmpresa,
 		calificacion,
-		tipo,
+		telefonoEmpresa,
 		tiempo,
+		contacto,
 		id,
 	} = datos_generales;
 
@@ -45,23 +55,21 @@ const FormularioEstudio = ({
 		});
 	};
 
-	const onSubmit = (e) => {
-		if (!nombreTitulo.trim()) {
-			console.log('esta vacio el titulo');
+	const onSubmit = () => {
+		if (!nombreEmpresa.trim()) {
 			swal({
 				title: 'Campo vacío',
-				text: 'El nombre del titulo no puede estar vacío',
+				text: 'El nombre de la empresa no puede estar vacío',
 				icon: 'error',
 				button: 'Aceptar',
 				timer: '5000',
 			});
 			return;
 		}
-		if (!entidad.trim()) {
-			console.log('esta vacio el titulo');
+		if (!cargoEmpresa.trim()) {
 			swal({
 				title: 'Campo vacío',
-				text: 'La entidad no puede estar vacía',
+				text: 'La cargo en la empresa no puede estar vacío',
 				icon: 'error',
 				button: 'Aceptar',
 				timer: '3000',
@@ -79,10 +87,10 @@ const FormularioEstudio = ({
 			return;
 		}
 
-		if (!tipo.trim()) {
+		if (!telefonoEmpresa.trim()) {
 			swal({
 				title: 'Campo vacío',
-				text: 'El tipo no puede estar vacía',
+				text: 'El telefono de la empresa no puede estar vacío',
 				icon: 'error',
 				button: 'Aceptar',
 				timer: '3000',
@@ -99,15 +107,24 @@ const FormularioEstudio = ({
 			});
 			return;
 		}
+		if (!contacto.trim()) {
+			swal({
+				title: 'Campo vacío',
+				text: 'El contacto no puede estar vacío',
+				icon: 'error',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+			return;
+		}
 
 		if (modoEditar === true) {
 			//console.log(modoEditar);
 			console.log(datos_generales);
-
-			agregarEstudio(datos_generales);
+			agregarExperienciaLaboral(datos_generales);
 			swal({
-				title: 'Título editado',
-				text: 'El título se editado con éxito',
+				title: 'Experiencia Laboral editada',
+				text: 'La Experiencia Laboral se ha editado con éxito',
 				icon: 'success',
 				button: 'Aceptar',
 				timer: '3000',
@@ -124,10 +141,10 @@ const FormularioEstudio = ({
 			});*/
 			return;
 		} else {
-			agregarEstudio(datos_generales);
+			agregarExperienciaLaboral(datos_generales);
 			swal({
-				title: 'Título registrado',
-				text: 'El título se registro con éxito',
+				title: 'Experiencia Laboral registrada',
+				text: 'La experiencia laboral se ha registrado con éxito',
 				icon: 'success',
 				button: 'Aceptar',
 				timer: '3000',
@@ -141,18 +158,15 @@ const FormularioEstudio = ({
 	};
 
 	return (
-		<div>
-			<ModalHeader style={{ justifyContent: 'center' }}>
+		<Container>
+			<ModalBody className={classes.paper}>
 				<div id="ocultarTitulo">
 					{modoEditar === false ? (
-						<h3>Registrando Estudio </h3>
+						<h3>Registrando Experiencia Laboral </h3>
 					) : (
-						<h3>Editando Estudio</h3>
+						<h3>Editando Experiencia Laboral</h3>
 					)}
 				</div>
-			</ModalHeader>
-
-			<ModalBody>
 				<form>
 					<input
 						style={{ display: 'none' }}
@@ -163,57 +177,67 @@ const FormularioEstudio = ({
 						readOnly
 					/>
 
-					<label>Titulo:</label>
-					<input
-						className="form-control"
-						name="nombreTitulo"
-						value={nombreTitulo}
+					<TextField
+						margin="normal"
+						label="Nombre de la Empresa"
+						name="nombreEmpresa"
+						value={nombreEmpresa}
+						fullWidth
+						variant="outlined"
 						onChange={obtenerInfo}
-						type="text"
 					/>
 
-					<label>Entidad:</label>
-					<input
-						className="form-control"
-						name="entidad"
-						value={entidad}
+					<TextField
+						margin="normal"
+						label="Cargo que desempeñó"
+						name="cargoEmpresa"
+						value={cargoEmpresa}
+						fullWidth
+						variant="outlined"
 						onChange={obtenerInfo}
-						type="text"
 					/>
 
-					<label>Calificación:</label>
-					<input
-						className="form-control"
+					<TextField
+						margin="normal"
+						label="Contacto"
+						name="contacto"
+						value={contacto}
+						fullWidth
+						variant="outlined"
+						onChange={obtenerInfo}
+					/>
+
+					<TextField
+						margin="normal"
+						label="Calificación"
 						name="calificacion"
 						value={calificacion}
-						onChange={obtenerInfo}
+						fullWidth
+						variant="outlined"
 						type="number"
-					/>
-
-					<label>tipo:</label>
-					<input
-						className="form-control"
-						name="tipo"
-						type="text"
-						value={tipo}
 						onChange={obtenerInfo}
 					/>
 
-					<label>Tiempo:</label>
-					<input
-						className="form-control"
+					<TextField
+						margin="normal"
+						label="Teléfono de la Empresa"
+						name="telefonoEmpresa"
+						value={telefonoEmpresa}
+						fullWidth
+						variant="outlined"
+						onChange={obtenerInfo}
+					/>
+
+					<TextField
+						margin="normal"
+						label="Tiempo"
 						name="tiempo"
 						value={tiempo}
+						fullWidth
+						variant="outlined"
 						onChange={obtenerInfo}
-						type="text"
 					/>
-					<br />
-					<Container maxWidth="sm" style={{ backgroundColor: '#F2F2F2' }}>
-						<label>
-							<strong>Califique este título:</strong>
-						</label>
-						<CalificacionEstrellas />
-					</Container>
+
 					<Button
 						color="primary"
 						variant="contained"
@@ -239,10 +263,8 @@ const FormularioEstudio = ({
 					</Button>
 				</form>
 			</ModalBody>
-
-			<ModalFooter></ModalFooter>
-		</div>
+		</Container>
 	);
 };
 
-export default FormularioEstudio;
+export default FormularioExperienciaLaboral;

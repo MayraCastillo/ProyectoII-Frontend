@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert'; // Para poder realizar alertas
+import { Tab } from '@material-ui/core';
 
 //Creamos el Context
 export const HojaDeVidaContext = createContext();
@@ -9,20 +10,66 @@ export const HojaDeVidaContext = createContext();
 //Provider es donde se encuentran las funciones y el state
 const HojaDeVidaContextProvider = (props) => {
 	//Crear el state del context
-	const [informacionPersonal, guardarInformacionPersonal] = useState({
+	const [informacionPersonalContext, guardarInformacionPersonal] = useState({
 		nombres: '',
 		apellidos: '',
 		tipoDocumento: '',
 		numeroDocumento: '',
 		pais: '',
 		departamento: '',
-		ciudad: '',
+		municipio: '',
 		direccion: '',
 		telefono: '',
 		correo: '',
 	});
-	const { pais, departamento, ciudad } = informacionPersonal;
-	const [mensaje, setMensaje] = useState(pais);
+	const {
+		nombres,
+		apellidos,
+		tipoDocumento,
+		numeroDocumento,
+		pais,
+		departamento,
+		ciudad,
+		direccion,
+		telefono,
+		correo,
+	} = informacionPersonalContext;
+
+	const obtenerInfo = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const tipoDocumentoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			tipoDocumento: e.target.value,
+		});
+	};
+
+	const paisSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			pais: e.target.value,
+		});
+	};
+
+	const departamentoSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			departamento: e.target.value,
+		});
+	};
+
+	const municipioSelecionadoChangeHandler = (e) => {
+		guardarInformacionPersonal({
+			...informacionPersonalContext,
+			municipio: e.target.value,
+		});
+	};
+
 	//INICIO  SECCION ----ESTUDIOS REALIZADOS
 	const estudioData = [
 		{
@@ -34,14 +81,14 @@ const HojaDeVidaContextProvider = (props) => {
 			tipo: '',
 		},
 	];
-	const initialFormState = {
+	const [initialFormState, guardarEstudiosRealizados] = useState({
 		id: null,
 		nombreTitulo: '',
 		entidad: '',
 		calificacion: '',
 		tipo: '',
 		tiempo: '',
-	};
+	});
 
 	const [estudios, setEstudios] = useState(estudioData);
 
@@ -161,21 +208,6 @@ const HojaDeVidaContextProvider = (props) => {
 		nombre: '',
 	});
 
-	//Limpiar paisesContext
-	/*const limpiarPaises = () => {
-		console.log('Limpiando');
-		setPaises([]);
-		setPaisSeleccionado({
-			paisId: '',
-			nombre: '',
-		});
-		setDepartamentos([]),
-			setDepartamentoSeleccionado({
-				paisId: '',
-				nombre: '',
-			}),
-			setMunicipios([]);
-	};*/
 	//Ejecutamos el llamado a la API para traer los paises
 	useEffect(() => {
 		const peticionGet = async () => {
@@ -207,12 +239,106 @@ const HojaDeVidaContextProvider = (props) => {
 	}, [departamento]);
 
 	//FIN SECCION PAISES-DEPARTAMENTOS-MUNICIPIOS
+	function validarCorreo(correo) {
+		var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+		var esValido = expReg.test(correo);
+		if (esValido == false) {
+			swal({
+				title: 'Correo incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el correo',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+
+	function validarTelefono(telefono) {
+		let expReg = /[3-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}/;
+		let esValido = expReg.test(telefono);
+		if (esValido == false) {
+			swal({
+				title: 'Teléfono incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text:
+					'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+	function validarDocumento(documento) {
+		let expReg = /[1-9]/;
+		let esValido = expReg.test(documento);
+
+		if (esValido == false) {
+			swal({
+				title: 'Documento incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el Documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+		}
+	}
+
+	const guardarHV = () => {
+		if (informacionPersonalContext.nombres == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'El nombre no puede estar vacío',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		if (informacionPersonalContext.apellidos == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Los apellidos no pueder estar vacios',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		if (informacionPersonalContext.tipoDocumento == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Debes elegir un tipo de Documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		validarDocumento(informacionPersonalContext.numeroDocumento);
+		if (informacionPersonalContext.numeroDocumento == '') {
+			swal({
+				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Debes ingresar un numero de documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+		validarDocumento(informacionPersonalContext.numeroDocumento);
+		//validarCorreo(informacionPersonalContext.correo);
+		validarTelefono(informacionPersonalContext.telefono);
+	};
 
 	return (
 		<HojaDeVidaContext.Provider
 			value={{
-				mensaje,
-				guardarInformacionPersonal,
+				paisSelecionadoChangeHandler,
+				departamentoSelecionadoChangeHandler,
+				municipioSelecionadoChangeHandler,
+				tipoDocumentoChangeHandler,
+				informacionPersonalContext,
+				obtenerInfo,
+
 				estudios,
 				setEstudios,
 				estudioEditar,
@@ -236,6 +362,7 @@ const HojaDeVidaContextProvider = (props) => {
 				guardarReferenciasPersonales1,
 				referencias_Personales_rp2_Context,
 				guardarReferenciasPersonales2,
+				guardarHV,
 			}}
 		>
 			{props.children}
