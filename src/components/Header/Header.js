@@ -7,7 +7,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 const useStyles = makeStyles({
 
     backgroundHeader:{
-        background: '#3F51B5',
+        background: '#154c79',
         width: '100%',
         boxShadow: '2px 2px 2px 4px rgba(0, 0, 0, 0.1)',
     },

@@ -272,7 +272,7 @@ export default function ModuloTerceros(props){
                 </Typography>
                 <br/>
                 <br/>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <div>
                         <TextField
                             required
@@ -375,28 +375,30 @@ export default function ModuloTerceros(props){
                                 <em>None</em>
                                 </MenuItem>
                                 {terceros.map((tercero) => (
-                                <MenuItem value={tercero.tipoTerceroId}>{tercero.abrevicion}</MenuItem>
+                                <MenuItem value={tercero.tipoTerceroId}>{tercero.abreviacion}</MenuItem>
                                                 ))}
                             </Select>
                         </FormControl>
+                        
+                                
                     </div>
-            
-            
+                    
                     <br/>
             
                     <div style={{marginTop: "18px"}}>
+                    <FormControl>
                         <Button  
                             variant="contained" 
                             color="primary" 
                             type="submit" 
-                            onClick={handleSubmit} 
+                            //onClick={handleSubmit} 
                             size="large"
                             className={classes.button}
                             startIcon={ < SaveIcon / > }
                             >
                             Guardar
                         </Button>
-            
+                    </FormControl>
                         <Button  
                             variant="contained" 
                             color="secondary" 
@@ -515,7 +517,7 @@ export default function ModuloTerceros(props){
                 
                                     <TableCell align="center">
                                         <Typography variant="body1" gutterBottom align ="center">
-                                            {row.tipoTercero.abrevicion}
+                                            {row.tipoTercero.abreviacion}
                                         </Typography>
                                     </TableCell>
                 
