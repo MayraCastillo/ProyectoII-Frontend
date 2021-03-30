@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 
 const baseUrl = `http://localhost:8091/`;
 
-export default function GestionPlatos() {
+export default function InactiveEmployees() {
 	const styles = useStyles();
 	const [data, setData] = useState([]);
 	
@@ -148,9 +148,9 @@ export default function GestionPlatos() {
                 <GridItem xs={12} sm={12} md={12}>
 					<Typography variant="h3" component="h2" >
 						Empleados Inactivos
-					</Typography><br></br>
+					</Typography><br />
 
-					<p>Descripción si se ve necesaria q</p><br></br>
+					<p>Descripción si se ve necesaria q</p><br />
 
 					<TableContainer component={Paper} style={{marginTop:"20px"}}>
 						<Table size="small" aria-label="a dense table">
@@ -189,7 +189,7 @@ export default function GestionPlatos() {
 							</TableBody>
 						</Table>
 					</TableContainer>
-                    <br></br>
+                    <br />
 					<p id="message"></p>
                 </GridItem>
 
