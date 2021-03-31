@@ -11,6 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CalificacionEstrellas from '../Calificacion/CalificacionEstrellas';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -52,10 +53,10 @@ const TablaEstudios = (props) => {
 				<TableHead>
 					<TableRow>
 						<StyledTableCell align="center">Titulo</StyledTableCell>
-						<StyledTableCell align="center">Entidad</StyledTableCell>
-						<StyledTableCell align="center">Calificación</StyledTableCell>
-						<StyledTableCell align="center">Tipo</StyledTableCell>
+						<StyledTableCell align="center">Institución</StyledTableCell>
 						<StyledTableCell align="center">Tiempo</StyledTableCell>
+						<StyledTableCell align="center">Tipo</StyledTableCell>
+						<StyledTableCell align="center">Calificación</StyledTableCell>
 						<StyledTableCell align="center">Acciones</StyledTableCell>
 					</TableRow>
 				</TableHead>
@@ -70,12 +71,18 @@ const TablaEstudios = (props) => {
 								<StyledTableCell align="center">
 									{estudio.entidad}
 								</StyledTableCell>
-								<StyledTableCell align="center">
-									{estudio.calificacion}
-								</StyledTableCell>
+
 								<StyledTableCell align="center">{estudio.tipo}</StyledTableCell>
 								<StyledTableCell align="center">
 									{estudio.tiempo}
+								</StyledTableCell>
+								<StyledTableCell align="center">
+									{
+										<CalificacionEstrellas
+											calificacion={estudio.calificacion}
+											modoLectura={false}
+										/>
+									}
 								</StyledTableCell>
 								<StyledTableCell align="center">
 									<IconButton

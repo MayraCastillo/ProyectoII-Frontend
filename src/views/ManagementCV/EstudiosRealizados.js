@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -178,6 +179,7 @@ export default function EstudiosRealizados() {
 			<br />
 			<div xs={12}>
 				<Button
+					startIcon={<NoteAddIcon />}
 					onClick={() => {
 						mostrarModal();
 					}}

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-const CalificacionEstrellas = ({
+const CalificacionEstrellasExperienciaLaboral = ({
 	calificacion,
-	obtenerInfoEstudiosRealizados,
+	obtenerInfo,
 	modoLectura,
 }) => {
 	//const [calificacion, setCalificacion] = useState(null);
@@ -21,7 +21,7 @@ const CalificacionEstrellas = ({
 							value={calificacionValue}
 							name={'calificacion'}
 							onClick={(e) => {
-								obtenerInfoEstudiosRealizados(e);
+								obtenerInfo(e);
 							}}
 						/>
 						{modoLectura == false ? (
@@ -50,4 +50,4 @@ const CalificacionEstrellas = ({
 	);
 };
 
-export default CalificacionEstrellas;
+export default CalificacionEstrellasExperienciaLaboral;

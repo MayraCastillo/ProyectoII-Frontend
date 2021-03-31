@@ -3,6 +3,8 @@ import { ModalBody } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -193,6 +195,7 @@ const FormularioEstudio = ({
 						readOnly
 					/>
 					<TextField
+						inputProps={{ maxlength: 50 }}
 						margin="normal"
 						label="Título"
 						name="nombreTitulo"
@@ -202,6 +205,7 @@ const FormularioEstudio = ({
 						onChange={obtenerInfoEstudiosRealizados}
 					/>
 					<TextField
+						inputProps={{ maxlength: 50 }}
 						margin="normal"
 						label="Institución"
 						name="entidad"
@@ -234,6 +238,7 @@ const FormularioEstudio = ({
 					/>
 
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Tiempo"
 						name="tiempo"
@@ -254,6 +259,7 @@ const FormularioEstudio = ({
 						/>
 					</Container>
 					<Button
+						endIcon={<Icon>send</Icon>}
 						color="primary"
 						variant="contained"
 						style={{ margin: '12px' }}
@@ -267,6 +273,7 @@ const FormularioEstudio = ({
 					</Button>
 
 					<Button
+						startIcon={<DeleteIcon />}
 						color="secondary"
 						variant="contained"
 						onClick={() => {
