@@ -10,13 +10,16 @@ import Main from './main.js';
 import VerNomina from './views/ManagementNomina/ver_nomina';
 import VerPlanilla from './views/ManagementNomina/planilla';
 import Curriculum from './views/ManagementCV/CreateCV2';
-import Employees from './views/ManagementEmp/crear_empleado';
+import CreateEmployee from "./views/ManagementEmp/CreateEmployee";
 import Accounts from './views/ManagementAccount/crear_cuenta';
 import Configuration from './views/ManagementConfig/crear_config';
 import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
 import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParameters';
 import ActiveParameters from './views/ManagementEmp/ActiveEmployees';
 import InactiveParameters from './views/ManagementEmp/InactiveEmployees';
+import Contract from "./views/ManagementContract/CreacteContract"
+
+import Prueba from "./views/Prueba"
 
 const styles = makeStyles({
 	root: {
@@ -46,7 +49,7 @@ function App() {
 				<Switch>
 					<Route path="/" component={Main} exact />
 					<Route path="/gestion_hv" component={Curriculum} />
-					<Route path="/gestion_empleados" component={Employees} />
+					<Route path="/crear_nomina" component={CrearNomina} />
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={VerPlanilla} />
 					<Route path="/gestion_cuentas" component={Accounts} />
@@ -56,6 +59,9 @@ function App() {
 					<Route path="/parametros_legales" component={LegalParameters} />
 					<Route path="/empleados_activos" component={ActiveParameters} />
 					<Route path="/empleados_inactivos" component={InactiveParameters} />
+					<Route path="/crear_contrato" component={Contract}/>
+					<Route path="/registrar_empleado" component={CreateEmployee}/>
+					<Route path="/prueba" component={Prueba}/>
 				</Switch>
 			</Router>
 		</div>
