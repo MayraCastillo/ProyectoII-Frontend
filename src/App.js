@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 //Views
 import Main from './main.js';
-import CrearNomina from './views/ManagementNomina/crear_nomina';
 import VerNomina from './views/ManagementNomina/ver_nomina';
 import VerPlanilla from './views/ManagementNomina/planilla';
 import Curriculum from './views/ManagementCV/CreateCV2';
@@ -48,7 +47,6 @@ function App() {
 					<Route path="/" component={Main} exact />
 					<Route path="/gestion_hv" component={Curriculum} />
 					<Route path="/gestion_empleados" component={Employees} />
-					<Route path="/crear_nomina" component={CrearNomina} />
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={VerPlanilla} />
 					<Route path="/gestion_cuentas" component={Accounts} />

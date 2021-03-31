@@ -400,15 +400,7 @@ class MiniDrawer extends React.Component {
               <ListItemText primary="Pagadas" />
               </Link>
           </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-             <Link to="crear_nomina">
-              <ListItemText primary="Generar Nómina" />
-                 </Link>
-
-                     </ListItem>
+   
                      <ListItem button className={classes.nested}>
             <ListItemIcon>
               <SaveIcon />

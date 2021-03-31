@@ -46,9 +46,6 @@ const useStyles = makeStyles({
       <br/>
 
       <form noValidate autoComplete="off">
-      <Typography variant="h5" component="h5" color="primary" align="center" gutterBottom>
-        Detalle
-      </Typography>
         <TextField
           required
           className={classes.textField}
@@ -59,24 +56,18 @@ const useStyles = makeStyles({
           multiline
           rowsMax={4}
         />
- <br/>
- <br/>
- <br/>
-<Typography variant="h5" component="h5" color="primary"  align="center" gutterBottom>
-        Período
-      </Typography>
-
-      <TextField
-    id="date"
-    label="Desde"
-    type="date"
-    variant="outlined"
-    defaultValue="2017-05-24"
-    className={classes.date}
-    InputLabelProps={{
-      shrink: true,
-    }}
-  />
+       
+       <TextField
+         id="date"
+        label="Desde"
+        type="date"
+        variant="outlined"
+       defaultValue="2017-05-24"
+       className={classes.date}
+       InputLabelProps={{
+         shrink: true,
+       }}
+     />
 
 <TextField
     id="date"

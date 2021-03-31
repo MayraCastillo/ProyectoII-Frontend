@@ -1,78 +1,34 @@
-import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { lighten, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import CancelIcon from '@material-ui/icons/Cancel';
+import CrearNomina from './crear_nomina';
 import Divider from "@material-ui/core/Divider";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TablePagination from '@material-ui/core/TablePagination';
-import Checkbox from '@material-ui/core/Checkbox';
-
-const columns = [
-   { field: 'Nombre', headerName: 'Nombre del empleado',headerClassName: 'super-app-theme--header', width: 198, align: 'center'},
-   { field: 'Identificación', headerName: 'Identificación',headerClassName: 'super-app-theme--header', width: 140, align: 'center' },
-   { field: 'HorasLaboradas', headerName: 'Horas laboradas',headerClassName: 'super-app-theme--header', width: 110, align: 'center' },
-  {
-    field: 'Diuror',
-    headerName: 'Diurno ordinario',
-    headerClassName: 'super-app-theme--header',
-    type: 'number',
-    width: 180,
-    align: 'center',
-  },
- 
-  {
-    field: 'Nocturnor',
-    headerName: 'Nocturno ordinario',
-    headerClassName: 'super-app-theme--header',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 180,
-    align: 'center',
-    valueGetter: (params) =>
-      `${params.getValue('Nombre del empleado') || ''} ${params.getValue('Identificación') || ''}`,
-  },
-
-  {
-    field: 'Diurno_dom_fes',
-    headerName: 'Diurno domingos y festivos',
-    headerClassName: 'super-app-theme--header',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 250,
-    align: 'center',
-    valueGetter: (params) =>
-      `${params.getValue('Nombre del empleado') || ''} ${params.getValue('Identificación') || ''}`,
-  },
-
-   { field: 'Recargo_nocturno', headerName: 'Recargo nocturno', headerClassName: 'super-app-theme--header', width: 200, align: 'center'},
-     { field: 'Recargo_diurno_domfes', headerName: 'Recargo diurno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' },
-       { field: 'Recargo_nocturno_domfes', headerName: 'Recargo nocturno domingos y festivos',headerClassName: 'super-app-theme--header', width: 250, align: 'center' }
-];
-
-const rows = [
-  { id: 1, Nombre:'Jane Doe', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250 },
-  { id: 2, Nombre:'Erick Hampton', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 3, Nombre:'Dorian Gray', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 4, Nombre:'Marty Mcfly', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 5, Nombre:'Elle Duncan', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 6, Nombre:'Demsell Washington', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-  { id: 7, Nombre:'James Cameron', Identificación:104567, HorasLaboradas:34 , Diuror:1200, Nocturnor:2400, Diurno_dom_fes:3400, Recargo_nocturno:500, Recargo_diurno_domfes:100, Recargo_nocturno_domfes:250},
-
-
-];
-
 
 const styles = makeStyles ({
   root: {
-    marginLeft:"2%",
+    //marginLeft:"9%",
+    marginRight:"25%",
     marginRight:"10%",
     marginTop:"100px",
     padding:"100px",
@@ -82,8 +38,8 @@ const styles = makeStyles ({
   },
 
   table: {
-    minWidth: 5,
-    display:"flex",
+    minWidth:5,
+    //display:"flex",
  
     backgroundColor:"#EDE7F6",
     alignItems:"center",
@@ -102,29 +58,243 @@ const styles = makeStyles ({
   container: {
     maxHeight: 400,
     width:'100%'
-  }
+  },
+  paper: {
+    width: '100%',
+    marginBottom:"2%",
+  },
+  
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
 
 });
 
+function createData(contratoId, empleadoId,empleadoNom,empleadoApe,tipoContrato,salario,comisiones,auxilio) {
+  return {contratoId, empleadoId, empleadoNom, empleadoApe,tipoContrato,salario,comisiones,auxilio };
+}
 
+const rows = [
+  createData(1, 305,'Ana', 'Pérez','Término fijo',3000,2500,1000),
+  createData(2, 452, 'Isabel', 'Allende','Término fijo',2340, 1233, 2000),
+  createData(3, 262,'Héctor', 'Habad','Término fijo',1000,3450,9873),
+  createData(4, 159, 'Cristian', 'Meier','Término fijo',3400,2789,9234),
+  createData(5, 356, 'Mayra', 'Banks','Término fijo',4500,3450,8574),
+  createData(6, 408,'Pedro', 'Coral','Término fijo',12300,34566,9000),
+  createData(7, 237,'Thomas', 'Edison','Término fijo',134500,45670,85339),
+  createData(8, 375, 'Jeremías', 'Patel','Término fijo',20230,23456,87373),
+];
 
-export default function VerPlanilla() {
-  const classes = styles();
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  { id: 'contratoId', numeric: true, disablePadding: true, label: 'Id contrato' },
+  { id: 'empleadoId', numeric: true, disablePadding: false, label: 'Id empleado' },
+  { id: 'empleadoNom', numeric: false, disablePadding: false, label: 'Nombre empleado' },
+  { id: 'empleadoApe', numeric: false, disablePadding: false, label: 'Apellido empleado' },
+  { id: 'tipoContrato', numeric: false, disablePadding: false, label: 'Tipo de contrato' },
+  { id: 'salario', numeric: true, disablePadding: false, label: 'Salario básico' },
+  { id: 'comisiones', numeric: true, disablePadding: false, label: 'Comisiones' },
+  { id: 'auxilio', numeric: true, disablePadding: false, label: 'Auxilio Extra'},
+  { id: 'horasT', numeric: true, disablePadding: false, label: 'Horas trabajadas'},
+  { id: 'rno', numeric: true, disablePadding: false, label: 'Recargo Nocturno Ordinario'},
+  { id: 'edo', numeric: true, disablePadding: false, label: 'Extra Diurno Ordinario'},
+  { id: 'eno', numeric: true, disablePadding: false, label: 'Extra Nocturno Ordinario'},
+  { id: 'ddf', numeric: true, disablePadding: false, label: 'Extra Diurno Domingos y Festivos'},
+  { id: 'endf', numeric: true, disablePadding: false, label: 'Extra Nocturno Domingos y Festivos'},
+  { id: 'rndf', numeric: true, disablePadding: false, label: 'Recargo Nocturno Domingos y Festivos'},
+  { id: 'rddf', numeric: true, disablePadding: false, label: 'Recargo Diurno Domingos y Festivos'},
+  { id: 'accion', numeric: false, disablePadding: false, label: 'Acciones'},
+];
+
+function EnhancedTableHead(props) {
+  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{ 'aria-label': 'todos los contratos seleccionados' }}
+          />
+        </TableCell>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align="center"
+            padding={headCell.disablePadding ? 'none' : 'default'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  classes: PropTypes.object.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
+
+const useToolbarStyles = makeStyles((theme) => ({
+  root: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+  },
+  highlight:
+    theme.palette.type === 'light'
+      ? {
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
+      : {
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
+  title: {
+    flex: '1 1 100%',
+  },
+}));
+
+const EnhancedTableToolbar = (props) => {
+  const classes = useToolbarStyles();
+  const { numSelected } = props;
+
+  return (
+    <Toolbar
+      className={clsx(classes.root, {
+        [classes.highlight]: numSelected > 0,
+      })}
+    >
+      {numSelected > 0 ? (
+        <Typography className={classes.title} color="secondary" variant="h4" component="div" align="center">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography className={classes.title} color="primary" variant="h4" id="tableTitle" component="div" align="center">
+          Contratos Activos
+        </Typography>
+      )}
+
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton aria-label="filter list">
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+};
+
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+};
+
+/*const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  paper: {
+    width: '100%',
+    marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 750,
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+}));*/
+
+export default function EnhancedTable() {
+  const classes = styles();
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.contratoId);
       setSelected(newSelecteds);
       return;
     }
@@ -151,57 +321,138 @@ export default function VerPlanilla() {
     setSelected(newSelected);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
   return (
     <div className={classes.root}>
-         <Typography paragraph>
-             <Typography variant="h3" align="center" color="primary">Planilla de horas laboradas</Typography>
-          </Typography>
-         
-          <br/>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                >
-                  {column.headerName}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                  {columns.map((column) => {
-                    const value = row[column.field];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
+     
+      <Paper className={classes.paper}>
+        <EnhancedTableToolbar numSelected={selected.length} />
+        <TableContainer>
+          <Table
+            className={classes.table}
+            aria-labelledby="tableTitle"
+            size={dense ? 'small' : 'medium'}
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              classes={classes}
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.contratoId);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.contratoId)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.name}
+                      selected={isItemSelected}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
                       </TableCell>
-                    );
-                  })}
+                      <TableCell component="th" id={labelId} scope="row" padding="none" align="center">
+                        {row.contratoId}
+                      </TableCell>
+                   
+                      <TableCell align="center">{row.empleadoId}</TableCell>
+                      <TableCell align="center">{row.empleadoNom}</TableCell>
+                      <TableCell align="center">{row.empleadoApe}</TableCell>
+                      <TableCell align="center">{row.tipoContrato}</TableCell>
+                      <TableCell align="center">{row.salario}</TableCell>
+                      <TableCell align="center">{row.comisiones}</TableCell>
+                      <TableCell align="center">{row.auxilio}</TableCell>
+                      <TableCell align="center">{row.horasT}</TableCell>
+                      <TableCell align="center">{row.rno}</TableCell>
+                      <TableCell align="center">{row.edo}</TableCell>
+                      <TableCell align="center">{row.eno}</TableCell>
+                      <TableCell align="center">{row.ddf}</TableCell>
+                      <TableCell align="center">{row.endf}</TableCell>
+                      <TableCell align="center">{row.rndf}</TableCell>
+                      <TableCell align="center">{row.rddf}</TableCell>
+                      <TableCell align="center">
+                      <Button  
+                            variant="contained" 
+                            color="primary" 
+                            type="submit" 
+                            //onClick={handleSubmit} 
+                            size="small"
+                            className={classes.button}
+                            startIcon={ < SaveIcon / > }
+                            >
+                            Editar
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      
-     <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Compactar tabla"
       />
-         <Divider style={{marginTop:"18px",marginBottom:'1em'}} />
+
       
+                          <Button  
+                            variant="contained" 
+                            color="primary" 
+                            type="submit" 
+                            //onClick={handleSubmit} 
+                            size="large"
+                            className={classes.button}
+                            startIcon={ < SaveIcon / > }
+                            >
+                            Generar Nómina
+                        </Button>
+
     </div>
   );
 }
