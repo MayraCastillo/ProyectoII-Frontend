@@ -11,13 +11,16 @@ import HojaDeVidaContextProvider from './CurriculumVitaeContext/HojaDeVidaContex
 
 import Referencias from './Referencias';
 import ExperienciaLaboral from './ExperienciaLaboral';
+import GridItem from '../../components/Grid/GridItem';
+import GridContainer from '../../components/Grid/GridContainer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: '100%',
+		width: '120%',
 		flexFlow: 1,
-		marginTop: '40px',
+		marginTop: '100px',
+		margin: 'auto',
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'center',

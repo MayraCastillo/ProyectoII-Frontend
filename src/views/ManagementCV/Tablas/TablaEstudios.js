@@ -76,7 +76,7 @@ const TablaEstudios = (props) => {
 								<StyledTableCell align="center">
 									{estudio.tiempo}
 								</StyledTableCell>
-								<StyledTableCell align="center">
+								<StyledTableCell align="center" readonly>
 									{
 										<CalificacionEstrellas
 											calificacion={estudio.calificacion}
