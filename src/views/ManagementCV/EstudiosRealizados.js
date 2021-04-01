@@ -3,9 +3,8 @@ import NoteAddIcon from '@material-ui/icons/NoteAdd';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Modal from '@material-ui/core/Modal';
 
