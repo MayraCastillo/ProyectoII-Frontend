@@ -3,6 +3,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles({
     root: {
@@ -24,6 +26,11 @@ const useStyles = makeStyles({
       marginRight: "2px",
       width: "30ch",
     },
+
+    button:{
+      marginLeft:"10px",
+      height:"56px"
+    }
   
   });
 
@@ -80,6 +87,18 @@ const useStyles = makeStyles({
       shrink: true,
     }}
   />
+
+<Button  
+                            variant="contained" 
+                            color="primary" 
+                            type="submit" 
+                            //onClick={handleSubmit} 
+                            size="large"
+                            className={classes.button}
+                            startIcon={ < SaveIcon / > }
+                            >
+                            Generar Nómina
+                        </Button>
       </form>
       </div>
     );

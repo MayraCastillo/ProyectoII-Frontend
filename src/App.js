@@ -17,6 +17,7 @@ import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
 import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParameters';
 import ActiveParameters from './views/ManagementEmp/ActiveEmployees';
 import InactiveParameters from './views/ManagementEmp/InactiveEmployees';
+import Nominas from './views/ManagementNomina/nominas';
 
 const styles = makeStyles({
 	root: {
@@ -48,7 +49,7 @@ function App() {
 					<Route path="/gestion_hv" component={Curriculum} />
 					<Route path="/gestion_empleados" component={Employees} />
 					<Route path="/ver_nomina" component={VerNomina} />
-					<Route path="/ver_planilla" component={VerPlanilla} />
+					<Route path="/ver_planilla" component={Nominas} />
 					<Route path="/gestion_cuentas" component={Accounts} />
 					<Route path="/configuracion" component={Configuration} />
 					<Route path="/crear_entidad" component={ModuloTerceros} />
