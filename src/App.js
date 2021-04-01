@@ -17,13 +17,9 @@ import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
 import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParameters';
 import ActiveParameters from './views/ManagementEmp/ActiveEmployees';
 import InactiveParameters from './views/ManagementEmp/InactiveEmployees';
-<<<<<<< HEAD
-import Contract from "./views/ManagementContract/CreacteContract"
-
-import Prueba from "./views/Prueba"
-=======
 import Nominas from './views/ManagementNomina/nominas';
->>>>>>> c2b9582c50891ddd3dbd9f7c3e60e897fabdfa54
+import Contract from "./views/ManagementContract/CreacteContract";
+import Prueba from "./views/Prueba";
 
 const styles = makeStyles({
 	root: {
@@ -53,7 +49,6 @@ function App() {
 				<Switch>
 					<Route path="/" component={Main} exact />
 					<Route path="/gestion_hv" component={Curriculum} />
-					<Route path="/crear_nomina" component={CrearNomina} />
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={Nominas} />
 					<Route path="/gestion_cuentas" component={Accounts} />
