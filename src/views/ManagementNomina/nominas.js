@@ -48,10 +48,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor:'#ffffff',
-    marginTop:'90px'
+    marginTop:'90px',
+    marginRight:'60px'
   },
   container:{
-      
+      marginRight:'10%'
   }
 }));
 
@@ -65,20 +66,20 @@ export default function Nominas() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" align="center">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+      <AppBar position="static" align="center" className={classes.container}>
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered >
           <Tab label="Horas Laborales" {...a11yProps(0)} align="center"/>
           <Tab label="Factores Salariales y No Salariales" {...a11yProps(1)}  className={classes.container} align="center"/>
           <Tab label="Detalles de la Nómina" {...a11yProps(2)}  align="center"/>
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} align="center">
+      <TabPanel value={value} index={0} align="center" className={classes.container}>
       <Horas/>
       </TabPanel>
-      <TabPanel value={value} index={1} align="center">
+      <TabPanel value={value} index={1} align="center" className={classes.container}>
       <Factores/>
       </TabPanel>
-      <TabPanel value={value} index={2} align="center">
+      <TabPanel value={value} index={2} align="center" className={classes.container}>
       <Nomina/>
       </TabPanel>
     </div>
