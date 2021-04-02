@@ -9,22 +9,28 @@ import SaveIcon from '@material-ui/icons/Save';
 const useStyles = makeStyles({
     root: {
        marginTop:"5px",
-       marginLeft:"50px",
-       marginRight:"50px",
+       //marginLeft:"20px",
+       //marginRight:"10px",
        background: '#ffffff',
-       padding:"100px",
+       //padding:"100px",
       
     },
     textField: {
-      marginLeft: "10px",
+      marginLeft: "5px",
+      marginRight: "5px",
+      width: "30ch",
+    },
+
+    small:{
+      marginLeft: "5px",
       marginRight: "10px",
-      width: "61ch",
+      width: "30ch",
     },
     
     date: {
-      marginLeft: "10px",
+      marginLeft: "5px",
       marginRight: "2px",
-      width: "30ch",
+      width: "20ch",
     },
 
     button:{
@@ -46,13 +52,17 @@ const useStyles = makeStyles({
     
     return(
 
-      <div className={classes.root}>
+      <div className={classes.root} align="center">
       <Typography variant="h4" component="h4" color="primary" align="center" gutterBottom>
         Detalles de la Nómina
+      </Typography>
+      <Typography variant="h5" component="h5" color="secondary" align="center" gutterBottom>
+        Nómina para el empleado ---
       </Typography>
       <br/>
 
       <form noValidate autoComplete="off">
+      <div>
         <TextField
           required
           className={classes.textField}
@@ -87,7 +97,8 @@ const useStyles = makeStyles({
       shrink: true,
     }}
   />
-
+<br/>
+<br/>
 <Button  
                             variant="contained" 
                             color="primary" 
@@ -99,6 +110,7 @@ const useStyles = makeStyles({
                             >
                             Generar Nómina
                         </Button>
+                         </div>
       </form>
       </div>
     );

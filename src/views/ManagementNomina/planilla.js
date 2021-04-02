@@ -21,18 +21,21 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import CrearNomina from './crear_nomina';
+import Extras from './recargos';
 import Divider from "@material-ui/core/Divider";
 import Modal from "@material-ui/core/Modal";
 import swal from 'sweetalert';
 import EditIcon from '@material-ui/icons/Edit';
+import Acciones from './acciones';
+import axios from 'axios';
 
-const styles = makeStyles ({
+const styles = makeStyles((theme) => ({
   root: {
     //marginLeft:"9%",
     marginRight:"25%",
     marginRight:"10%",
-    marginTop:"1px",
-    padding:"100px",
+    marginTop:"18px",
+  
     alignItems: "center",
     width:'100%',
     background: '#ffffff',
@@ -82,21 +85,30 @@ const styles = makeStyles ({
     color:'#ffff',
   },
 
-});
+  modal:{
+    position: "absolute",
+    width: 1000,
+    height: 700,
+    backgroundColor: theme.palette.background.paper,
+    border: "1px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(0, 0, 0)
+  }
 
-function createData(contratoId, empleadoId,empleadoNom,empleadoApe,tipoContrato,salario,comisiones,auxilio) {
-  return {contratoId, empleadoId, empleadoNom, empleadoApe,tipoContrato,salario,comisiones,auxilio };
+}));
+
+function createData(empleadoId,empleadoNom,empleadoApe) {
+  return {empleadoId, empleadoNom, empleadoApe};
 }
 
 const rows = [
-  createData(1, 305,'Ana', 'Pérez','Término fijo',3000,2500,1000),
-  createData(2, 452, 'Isabel', 'Allende','Término fijo',2340, 1233, 2000),
-  createData(3, 262,'Héctor', 'Habad','Término fijo',1000,3450,9873),
-  createData(4, 159, 'Cristian', 'Meier','Término fijo',3400,2789,9234),
-  createData(5, 356, 'Mayra', 'Banks','Término fijo',4500,3450,8574),
-  createData(6, 408,'Pedro', 'Coral','Término fijo',12300,34566,9000),
-  createData(7, 237,'Thomas', 'Edison','Término fijo',134500,45670,85339),
-  createData(8, 375, 'Jeremías', 'Patel','Término fijo',20230,23456,87373),
+  createData(305,'Ana', 'Pérez'),
+  createData(452, 'Isabel', 'Allende'),
+  createData(262,'Héctor', 'Habad'),
+  createData(159, 'Cristian', 'Meier'),
+  createData(356, 'Mayra', 'Banks'),
+  createData(408,'Pedro', 'Coral'),
+  createData(237,'Thomas', 'Edison')
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -126,18 +138,8 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'contratoId', numeric: true, disablePadding: true, label: 'Id contrato' },
   { id: 'empleadoId', numeric: true, disablePadding: false, label: 'Id empleado' },
   { id: 'empleadoNom', numeric: false, disablePadding: false, label: 'Nombre empleado' },
-  { id: 'tipoContrato', numeric: false, disablePadding: false, label: 'Tipo de contrato' },
-  { id: 'horasT', numeric: true, disablePadding: false, label: 'Horas trabajadas'},
-  { id: 'rno', numeric: true, disablePadding: false, label: 'Recargo Nocturno Ordinario'},
-  { id: 'edo', numeric: true, disablePadding: false, label: 'Extra Diurno Ordinario'},
-  { id: 'eno', numeric: true, disablePadding: false, label: 'Extra Nocturno Ordinario'},
-  { id: 'ddf', numeric: true, disablePadding: false, label: 'Extra Diurno Domingos y Festivos'},
-  { id: 'endf', numeric: true, disablePadding: false, label: 'Extra Nocturno Domingos y Festivos'},
-  { id: 'rndf', numeric: true, disablePadding: false, label: 'Recargo Nocturno Domingos y Festivos'},
-  { id: 'rddf', numeric: true, disablePadding: false, label: 'Recargo Diurno Domingos y Festivos'},
   { id: 'accion', numeric: false, disablePadding: false, label: 'Acciones'},
 ];
 
@@ -282,8 +284,8 @@ EnhancedTableToolbar.propTypes = {
 }));*/
 
 function getModalStyle() {
-  const top = 90;
-  const left = 50;
+  const top = 60;
+  const left = 60;
 
   return {
       top: `${top}%`,
@@ -294,6 +296,7 @@ function getModalStyle() {
 
 export default function Horas() {
   const classes = styles();
+  const url = "http://localhost:8091/";
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
@@ -303,10 +306,17 @@ export default function Horas() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const body = (
-    <div style={modalStyle} className={classes.paper} align="center">
-          <CrearNomina/>
+    <div style={modalStyle} className={classes.modal} align="center">
+          <Acciones  empleados={selected}/>
     </div>
     )
+
+
+    React.useEffect(() => {
+      //cargarPaises();
+      cargarContratos();
+  }, []);
+
 
 const handleOpen = () => {
     setOpen(true);
@@ -324,7 +334,7 @@ const handleClose = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.contratoId);
+      const newSelecteds = rows.map((n) => n.contratoPk.empleado.numeroDocumento);
       setSelected(newSelecteds);
       return;
     }
@@ -365,12 +375,25 @@ const handleClose = () => {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
+  const [contratos, setContratos] = React.useState([]);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, contratos.length - page * rowsPerPage);
+  
+  const cargarContratos = async() => {
+    await axios.get(url+'listarContratosPorEstado/ACTIVO/123')
+    .then((response) => {
+        //setState({terceros: response.data});
+       
+        setContratos(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+};
 
   return (
     <div className={classes.root}>
-     
+      
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -387,23 +410,23 @@ const handleClose = () => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={contratos.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(contratos, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.contratoId);
+                .map((contrato, index) => {
+                  const isItemSelected = isSelected(contrato.contratoPk.empleado.numeroDocumento);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.contratoId)}
+                      onClick={(event) => handleClick(event, contrato.contratoPk.empleado.numeroDocumento)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={contrato.contratoPk.empleado.numeroDocumento}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -413,20 +436,9 @@ const handleClose = () => {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="center">
-                        {row.contratoId}
+                        {contrato.contratoPk.empleado.numeroDocumento}
                       </TableCell>
-                   
-                      <TableCell align="center">{row.empleadoId}</TableCell>
-                      <TableCell align="center">{row.empleadoNom}</TableCell>
-                      <TableCell align="center">{row.tipoContrato}</TableCell>
-                      <TableCell align="center">{row.horasT}</TableCell>
-                      <TableCell align="center">{row.rno}</TableCell>
-                      <TableCell align="center">{row.edo}</TableCell>
-                      <TableCell align="center">{row.eno}</TableCell>
-                      <TableCell align="center">{row.ddf}</TableCell>
-                      <TableCell align="center">{row.endf}</TableCell>
-                      <TableCell align="center">{row.rndf}</TableCell>
-                      <TableCell align="center">{row.rddf}</TableCell>
+                      <TableCell align="center">{contrato.contratoPk.empleado.nombres}</TableCell>
                       <TableCell align="center">
                       <IconButton  
                             variant="contained" 
@@ -440,14 +452,6 @@ const handleClose = () => {
                             >
                            < EditIcon / >
                         </IconButton>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                        >
-                          {body}
-                        </Modal>
                       </TableCell>
                     </TableRow>
                   );
@@ -463,17 +467,21 @@ const handleClose = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={contratos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Compactar tabla"
-      />
+      <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+  >
+    {body}
+  </Modal>
     </div>
   );
 }
