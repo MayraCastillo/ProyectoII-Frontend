@@ -2,16 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import axios from 'axios';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import swal from 'sweetalert'; // Para poder realizar alertas
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
-import axios from 'axios';
 
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext';
 
@@ -40,6 +39,7 @@ export default function InformationPersonal() {
 
 	const {
 		informacionPersonalContext,
+		guardarInformacionPersonal,
 		obtenerInfo,
 		tipoDocumentoChangeHandler,
 		paisSelecionadoChangeHandler,
@@ -63,9 +63,55 @@ export default function InformationPersonal() {
 		correo,
 	} = informacionPersonalContext;
 	{
+		/*
 		console.log(paises);
+		console.log(departamentos);
+		console.log(municipios);*/
 	}
+	const validarExistenciaDocumento = (numeroDocumento) => {
+		let response;
+		var authOptions = {
+			method: 'GET',
+			url: `http://localhost:8092/hojas-vida/buscar-por-id/` + numeroDocumento,
+			data: {
+				numero_documento: numeroDocumento,
+			},
+			json: true,
+		};
+		console.log(authOptions);
+		axios(authOptions)
+			.then(function (response) {
+				if (response.data.numeroDocumento == numeroDocumento) {
+					swal({
+						title: 'Documento duplicado',
+						text: 'Este documento ya se encuentra registrado',
+						icon: 'warning',
+						button: 'Aceptar',
+						timer: '10000',
+					}).then((result) => {
+						if (result) {
+							guardarInformacionPersonal({
+								...informacionPersonalContext,
+								numeroDocumento: '',
+							});
+						}
+					});
+				}
 
+				//setLoading(false);
+				/*	setValidarExistenciaPlato(response.data[0].nombrePlato);
+				//console.log(validarExistenciaPlato);
+				if (response.data[0].nombrePlato == nombrePlato) {
+					setValidarExistenciaPlato('Existe');
+				}*/
+			})
+			.catch(function (error) {
+				//setLoading(false);
+				//console.log("2")
+				//setValidarExistenciaPlato('No existe');
+				// console.log("No existee");
+			});
+	};
 	return (
 		<Container maxWidth="lg">
 			<form className={classes.root} autoComplete="off">
@@ -76,6 +122,7 @@ export default function InformationPersonal() {
 						Datos Personales:
 					</Typography>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres"
 						name="nombres"
@@ -86,6 +133,7 @@ export default function InformationPersonal() {
 						required
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos"
 						name="apellidos"
@@ -122,6 +170,11 @@ export default function InformationPersonal() {
 						variant="outlined"
 						type="number"
 						onChange={obtenerInfo}
+						onBlur={() =>
+							validarExistenciaDocumento(
+								informacionPersonalContext.numeroDocumento
+							)
+						}
 					/>
 					<br />
 					<br />
@@ -173,11 +226,11 @@ export default function InformationPersonal() {
 							value={municipio}
 							onChange={municipioSelecionadoChangeHandler}
 						>
-							<option aria-label="None" key="-1" value="" />
+							<option aria-label="None" key="" value="" />
 							{municipios.map((municipioContext) => (
 								<option
-									key={municipioContext.municipioId}
-									value={municipioContext.municipioId}
+									key={municipioContext.municipio_id}
+									value={municipioContext.municipio_id}
 								>
 									{municipioContext.nombre}
 								</option>
@@ -185,6 +238,7 @@ export default function InformationPersonal() {
 						</Select>
 					</FormControl>
 					<TextField
+						inputProps={{ maxlength: 40 }}
 						id="outlined-helperText"
 						label="Dirección"
 						name="direccion"
@@ -204,19 +258,19 @@ export default function InformationPersonal() {
 						label="Teléfono"
 						name="telefono"
 						value={telefono}
-						helperText="Formato: 3xx-xxx-xx-xx"
+						helperText="Formato: 3xxxxxxxxx"
 						variant="outlined"
 						onChange={obtenerInfo}
 						required
-						type="tel"
+						type="number"
 					/>
 					<TextField
+						inputProps={{ maxlength: 30 }}
 						id="outlined-helperText"
 						label="Correo Electrónico"
 						name="correo"
 						type="email"
 						value={correo}
-						helperText="Some important text"
 						variant="outlined"
 						onChange={obtenerInfo}
 					/>

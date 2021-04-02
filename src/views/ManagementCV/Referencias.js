@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext';
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,122 +30,47 @@ export default function Referencias() {
 	const classes = useStyles();
 	const {
 		referencias_Familiares_Context,
-		guardarReferenciasFamiliaresRF1,
 		referencias_Familiares_rf2_Context,
-		guardarReferenciasFamiliaresRF2,
 		referencias_Personales_rp1_Context,
-		guardarReferenciasPersonales1,
 		referencias_Personales_rp2_Context,
-		guardarReferenciasPersonales2,
+		obtenerInfoRefFamiliaresRF1,
+		obtenerInfoRefFamiliaresRF2,
+		obtenerInfoRefPersonales1,
+		obtenerInfoRefPersonales2,
 		guardarHV,
 	} = useContext(HojaDeVidaContext);
 
-	const [
-		referencias_Familiares,
-		modificarReferenciasFamiliaresRF1,
-	] = React.useState({
-		nombresRF1: '',
-		apellidosRF1: '',
-		telefonoRF1: '',
-		parentescoRF1: '',
-	});
 	const {
 		nombresRF1,
 		apellidosRF1,
 		telefonoRF1,
 		parentescoRF1,
-	} = referencias_Familiares;
-
-	const obtenerInfoRefFamiliaresRF1 = (e) => {
-		//console.log(e.target.name, e.target.value);
-		modificarReferenciasFamiliaresRF1({
-			...referencias_Familiares,
-			[e.target.name]: e.target.value,
-		});
-		console.log(referencias_Familiares);
-	};
+	} = referencias_Familiares_Context;
 
 	//REFERENCIAS FAMILIARES 2
 
-	const [
-		referencias_Familiares_rf2,
-		modificarReferenciasFamiliaresRF2,
-	] = React.useState({
-		nombresRF2: '',
-		apellidosRF2: '',
-		telefonoRF2: '',
-		parentescoRF2: '',
-	});
 	const {
 		nombresRF2,
 		apellidosRF2,
 		telefonoRF2,
 		parentescoRF2,
-	} = referencias_Familiares_rf2;
-
-	const obtenerInfoRefFamiliaresRF2 = (e) => {
-		//console.log(e.target.name, e.target.value);
-		modificarReferenciasFamiliaresRF2({
-			...referencias_Familiares_rf2,
-			[e.target.name]: e.target.value,
-		});
-		console.log(referencias_Familiares_rf2);
-	};
+	} = referencias_Familiares_rf2_Context;
 
 	//Referencias_Personales_1
 
-	const [
-		referencias_Personales_rp1,
-		modificarReferenciasPersonales1,
-	] = React.useState({
-		nombresRP1: '',
-		apellidosRP1: '',
-		telefonoRP1: '',
-	});
-	const { nombresRP1, apellidosRP1, telefonoRP1 } = referencias_Personales_rp1;
+	const {
+		nombresRP1,
+		apellidosRP1,
+		telefonoRP1,
+	} = referencias_Personales_rp1_Context;
 
-	const obtenerInfoRefPersonales1 = (e) => {
-		//console.log(e.target.name, e.target.value);
-		modificarReferenciasPersonales1({
-			...referencias_Personales_rp1,
-			[e.target.name]: e.target.value,
-		});
-		console.log(referencias_Personales_rp1);
-	};
 	//Referencias_Personales_2
 
-	const [
-		referencias_Personales_rp2,
-		modificarReferenciasPersonales2,
-	] = React.useState({
-		nombresRP2: '',
-		apellidosRP2: '',
-		telefonoRP2: '',
-	});
-	const { nombresRP2, apellidosRP2, telefonoRP2 } = referencias_Personales_rp2;
-
-	const obtenerInfoRefPersonales2 = (e) => {
-		//console.log(e.target.name, e.target.value);
-		modificarReferenciasPersonales2({
-			...referencias_Personales_rp2,
-			[e.target.name]: e.target.value,
-		});
-		console.log(referencias_Personales_rp2);
-	};
-
-	useEffect(() => {
-		guardarReferenciasFamiliaresRF1(referencias_Familiares);
-	}, [referencias_Familiares]);
-	useEffect(() => {
-		guardarReferenciasFamiliaresRF2(referencias_Familiares_rf2);
-	}, [referencias_Familiares_rf2]);
-
-	useEffect(() => {
-		guardarReferenciasPersonales1(referencias_Personales_rp1);
-	}, [referencias_Personales_rp1]);
-	useEffect(() => {
-		guardarReferenciasPersonales2(referencias_Personales_rp2);
-	}, [referencias_Personales_rp2]);
+	const {
+		nombresRP2,
+		apellidosRP2,
+		telefonoRP2,
+	} = referencias_Personales_rp2_Context;
 
 	return (
 		<>
@@ -152,10 +79,11 @@ export default function Referencias() {
 				<div>
 					<Divider />
 					<Typography variant="h6" gutterBottom>
-						Referencias Personales:
+						Referencias Familiares:
 					</Typography>
 
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres*"
 						name="nombresRF1"
@@ -167,6 +95,7 @@ export default function Referencias() {
 						onChange={obtenerInfoRefFamiliaresRF1}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos*"
 						name="apellidosRF1"
@@ -188,8 +117,9 @@ export default function Referencias() {
 						onChange={obtenerInfoRefFamiliaresRF1}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
-						label="Parentezco*"
+						label="Parentesco*"
 						name="parentescoRF1"
 						value={parentescoRF1}
 						fullWidth
@@ -199,6 +129,7 @@ export default function Referencias() {
 					/>
 					<br />
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres"
 						name="nombresRF2"
@@ -208,6 +139,7 @@ export default function Referencias() {
 						onChange={obtenerInfoRefFamiliaresRF2}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos"
 						name="apellidosRF2"
@@ -227,6 +159,7 @@ export default function Referencias() {
 						onChange={obtenerInfoRefFamiliaresRF2}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="parentesco"
 						name="parentescoRF2"
@@ -240,6 +173,7 @@ export default function Referencias() {
 						Referencias Personales:
 					</Typography>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres*"
 						name="nombresRP1"
@@ -250,6 +184,7 @@ export default function Referencias() {
 						onChange={obtenerInfoRefPersonales1}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos*"
 						name="apellidosRP1"
@@ -272,6 +207,7 @@ export default function Referencias() {
 					/>
 					<br />
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres"
 						name="nombresRP2"
@@ -281,6 +217,7 @@ export default function Referencias() {
 						onChange={obtenerInfoRefPersonales2}
 					/>
 					<TextField
+						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos"
 						name="apellidosRP2"
@@ -303,6 +240,7 @@ export default function Referencias() {
 					<br />
 					<Divider />
 					<Button
+						startIcon={<SaveIcon />}
 						color="primary"
 						variant="contained"
 						style={{ margin: '12px' }}
@@ -311,8 +249,12 @@ export default function Referencias() {
 						Agregar Hoja de Vida
 					</Button>
 
-					<Button color="secondary" variant="contained">
-						Cancelar
+					<Button
+						startIcon={<CancelIcon />}
+						color="secondary"
+						variant="contained"
+					>
+						Cancelar Registro
 					</Button>
 				</div>
 			</form>

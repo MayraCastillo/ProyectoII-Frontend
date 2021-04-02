@@ -10,7 +10,12 @@ import Main from './main.js';
 import VerNomina from './views/ManagementNomina/ver_nomina';
 import VerPlanilla from './views/ManagementNomina/planilla';
 import Curriculum from './views/ManagementCV/CreateCV2';
+<<<<<<< HEAD
 import CreateEmployee from "./views/ManagementEmp/CreateEmployee";
+=======
+import CurriculumList from './views/ManagementCV/ManagementCV';
+import Employees from './views/ManagementEmp/crear_empleado';
+>>>>>>> e62cc909d3b5dbb2b0435550b73e244c0926293c
 import Accounts from './views/ManagementAccount/crear_cuenta';
 import Configuration from './views/ManagementConfig/crear_config';
 import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
@@ -48,7 +53,13 @@ function App() {
 				<Main />
 				<Switch>
 					<Route path="/" component={Main} exact />
+<<<<<<< HEAD
 					<Route path="/gestion_hv" component={Curriculum} />
+=======
+					<Route path="/gestion_hoja_de_vida" component={Curriculum} />
+					<Route path="/listar_hojas_de_vida" component={CurriculumList} />
+					<Route path="/gestion_empleados" component={Employees} />
+>>>>>>> e62cc909d3b5dbb2b0435550b73e244c0926293c
 					<Route path="/crear_nomina" component={CrearNomina} />
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={VerPlanilla} />
