@@ -52,10 +52,6 @@ function App() {
 
 					<Route path="/gestion_hoja_de_vida" component={Curriculum} />
 					<Route path="/listar_hojas_de_vida" component={CurriculumList} />
-					<Route path="/gestion_empleados" component={Employees} />
-
-					<Route path="/crear_nomina" component={CrearNomina} />
-
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={Nominas} />
 					<Route path="/gestion_cuentas" component={Accounts} />
