@@ -20,17 +20,18 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
 import CrearNomina from './crear_nomina';
 import Divider from "@material-ui/core/Divider";
+import Modal from "@material-ui/core/Modal";
+import swal from 'sweetalert';
+import EditIcon from '@material-ui/icons/Edit';
 
 const styles = makeStyles ({
   root: {
     //marginLeft:"9%",
     marginRight:"25%",
     marginRight:"10%",
-    marginTop:"100px",
+    marginTop:"1px",
     padding:"100px",
     alignItems: "center",
     width:'100%',
@@ -74,6 +75,11 @@ const styles = makeStyles ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  
+  head: {
+    backgroundColor:'#3949ab',
+    color:'#ffff',
   },
 
 });
@@ -123,11 +129,7 @@ const headCells = [
   { id: 'contratoId', numeric: true, disablePadding: true, label: 'Id contrato' },
   { id: 'empleadoId', numeric: true, disablePadding: false, label: 'Id empleado' },
   { id: 'empleadoNom', numeric: false, disablePadding: false, label: 'Nombre empleado' },
-  { id: 'empleadoApe', numeric: false, disablePadding: false, label: 'Apellido empleado' },
   { id: 'tipoContrato', numeric: false, disablePadding: false, label: 'Tipo de contrato' },
-  { id: 'salario', numeric: true, disablePadding: false, label: 'Salario básico' },
-  { id: 'comisiones', numeric: true, disablePadding: false, label: 'Comisiones' },
-  { id: 'auxilio', numeric: true, disablePadding: false, label: 'Auxilio Extra'},
   { id: 'horasT', numeric: true, disablePadding: false, label: 'Horas trabajadas'},
   { id: 'rno', numeric: true, disablePadding: false, label: 'Recargo Nocturno Ordinario'},
   { id: 'edo', numeric: true, disablePadding: false, label: 'Extra Diurno Ordinario'},
@@ -147,9 +149,10 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow  className={classes.head}>
         <TableCell padding="checkbox">
           <Checkbox
+            className={classes.head}
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -160,6 +163,7 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align="center"
+            className={classes.head}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -215,7 +219,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
-
+ 
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -277,14 +281,40 @@ EnhancedTableToolbar.propTypes = {
   },
 }));*/
 
-export default function EnhancedTable() {
+function getModalStyle() {
+  const top = 90;
+  const left = 50;
+
+  return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`
+  };
+}
+
+export default function Horas() {
   const classes = styles();
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const body = (
+    <div style={modalStyle} className={classes.paper} align="center">
+          <CrearNomina/>
+    </div>
+    )
+
+const handleOpen = () => {
+    setOpen(true);
+};
+
+const handleClose = () => {
+    setOpen(false);
+};
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -388,11 +418,7 @@ export default function EnhancedTable() {
                    
                       <TableCell align="center">{row.empleadoId}</TableCell>
                       <TableCell align="center">{row.empleadoNom}</TableCell>
-                      <TableCell align="center">{row.empleadoApe}</TableCell>
                       <TableCell align="center">{row.tipoContrato}</TableCell>
-                      <TableCell align="center">{row.salario}</TableCell>
-                      <TableCell align="center">{row.comisiones}</TableCell>
-                      <TableCell align="center">{row.auxilio}</TableCell>
                       <TableCell align="center">{row.horasT}</TableCell>
                       <TableCell align="center">{row.rno}</TableCell>
                       <TableCell align="center">{row.edo}</TableCell>
@@ -402,17 +428,26 @@ export default function EnhancedTable() {
                       <TableCell align="center">{row.rndf}</TableCell>
                       <TableCell align="center">{row.rddf}</TableCell>
                       <TableCell align="center">
-                      <Button  
+                      <IconButton  
                             variant="contained" 
                             color="primary" 
                             type="submit" 
+                            onClick={handleOpen}
                             //onClick={handleSubmit} 
                             size="small"
                             className={classes.button}
-                            startIcon={ < SaveIcon / > }
+                            
                             >
-                            Editar
-                        </Button>
+                           < EditIcon / >
+                        </IconButton>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                        >
+                          {body}
+                        </Modal>
                       </TableCell>
                     </TableRow>
                   );
@@ -439,20 +474,6 @@ export default function EnhancedTable() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Compactar tabla"
       />
-
-      
-                          <Button  
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            //onClick={handleSubmit} 
-                            size="large"
-                            className={classes.button}
-                            startIcon={ < SaveIcon / > }
-                            >
-                            Generar Nómina
-                        </Button>
-
     </div>
   );
 }

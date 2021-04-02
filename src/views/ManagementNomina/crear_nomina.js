@@ -4,6 +4,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Nomina from "./info_nomina";
 import Extras from "./recargos";
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles({
   textField: {
     marginLeft: "10px",
     marginRight: "10px",
-    width: "60ch",
+    width: "30ch",
   },
   
   date: {
@@ -26,9 +28,7 @@ const useStyles = makeStyles({
     marginRight: "10px",
     width: "30ch",
   },
-  button:{
-    marginRight:"6px"
-  }
+  
 
 });
 
@@ -86,7 +86,19 @@ export default function CrearNomina() {
       shrink: true,
     }}
   />
-      </form>
+</form>
+
+<Button  
+                            variant="contained" 
+                            color="primary" 
+                            type="submit" 
+                            //onClick={handleSubmit} 
+                            size="large"
+                            className={classes.button}
+                            startIcon={ < SaveIcon / > }
+                            >
+                            Generar Nómina
+                        </Button>
       <br/>
     </div>
   );
