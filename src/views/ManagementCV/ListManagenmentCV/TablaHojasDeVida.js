@@ -12,6 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import Registros from './Registros';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const TablaHojasDeVida = ({ hojasDeVida, buscarDocumento }) => {
+const TablaHojasDeVida = ({ hojasDeVida, filtrados }) => {
 	//console.log(props);
 	const classes = useStyles();
 	/*
@@ -46,8 +47,10 @@ const TablaHojasDeVida = ({ hojasDeVida, buscarDocumento }) => {
 			props.eliminarEstudio(estudio.id);
 		}
 	};
+
+
+
 */
-	console.log(typeof hojasDeVida);
 
 	return (
 		<TableContainer component={Paper}>
@@ -66,56 +69,9 @@ const TablaHojasDeVida = ({ hojasDeVida, buscarDocumento }) => {
 
 				<TableBody>
 					{hojasDeVida.length > 0 ? (
-						hojasDeVida.map((hojaDeVida) => (
-							<StyledTableRow
-								key={hojaDeVida.numeroDocumento}
-								style={{ textAlign: 'center' }}
-							>
-								<StyledTableCell component="th" scope="row">
-									{hojaDeVida.nombres + ' ' + hojaDeVida.apellidos}
-								</StyledTableCell>
-								<StyledTableCell align="center">
-									{hojaDeVida.numeroDocumento}
-								</StyledTableCell>
-
-								<StyledTableCell align="center">
-									{hojaDeVida.estadoPersona}
-								</StyledTableCell>
-
-								<StyledTableCell align="center">
-									<IconButton
-										aria-label="editar"
-										color="primary"
-										onClick={() => {
-											//	props.editRow(estudio);
-											//	props.setModoEditar(true);
-										}}
-									>
-										<EditIcon />
-									</IconButton>
-									<IconButton
-										aria-label="delete"
-										color="action"
-										onClick={() => {
-											//	props.eliminarEstudio(estudio.id);
-											//	eliminar(estudio);
-										}}
-									>
-										<VisibilityIcon />
-									</IconButton>
-									<IconButton
-										aria-label="delete"
-										color="secondary"
-										onClick={() => {
-											//	props.eliminarEstudio(estudio.id);
-											//	eliminar(estudio);
-										}}
-									>
-										<DeleteIcon />
-									</IconButton>
-								</StyledTableCell>
-							</StyledTableRow>
-						))
+						<Registros
+							registros={filtrados.length != 0 ? filtrados : hojasDeVida}
+						/>
 					) : (
 						<tr>
 							<StyledTableCell maginLeft="5%">

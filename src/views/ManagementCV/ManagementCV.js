@@ -46,7 +46,20 @@ export default function ManagementCV() {
 	const classes = useStyles();
 	const [hojasDeVida, setHojasDeVida] = React.useState([]);
 
+	//seccion del select
+	const [state, setState] = React.useState({
+		filtro: '',
+	});
 	const [buscarDocumento, setBuscarDocumento] = React.useState('');
+	const [filtrados, setFiltrados] = React.useState([]);
+
+	const handleFiltrados = (e) => {
+		const hojasActualizadas = hojasDeVida.filter(
+			(item) => item.numeroDocumento.toString().indexOf(e.target.value) !== -1
+		);
+		setFiltrados(hojasActualizadas);
+		console.log(filtrados);
+	};
 
 	//PETICION
 
@@ -61,6 +74,33 @@ export default function ManagementCV() {
 
 	//FIN PETICION
 
+	useEffect(() => {
+		const peticionGetFiltarDocumento = () => {
+			let response;
+			var authOptions = {
+				method: 'GET',
+				url:
+					`http://localhost:8092/hojas-vida/buscar-por-id/` + buscarDocumento,
+				data: {
+					buscarDocumento: buscarDocumento,
+				},
+
+				json: true,
+			};
+			//console.log(authOptions);
+			axios(authOptions).then(function (response) {
+				console.log(response.data);
+				setHojasDeVida(response.data);
+			});
+		};
+		{
+			console.log(hojasDeVida);
+		}
+		peticionGetFiltarDocumento();
+	}, [buscarDocumento]);
+	const handleChange = (event) => {
+		setBuscarDocumento(event.target.value);
+	};
 	//Segundo select
 	const [currency, setCurrency] = React.useState('EUR');
 	const handleChangeC = (event) => {
@@ -122,7 +162,7 @@ export default function ManagementCV() {
 					label="Buscar por identificación"
 					variant="outlined"
 					//value={buscarDocumento}
-					onChange={(e) => setBuscarDocumento(e.target.value)}
+					onChange={handleFiltrados}
 				/>
 			</Grid>
 			<Grid xs={12} sm={3}>
@@ -134,6 +174,7 @@ export default function ManagementCV() {
 				<TablaHojasDeVida
 					hojasDeVida={hojasDeVida}
 					buscarDocumento={buscarDocumento}
+					filtrados={filtrados}
 				/>
 			</Grid>
 		</Container>
