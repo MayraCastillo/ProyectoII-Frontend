@@ -3,6 +3,9 @@ import { ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CalificacionEstrellas from '../Calificacion/CalificacionEstrellasExperienciaLaboral';
 
 import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert'; // Para poder realizar alertas
@@ -120,7 +123,7 @@ const FormularioExperienciaLaboral = ({
 
 		if (modoEditar === true) {
 			//console.log(modoEditar);
-			console.log(datos_generales);
+			//console.log(datos_generales);
 			agregarExperienciaLaboral(datos_generales);
 			swal({
 				title: 'Experiencia Laboral editada',
@@ -130,25 +133,25 @@ const FormularioExperienciaLaboral = ({
 				timer: '3000',
 			});
 			mostrarModal();
-			/*
-			editRow(datos_generales);
-			swal({
-				title: 'Título registradossss',
-				text: 'El título se registro con éxito',
-				icon: 'success',
-				button: 'Aceptar',
-				timer: '3000',
-			});*/
+
 			return;
 		} else {
-			agregarExperienciaLaboral(datos_generales);
-			swal({
-				title: 'Experiencia Laboral registrada',
-				text: 'La experiencia laboral se ha registrado con éxito',
-				icon: 'success',
-				button: 'Aceptar',
-				timer: '3000',
-			});
+			if (agregarExperienciaLaboral(datos_generales)) {
+				swal({
+					title: 'Experiencia Laboral registrada',
+					text: 'La experiencia laboral se ha registrado con éxito',
+					icon: 'success',
+					button: 'Aceptar',
+					timer: '3000',
+				});
+			} else {
+				swal({
+					title: 'Datos Repetidos',
+					text: 'Esta experiencia laboral ya se encuentra registrada',
+					icon: 'warning',
+					timer: '10000',
+				});
+			}
 
 			mostrarModal();
 			return;
@@ -208,6 +211,7 @@ const FormularioExperienciaLaboral = ({
 					/>
 
 					<TextField
+						style={{ display: 'none' }}
 						margin="normal"
 						label="Calificación"
 						name="calificacion"
@@ -237,8 +241,18 @@ const FormularioExperienciaLaboral = ({
 						variant="outlined"
 						onChange={obtenerInfo}
 					/>
+					<Container maxWidth="sm" style={{ backgroundColor: '#F2F2F2' }}>
+						<label>
+							<strong>Califique esta Experiencia Laboral:</strong>
+						</label>
+						<CalificacionEstrellas
+							calificacion={calificacion}
+							obtenerInfo={obtenerInfo}
+						/>
+					</Container>
 
 					<Button
+						endIcon={<Icon>send</Icon>}
 						color="primary"
 						variant="contained"
 						style={{ margin: '12px' }}
@@ -251,6 +265,7 @@ const FormularioExperienciaLaboral = ({
 					</Button>
 
 					<Button
+						startIcon={<DeleteIcon />}
 						color="secondary"
 						variant="contained"
 						onClick={() => {

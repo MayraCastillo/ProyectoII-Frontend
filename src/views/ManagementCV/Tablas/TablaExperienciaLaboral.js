@@ -12,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CalificacionEstrellasExperienciaLaboral from '../Calificacion/CalificacionEstrellasExperienciaLaboral';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -79,7 +80,12 @@ const TablaExperienciaLaboral = (props) => {
 									{experienciaLaboral.tiempo}
 								</StyledTableCell>
 								<StyledTableCell align="center">
-									{experienciaLaboral.calificacion}
+									{
+										<CalificacionEstrellasExperienciaLaboral
+											calificacion={experienciaLaboral.calificacion}
+											modoLectura={false}
+										/>
+									}
 								</StyledTableCell>
 								<StyledTableCell align="center">
 									<IconButton

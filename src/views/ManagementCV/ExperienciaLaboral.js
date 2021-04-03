@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from '@material-ui/core/Container';
@@ -14,7 +15,6 @@ import FormularioExperienciaLaboral from './Formularios/FormularioExperienciaLab
 import swal from 'sweetalert'; // Para poder realizar alertas
 import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext'; //Para acceder a la tabla
 
-const baseUrl = `http://localhost:8090/api/productos/ver/2`;
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& .MuiTextField-root': {
@@ -113,10 +113,23 @@ export default function ExperienciaLaboral() {
 			contacto: editarReferenciaLaboral.contacto,
 		});
 	};
+	const tituloRepetido = (nuevaExperienciaLaboral) => {
+		let bandera = false;
+		arrayExperienciaLaboral.forEach((element) => {
+			if (
+				element.cargoEmpresa.toLowerCase() ==
+				nuevaExperienciaLaboral.cargoEmpresa.toLowerCase()
+			) {
+				console.log('Encontrado');
+				bandera = true;
+			}
+		});
+		return bandera;
+	};
 
 	//Agregar Experiencia Laboral
 	const agregarExperienciaLaboral = (nuevaExperienciaLaboral) => {
-		console.log(nuevaExperienciaLaboral);
+		let registroExitoso = false;
 		if (modalEditar === true) {
 			const indice = arrayExperienciaLaboral.findIndex((elemento, indice) => {
 				if (elemento.id === nuevaExperienciaLaboral.id) {
@@ -124,15 +137,19 @@ export default function ExperienciaLaboral() {
 					return true;
 				}
 			});
+			registroExitoso = true;
 			//setarrayExperienciaLaboral([...arrayExperienciaLaboral, nuevaExperienciaLaboral]);
 		} else {
-			nuevaExperienciaLaboral.id = shortid.generate();
-			setarrayExperienciaLaboral([
-				...arrayExperienciaLaboral,
-				nuevaExperienciaLaboral,
-			]);
-			console.log(nuevaExperienciaLaboral);
+			if (!tituloRepetido(nuevaExperienciaLaboral)) {
+				nuevaExperienciaLaboral.id = shortid.generate();
+				setarrayExperienciaLaboral([
+					...arrayExperienciaLaboral,
+					nuevaExperienciaLaboral,
+				]);
+				registroExitoso = true;
+			}
 		}
+		return registroExitoso;
 	};
 	//Eliminar Expriencia Laboral
 	const eliminarExperienciaLaboral = (id) => {
@@ -179,6 +196,7 @@ export default function ExperienciaLaboral() {
 					color="primary"
 					style={{ textAlign: 'center' }}
 					className="m-4"
+					startIcon={<NoteAddIcon />}
 				>
 					Agregar Experiencia Laboral
 				</Button>
