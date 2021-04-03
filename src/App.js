@@ -12,7 +12,9 @@ import VerNomina from './views/ManagementNomina/ver_nomina';
 import VerPlanilla from './views/ManagementNomina/planilla';
 import Curriculum from './views/ManagementCV/CreateCV2';
 import CurriculumList from './views/ManagementCV/ManagementCV';
-import Employees from './views/ManagementEmp/crear_empleado';
+
+import Contract from './views/ManagementContract/CreateContract';
+import CreateEmployee from './views/ManagementEmp/CreateEmployee';
 import Accounts from './views/ManagementAccount/crear_cuenta';
 import Configuration from './views/ManagementConfig/crear_config';
 import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
@@ -49,7 +51,9 @@ function App() {
 					<Route path="/" component={Main} exact />
 					<Route path="/gestion_hoja_de_vida" component={Curriculum} />
 					<Route path="/listar_hojas_de_vida" component={CurriculumList} />
-					<Route path="/gestion_empleados" component={Employees} />
+					<Route path="/crear_contrato" component={Contract} />
+					<Route path="/registrar_empleado" component={CreateEmployee} />
+
 					<Route path="/crear_nomina" component={CrearNomina} />
 					<Route path="/ver_nomina" component={VerNomina} />
 					<Route path="/ver_planilla" component={VerPlanilla} />
