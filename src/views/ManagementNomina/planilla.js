@@ -305,11 +305,7 @@ export default function Horas() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const body = (
-    <div style={modalStyle} className={classes.modal} align="center">
-          <Acciones  empleados={selected}/>
-    </div>
-    )
+ 
 
 
     React.useEffect(() => {
@@ -378,6 +374,12 @@ const handleClose = () => {
   const [contratos, setContratos] = React.useState([]);
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, contratos.length - page * rowsPerPage);
+
+  const body = (
+    <div style={modalStyle} className={classes.modal} align="center">
+          <Acciones  empleados={selected}/>
+    </div>
+    )
   
   const cargarContratos = async() => {
     await axios.get(url+'listarContratosPorEstado/ACTIVO/123')
@@ -438,7 +440,7 @@ const handleClose = () => {
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="center">
                         {contrato.contratoPk.empleado.numeroDocumento}
                       </TableCell>
-                      <TableCell align="center">{contrato.contratoPk.empleado.nombres}</TableCell>
+                      <TableCell align="center">{contrato.contratoPk.empleado.nombres} {contrato.contratoPk.empleado.apellidos}</TableCell>
                       <TableCell align="center">
                       <IconButton  
                             variant="contained" 
