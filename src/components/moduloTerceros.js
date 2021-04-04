@@ -280,7 +280,7 @@ export default function ModuloTerceros(props){
                             className={classes.formControl}
                             size="medium"
                             label="Nombre"
-                            value={nameNombre}
+                            //value={nameNombre}
                             onChange={(e) => setNameNombre(e.target.value)}
                             variant="outlined"
                             />

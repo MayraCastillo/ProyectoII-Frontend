@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   });
 
   
-  export default function Nomina(){
+  export default function Nomina(props){
     const classes = useStyles();
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
@@ -50,14 +50,18 @@ const useStyles = makeStyles({
       setSelectedDate(date);
     };
     
+    const [fechaInicio, setFechaInicio] = React.useState('');
+    const [fechaFin, setFechaFin]= React.useState('');
+    const [detalle, setDetalle]=React.useState('');
+
     return(
 
       <div className={classes.root} align="center">
-      <Typography variant="h4" component="h4" color="primary" align="center" gutterBottom>
+      <Typography variant="h5" component="h4" color="primary" align="center" gutterBottom>
         Detalles de la Nómina
       </Typography>
-      <Typography variant="h5" component="h5" color="secondary" align="center" gutterBottom>
-        Nómina para el empleado ---
+      <Typography variant="body1" component="h5" color="inherit" align="center" gutterBottom>
+        Nómina para el empleado {props.emp.nomEmpleado}
       </Typography>
       <br/>
 
@@ -68,10 +72,11 @@ const useStyles = makeStyles({
           className={classes.textField}
           id="outlined-required"
           label="Descripción de la nómina"
-          defaultValue="Hello World"
           variant="outlined"
           multiline
           rowsMax={4}
+          onChange={(e)=> setDetalle(e.target.value)}
+          value={detalle}
         />
        
        <TextField

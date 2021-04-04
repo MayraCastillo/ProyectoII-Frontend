@@ -21,6 +21,7 @@ import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -58,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     marginTop:"5px",
     marginLeft:"10px",
-    width: 900,
-    height: 550,
+    width: 500,
+    height: 450,
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #000",
     boxShadow: theme.shadows[5],
@@ -86,8 +87,13 @@ const useStyles = makeStyles((theme) => ({
 
   container:{
     marginTop:"40px",
-    marginLeft:"30px"
-  }
+    marginLeft:"50px"
+  },
+  icon: {
+    fontSize: "60px",
+    boxShadow: 3,
+
+},
 }));
 
 function getModalStyle() {
@@ -101,18 +107,16 @@ function getModalStyle() {
   };
 }
 
-export default function Factores() {
+export default function Salarial() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
 
   const body = (
-    <div style={modalStyle} className={classes.modal} align="center">
+    <div style={modalStyle} className={classes.modal} align="justify">
           <form noValidate autoComplete="off" className={classes.container}>
-          <Typography variant="h4" component="h4" color="primary" align="center" gutterBottom>
-            Factores Salariales y No Salariales
-          </Typography>
+          
          
       <div align="justify">
       <Typography variant="h6" component="h6" color="primary" align="center" gutterBottom>
@@ -157,51 +161,7 @@ export default function Factores() {
           label="otros"
           variant="outlined"
         />
-          <br/>
-          <br/>
-
-          <Typography variant="h6" component="h6" color="primary" align="center" gutterBottom>
-        Factores No Salariales
-      </Typography>
-      <br/>
-        <TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Comisiones"
-          variant="outlined"
-        />
-         <TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Bonificaciones"
-          variant="outlined"
-        />
-
-<TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Auxilio Extra"
-          variant="outlined"
-        />
-
-<TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Viáticos"
-          variant="outlined"
-        />
-
-<TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="otros"
-          variant="outlined"
-        />
+        
           <br/>
           <br/>
 
@@ -233,12 +193,8 @@ const handleClose = () => {
 
   return (
     <div className={classes.root} align="center">
-      <Typography variant="h4" component="h4" color="primary" align="center" gutterBottom>
-        Factores Salariales y No Salariales
-      </Typography>
-      <br/>
-
-      <Typography variant="h5" component="h4" color="secondary" align="center" gutterBottom>
+      
+      <Typography variant="h5" component="h4" color="primary" align="center" gutterBottom>
         Factores Salariales
       </Typography>
 
@@ -253,7 +209,6 @@ const handleClose = () => {
             <StyledTableCell align="center">Viáticos</StyledTableCell>
             <StyledTableCell align="center">Otros</StyledTableCell>
             <StyledTableCell align="center">Tipo</StyledTableCell>
-            <StyledTableCell align="center">Acciones</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -270,25 +225,25 @@ const handleClose = () => {
               <StyledTableCell align="center">{row.viaticos}</StyledTableCell>
               <StyledTableCell align="center">{row.otros}</StyledTableCell>
               <StyledTableCell align="center">{row.tipo}</StyledTableCell>
-              <StyledTableCell align="center">
-              <IconButton  
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            //onClick={handleSubmit} 
-                            onClick={handleOpen}
-                            size="small"
-                            className={classes.button}
-                            
-                            >
-                           < EditIcon / >
-                        </IconButton>
-                </StyledTableCell>
+             
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <br/>
+    <IconButton  
+                            variant="contained" 
+                            color="primary" 
+                            type="submit" 
+                            //onClick={handleSubmit} 
+                            onClick={handleOpen}
+                            size="large"
+                            className={classes.button}
+                            
+                            >
+                           < AddCircleIcon className={classes.icon} / >
+                        </IconButton>
     <Modal
     open={open}
     onClose={handleClose}
@@ -302,64 +257,7 @@ const handleClose = () => {
 
 <br/>
 
-<Typography variant="h5" component="h4" color="secondary" align="center" gutterBottom>
-Factores No Salariales
-</Typography>
-<TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">Empleado</StyledTableCell>
-            <StyledTableCell align="center">Comisiones</StyledTableCell>
-            <StyledTableCell align="center">Bonificaciones</StyledTableCell>
-            <StyledTableCell align="center">Auxilio Extra</StyledTableCell>
-            <StyledTableCell align="center">Viáticos</StyledTableCell>
-            <StyledTableCell align="center">Otros</StyledTableCell>
-            <StyledTableCell align="center">Tipo</StyledTableCell>
-            <StyledTableCell align="center">Acciones</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.contratoid}>
-              <StyledTableCell component="th" scope="row" align="center">
-                {row.empleado}
-              </StyledTableCell>
-            
-            
-              <StyledTableCell align="center">{row.comisiones}</StyledTableCell>
-              <StyledTableCell align="center">{row.bonificaciones}</StyledTableCell>
-              <StyledTableCell align="center">{row.auxilios}</StyledTableCell>
-              <StyledTableCell align="center">{row.viaticos}</StyledTableCell>
-              <StyledTableCell align="center">{row.otros}</StyledTableCell>
-              <StyledTableCell align="center">{row.tipo}</StyledTableCell>
-              <StyledTableCell align="center">
-              <IconButton  
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            //onClick={handleSubmit} 
-                            onClick={handleOpen}
-                            size="small"
-                            className={classes.button}
-                            
-                            >
-                           < EditIcon / >
-                        </IconButton>
-                </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <Modal
-    open={open}
-    onClose={handleClose}
-    aria-labelledby="simple-modal-title"
-    aria-describedby="simple-modal-description"
->
-  {body}
-</Modal>
+
 
     </div>
   );

@@ -27,6 +27,7 @@ const useStyles = makeStyles({
       marginRight: "5px",
       marginBottom:'15px',
       width: "32ch",
+      
     },
 
     small:{
@@ -54,52 +55,103 @@ const useStyles = makeStyles({
     
     return(
 
-      <div className={classes.root} align="center">
-      <Typography variant="h4" component="h4" color="primary" align="center" gutterBottom>
+      <div className={classes.root} align="justify">
+      <Typography variant="h5" component="h4" color="primary" align="justify" gutterBottom>
         Registro de Horas Laboradas
       </Typography>
-      <Typography variant="h5" component="h4" color="secondary" align="center" gutterBottom>
-        Empleado 
+      <Typography variant="body1" component="h6" color="inherit" align="justify" gutterBottom>
+        Identificación: {props.emp.idEmpleado} - Nombre: {props.emp.nomEmpleado} 
+        <br/>
+        Salario base: ${props.emp.salario}
       </Typography>
       <br/>
 
       <form noValidate autoComplete="off">
-      <div align="center">
-      <TextField
-          required
-          className={classes.small}
-          id="outlined-required"
-          label="Horas trabajadas"
-          variant="outlined"
-        />
-      </div>
-
-      <div align="justify">
-      <Typography variant="h6" component="h6" color="primary" align="center" gutterBottom>
-        Horas Extras
-      </Typography>
-      <br/>
-        <TextField
-          required
-          className={classes.small}
-          id="outlined-required"
-          label="Diurno Ordinario"
-          variant="outlined"
-        />
-         <TextField
+        
+            <div>
+              <Grid>
+              <Typography variant="h6" component="h6" color="primary" align="left" gutterBottom>
+                Horas Trabajadas
+            </Typography>
+                <Grid container item xs>
+               
+            <TextField
+                required
+                className={classes.small}
+                id="outlined-required"
+                label="Número de horas"
+                variant="outlined"
+                size="small"
+            />
+                </Grid>
+          
+          <Grid xs>
+          <Typography variant="h6" component="h6" color="primary" align="justify" gutterBottom>
+                Horas Extras
+            </Typography>
+          
+            <TextField
+                required
+                className={classes.small}
+                id="outlined-required"
+                label="Diurno Ordinario"
+                variant="outlined"
+                size="small"
+            />
+              <TextField
           required
           className={classes.small}
           id="outlined-required"
           label="Nocturno Ordinario"
           variant="outlined"
+          size="small"
         />
-
+          </Grid>
+           
+              </Grid>
+          
+            </div>
+           
+<div>
 <TextField
           required
           className={classes.small}
           id="outlined-required"
           label="Diurno Dom y Fes"
           variant="outlined"
+          size="small"
+        />
+        <TextField
+          required
+          className={classes.small}
+          id="outlined-required"
+          label="Nocturno Dom y Fes"
+          variant="outlined"
+          size="small"
+        />
+  
+  </div>            
+
+
+<div>
+<Typography variant="h6" component="h6" color="primary" align="left" gutterBottom>
+        Recargos
+      </Typography>
+<TextField
+          required
+          className={classes.small}
+          id="outlined-required"
+          label="Nocturno Ordinario"
+          variant="outlined"
+          size="small"
+        />
+<TextField
+          required
+          className={classes.small}
+          id="outlined-required"
+          label="Diurno Dom y Fes"
+          variant="outlined"
+          size="small"
         />
 
 <TextField
@@ -108,50 +160,14 @@ const useStyles = makeStyles({
           id="outlined-required"
           label="Nocturno Dom y Fes"
           variant="outlined"
-        />
-      
- <Typography variant="h6" component="h6" color="primary" align="center" gutterBottom>
-        Recargos
-      </Typography>
-      <br/>
-<TextField
-          required
-          className={classes.small}
-          id="outlined-required"
-          label="Nocturno Ordinario"
-          variant="outlined"
-        />
-<TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Diurno Domingos y Festivos"
-          variant="outlined"
-        />
-
-<TextField
-          required
-          className={classes.big}
-          id="outlined-required"
-          label="Nocturno Domingos y Festivos"
-          variant="outlined"
+          size="small"
         />
 
 </div>
 <br/>
-<Button  
-                            variant="contained" 
-                            color="primary" 
-                            type="submit" 
-                            //onClick={handleSubmit} 
-                            size="large"
-                            className={classes.button}
-                            startIcon={ < SaveIcon / > }
-                            >
-                            Guardar
-                        </Button>
-
+<Button variant="contained" color="primary" type="submit" gutterBottom>Guardar</Button>
       </form>
+      <br/>
       </div>
     );
 

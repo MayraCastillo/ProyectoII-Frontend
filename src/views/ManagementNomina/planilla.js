@@ -88,7 +88,7 @@ const styles = makeStyles((theme) => ({
   modal:{
     position: "absolute",
     width: 1000,
-    height: 700,
+    height: 500,
     backgroundColor: theme.palette.background.paper,
     border: "1px solid #000",
     boxShadow: theme.shadows[5],
@@ -140,6 +140,8 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'empleadoId', numeric: true, disablePadding: false, label: 'Id empleado' },
   { id: 'empleadoNom', numeric: false, disablePadding: false, label: 'Nombre empleado' },
+  { id: 'correo', numeric: false, disablePadding: false, label: 'Correo Electrónico' },
+  { id: 'estado', numeric: false, disablePadding: false, label: 'Estado del contrato' },
   { id: 'accion', numeric: false, disablePadding: false, label: 'Acciones'},
 ];
 
@@ -152,15 +154,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow  className={classes.head}>
-        <TableCell padding="checkbox">
-          <Checkbox
-            className={classes.head}
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'todos los contratos seleccionados' }}
-          />
-        </TableCell>
+      
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -224,19 +218,13 @@ const EnhancedTableToolbar = (props) => {
  
   return (
     <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
+      className={clsx(classes.root)}
     >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="secondary" variant="h4" component="div" align="center">
-          {numSelected} selected
-        </Typography>
-      ) : (
+      
         <Typography className={classes.title} color="primary" variant="h4" id="tableTitle" component="div" align="center">
-          Contratos Activos
+          Contratos
         </Typography>
-      )}
+      
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
@@ -284,8 +272,8 @@ EnhancedTableToolbar.propTypes = {
 }));*/
 
 function getModalStyle() {
-  const top = 60;
-  const left = 60;
+  const top = 40;
+  const left = 50;
 
   return {
       top: `${top}%`,
@@ -305,21 +293,29 @@ export default function Horas() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
- 
+  const [empleadoId, setEmpleadoId] = React.useState('');
+  const [empleadoNom, setEmpleadoNom] = React.useState('');
+  const [empleadoSal, setEmpleadoSal] = React.useState('');
+  const [contratoId, setContratoId] = React.useState('');
 
+const handleModal = (contrato) => {
+    
+  setEmpleadoId(contrato.contratoPk.empleado.numeroDocumento);
+    
+  setEmpleadoNom(contrato.contratoPk.empleado.nombres+ " " +contrato.contratoPk.empleado.apellidos);
+  
+  setEmpleadoSal(contrato.salarioBase);
+  
+  setContratoId(contrato.contratoId);
 
-    React.useEffect(() => {
-      //cargarPaises();
-      cargarContratos();
-  }, []);
-
-
-const handleOpen = () => {
-    setOpen(true);
+  openCloseModal();
+   
 };
 
-const handleClose = () => {
-    setOpen(false);
+
+
+const openCloseModal = () => {
+    setOpen(!open);
 };
 
   const handleRequestSort = (event, property) => {
@@ -377,21 +373,24 @@ const handleClose = () => {
 
   const body = (
     <div style={modalStyle} className={classes.modal} align="center">
-          <Acciones  empleados={selected}/>
+          <Acciones idEmpleado={empleadoId} nomEmpleado={empleadoNom} salario={empleadoSal} idcontrato={contratoId}/>
     </div>
     )
   
   const cargarContratos = async() => {
-    await axios.get(url+'listarContratosPorEstado/ACTIVO/123')
+    await axios.get(url+'listarContratosPorEstado/123')
     .then((response) => {
-        //setState({terceros: response.data});
-       
         setContratos(response.data);
+        console.log(response);
     })
     .catch((error) => {
         console.log(error);
     })
 };
+
+React.useEffect(() => {
+  cargarContratos();
+}, []);
 
   return (
     <div className={classes.root}>
@@ -419,34 +418,29 @@ const handleClose = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((contrato, index) => {
                   const isItemSelected = isSelected(contrato.contratoPk.empleado.numeroDocumento);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                 
 
                   return (
                     <TableRow
                       hover
                       onClick={(event) => handleClick(event, contrato.contratoPk.empleado.numeroDocumento)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={contrato.contratoPk.empleado.numeroDocumento}
-                      selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none" align="center">
+                      
+                      <TableCell component="th" scope="row" padding="none" align="center">
                         {contrato.contratoPk.empleado.numeroDocumento}
                       </TableCell>
                       <TableCell align="center">{contrato.contratoPk.empleado.nombres} {contrato.contratoPk.empleado.apellidos}</TableCell>
+                      <TableCell align="center">{contrato.contratoPk.empleado.correo}</TableCell>
+                      <TableCell align="center">{contrato.estado}</TableCell>
                       <TableCell align="center">
                       <IconButton  
                             variant="contained" 
                             color="primary" 
                             type="submit" 
-                            onClick={handleOpen}
+                            
+                            onClick={()=> handleModal(contrato)}
                             //onClick={handleSubmit} 
                             size="small"
                             className={classes.button}
@@ -476,14 +470,14 @@ const handleClose = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-  >
-    {body}
-  </Modal>
+        <Modal
+          open={open}
+          onClose={openCloseModal}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+        {body}
+        </Modal>
     </div>
   );
 }
