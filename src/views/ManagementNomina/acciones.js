@@ -13,11 +13,12 @@ import Salarial from './salariales';
 import NoSalarial from './nosalariales';
 import Extras from './recargos';
 import TextField from '@material-ui/core/TextField';
-import { Grid } from '@material-ui/core';
+import { Grid, InputLabel } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import swal from 'sweetalert';
 import axios from 'axios';
+import Divider from '@material-ui/core/Divider';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
   small:{
     marginLeft: "9px",
-    //marginRight: "5px",
+    marginRight: "9px",
     marginBottom:'15px',
     width: "20ch",
   },
@@ -85,30 +86,45 @@ const useStyles = makeStyles((theme) => ({
 
   button:{
     height: 50
+  },
+
+  factores:{
+    marginLeft:"30%",
+    color:"#3d5afe"
+  },
+  horasLaboradas:{
+    marginLeft:"6%"
+  },
+  derecha:{
+    marginRight:"2%"
+  },
+  izquierda:{
+    marginLeft:"2%",
+    marginRight:"2%"
   }
 }));
 
 export default function Acciones(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [horasLaboradas, setHoras] = React.useState('');
-  const [recargoDDF, setRecargoDDF] = React.useState('');
-  const [recargoNOR, setRecargoNOR] = React.useState('');
-  const [recargoNDF, setRecargoNDF] = React.useState('');
-  const [extraDOR, setExtraDOR] = React.useState('');
-  const [extraNOR, setExtraNOR] = React.useState('');
-  const [extraNDF, setExtraNDF] = React.useState('');
-  const [extraDDF, setExtraDDF] = React.useState('');
-  const [bonificaciones_sal, setBonificaciones_sal]=React.useState('');
-  const [comisiones_sal, setComisiones_sal]= React.useState('');
-  const [auxilioExtra_sal, setAuxilioExtra_sal] = React.useState('');
-  const [viaticos_sal, setViaticos_sal] = React.useState('');
-  const [otros_sal, setOtros_sal] = React.useState('');
-  const [bonificaciones_nosal, setBonificaciones_nosal]=React.useState('');
-  const [comisiones_nosal, setComisiones_nosal]= React.useState('');
-  const [auxilioExtra_nosal, setAuxilioExtra_nosal] = React.useState('');
-  const [viaticos_nosal, setViaticos_nosal]= React.useState('');
-  const [otros_nosal, setOtros_nosal] = React.useState('');
+  const [horasLaboradas, setHoras] = React.useState(0);
+  const [recargoDDF, setRecargoDDF] = React.useState(0);
+  const [recargoNOR, setRecargoNOR] = React.useState(0);
+  const [recargoNDF, setRecargoNDF] = React.useState(0);
+  const [extraDOR, setExtraDOR] = React.useState(0);
+  const [extraNOR, setExtraNOR] = React.useState(0);
+  const [extraNDF, setExtraNDF] = React.useState(0);
+  const [extraDDF, setExtraDDF] = React.useState(0);
+  const [bonificaciones_sal, setBonificaciones_sal]=React.useState(0);
+  const [comisiones_sal, setComisiones_sal]= React.useState(0);
+  const [auxilioExtra_sal, setAuxilioExtra_sal] = React.useState(0);
+  const [viaticos_sal, setViaticos_sal] = React.useState(0);
+  const [otros_sal, setOtros_sal] = React.useState(0);
+  const [bonificaciones_nosal, setBonificaciones_nosal]=React.useState(0);
+  const [comisiones_nosal, setComisiones_nosal]= React.useState(0);
+  const [auxilioExtra_nosal, setAuxilioExtra_nosal] = React.useState(0);
+  const [viaticos_nosal, setViaticos_nosal]= React.useState(0);
+  const [otros_nosal, setOtros_nosal] = React.useState(0);
   const [fechaInicio, setFechaInicio] = React.useState('');
   const [fechaFin, setFechaFin]= React.useState('');
   const [detalle, setDetalle]=React.useState('');
@@ -120,8 +136,8 @@ export default function Acciones(props) {
 
 
   const handleSubmit = (evt) => {
-    alert(props.idcontrato+" - "+props.salario+" - "+extraNOR+" - "+comisiones_sal+" - "+comisiones_nosal+" - "+fechaInicio)
-    console.log(props.idcontrato);
+    //alert(props.idcontrato+" - "+props.salario+" - "+extraNOR+" - "+comisiones_sal+" - "+comisiones_nosal+" - "+fechaInicio)
+    //console.log(props.idcontrato);
     evt.preventDefault();
     axios.post(url+'parametros/crearNomina/', {
       salarioBase: props.salario,
@@ -173,7 +189,7 @@ export default function Acciones(props) {
     })
       .catch((error) => {
             console.log(error);
-            swal("Error", "NO se pudo registrar"+error, "error");
+            swal("Error", "No se pudo generar la nómina de "+props.nomEmpleado, "error");
         })
 
 }
@@ -191,14 +207,13 @@ export default function Acciones(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} align="justify" className={classes.container}>
-        <Typography variant="h6" color="primary" align="center">Horas Laboradas de {props.nomEmpleado}</Typography>
+        <Typography variant="h6" color="primary" align="center" gutterBottom>Horas Laboradas de {props.nomEmpleado}</Typography>
         <br/>
-        <Grid container spacing={1}>
-          <Grid item xs={4}  spacing={3}>
-            Horas laborales:
+        <Grid container className={classes.horasLaboradas}>
+          <Grid  item xs={3}  spacing={3} align="center" className={classes.derecha}>
+            <Typography variant="h6" align="center">Horas laborales</Typography>
             <br/>
-            <br/>
-            <Grid item>
+            <Grid item align="center">
             <TextField
                 required
                 className={classes.small}
@@ -211,9 +226,9 @@ export default function Acciones(props) {
             />
             </Grid>
           </Grid>
-          <Grid item xs={6} spacing={3}>
-            Horas Extra: 
-            <br/>
+          <Divider orientation="vertical" flexItem />
+          <Grid item xs={3} spacing={3} className={classes.izquierda}>
+            <Typography variant="h6" align="center">Horas Extra</Typography>
             <br/>
             <Grid item>
             <TextField
@@ -259,11 +274,13 @@ export default function Acciones(props) {
           value={extraNDF}
         />
           </Grid>
-
-        <Grid item xs={3} sm={10} spacing={3}>
-        <Typography variant="body1" align="left" gutterBottom>
+          <Divider orientation="vertical" flexItem />
+        <Grid item xs={3} spacing={3} className={classes.izquierda}>
+        <Typography variant="h6" align="center">
         Recargos
       </Typography>
+    <br/>
+    <Grid item> 
 <TextField
           required
           className={classes.small}
@@ -295,107 +312,143 @@ export default function Acciones(props) {
           onChange={(e)=> setRecargoNDF(e.target.value)}
           value={recargoNDF}
         />
-
+</Grid>
         </Grid>
         </Grid>
      
       </TabPanel>
       <TabPanel value={value} index={1} align="center" className={classes.container}>
            <Typography variant="h6" color="primary">Factores Salariales de {props.nomEmpleado}</Typography>
-          <form noValidate autoComplete="off" className={classes.container}>
-          <div align="justify">
+          <form noValidate autoComplete="off" className={classes.container} align="center">
+          
           <br/>
+          <br/>
+          <Grid className={classes.factores} container align="center">
+          
+            <Grid container item xs={2}>
+            <InputLabel>Comisiones</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Bonificaciones</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Auxilio Extra</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Viáticos</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Otros Factores</InputLabel>
+            </Grid>
+
+
+            <Grid container item xs={3} spacing={2}>
+            
             <TextField
               required
               className={classes.big}
               id="outlined-required"
-              label="Comisiones"
               variant="outlined"
               onChange={(e)=> setComisiones_sal(e.target.value)}
               value={comisiones_sal}
             />
+            
              <TextField
               required
               className={classes.big}
               id="outlined-required"
-              label="Bonificaciones"
               variant="outlined"
               onChange={(e)=> setBonificaciones_sal(e.target.value)}
               value={bonificaciones_sal}
             />
-    
-    <TextField
+            
+               <TextField
               required
               className={classes.big}
               id="outlined-required"
-              label="Auxilio Extra"
               variant="outlined"
               onChange={(e)=> setAuxilioExtra_sal(e.target.value)}
               value={auxilioExtra_sal}
             />
-    
-    <TextField
+              
+              <TextField
               required
               className={classes.big}
               id="outlined-required"
-              label="Viáticos"
               variant="outlined"
               onChange={(e)=> setViaticos_sal(e.target.value)}
                 value={viaticos_sal}
             />
-    
+          
+          
     <TextField
               required
               className={classes.big}
               id="outlined-required"
-              label="otros"
               variant="outlined"
               onChange={(e)=> setOtros_sal(e.target.value)}
                 value={otros_sal}
             />
-            
-            </div>
+            </Grid>
+
+          
+          </Grid>
+         
           </form>
       </TabPanel>
       <TabPanel value={value} index={2} align="center" className={classes.container}>
          <Typography variant="h6" color="primary">Factores No Salariales de {props.nomEmpleado}</Typography> 
          <form noValidate autoComplete="off" className={classes.container} align="justify">
-<br/>
-<div>
-<TextField
-required
-className={classes.big}
-id="outlined-required"
-label="Comisiones"
-variant="outlined"
-onChange={(e)=> setComisiones_nosal(e.target.value)}
-value={comisiones_nosal}
-/>
-<TextField
-required
-className={classes.big}
-id="outlined-required"
-label="Bonificaciones"
-variant="outlined"
-onChange={(e)=> setBonificaciones_nosal(e.target.value)}
-value={bonificaciones_nosal}
-/>
+        <br/>
+        <br/>
+        <Grid className={classes.factores} container align="center">
+        <Grid container item xs={2}>
+            <InputLabel>Comisiones</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Bonificaciones</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Auxilio Extra</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Viáticos</InputLabel>
+            <br/>
+            <br/>
+            <InputLabel>Otros Factores</InputLabel>
+            </Grid>
+
+            <Grid container item xs={3} spacing={2}>
+        <TextField
+          required
+          className={classes.big}
+          id="outlined-required"
+          variant="outlined"
+          onChange={(e)=> setComisiones_nosal(e.target.value)}
+          value={comisiones_nosal}
+        />
+      <TextField
+        required
+        className={classes.big}
+        id="outlined-required"
+        variant="outlined"
+        onChange={(e)=> setBonificaciones_nosal(e.target.value)}
+        value={bonificaciones_nosal}
+      />
+
+      <TextField
+        required
+        className={classes.big}
+        id="outlined-required"
+        variant="outlined"
+        onChange={(e)=> setAuxilioExtra_nosal(e.target.value)}
+        value={auxilioExtra_nosal}
+      />
 
 <TextField
 required
 className={classes.big}
 id="outlined-required"
-label="Auxilio Extra"
-variant="outlined"
-onChange={(e)=> setAuxilioExtra_nosal(e.target.value)}
-value={auxilioExtra_nosal}
-/>
-
-<TextField
-required
-className={classes.big}
-id="outlined-required"
-label="Viáticos"
 variant="outlined"
 onChange={(e)=> setViaticos_nosal(e.target.value)}
 value={viaticos_nosal}
@@ -405,14 +458,14 @@ value={viaticos_nosal}
 required
 className={classes.big}
 id="outlined-required"
-label="otros"
 variant="outlined"
 onChange={(e)=> setOtros_nosal(e.target.value)}
 value={otros_nosal}
 />
+</Grid>
 <br/>
 <br/>
-</div>
+</Grid>
 </form>
       </TabPanel>
       <TabPanel value={value} index={3} align="center" className={classes.container}>
