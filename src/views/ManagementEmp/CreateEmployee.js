@@ -331,26 +331,37 @@ export default function CreateEmployee() {
 			},
 			json: true,
 		};
-		console.log(authOptions);
 		await Axios(authOptions)
 		.then(function (response) {
-			console.log(response);
-			swal({
-				title: "Empleado Registrado",
-				text: "El empleado ha sido registrado de manera correcta",
-				icon: "success",
-				button: "Aceptar",
-				timer: '5000',
-			});
-			addRelacionEmpBancoPOST();
-			for (const index in dataTerceros) {
-				addRelacionEmpTercerosPOST(dataTerceros[index]);
+			if(response.status == 201){
+				swal({
+					title: "Empleado Registrado",
+					text: "El empleado ha sido registrado de manera correcta",
+					icon: "success",
+					button: "Aceptar",
+					timer: '5000',
+				});
+				addRelacionEmpBancoPOST();
+				for (const index in dataTerceros) {
+					addRelacionEmpTercerosPOST(dataTerceros[index]);
+				}
+				window.location.href = '/crear_contrato';
+			}
+			if(response.status == 208){
+				swal({
+					title: 'Empleado no Registrado',
+					text: 'No ha sido posible realizar el registro. \nEl número de identificación ingresado ya se encuentra en uso',
+					icon: 'error',
+					button: 'Aceptar',
+					timer: '5000',
+				});
 			}
 		})
 		.catch(function (error) {
+			console.log(error);
 			swal({
 				title: 'Empleado no Registrado',
-				text: 'No ha sido posible realizar el registro. \nEl número de identificación ingresado ya se encuentra en uso',
+				text: 'No ha sido posible realizar el registro. \nHa ocurrido un error en el sistema. Inténtelo nuevamente',
 				icon: 'error',
 				button: 'Aceptar',
 				timer: '5000',
@@ -508,7 +519,7 @@ export default function CreateEmployee() {
 						variant="outlined"
 						size="small"
 						onChange={handleChange}
-						value={data.telefono}
+						value={""+data.telefono}
 					/>
 				</GridItem>
 
@@ -563,7 +574,7 @@ export default function CreateEmployee() {
 						variant="outlined"
 						size="small"
 						onChange={handleChange}
-						value={data.direccion}
+						value={""+data.direccion}
 					/>
 				</GridItem>
 

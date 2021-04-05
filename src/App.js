@@ -18,7 +18,7 @@ import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParam
 import ActiveParameters from './views/ManagementEmp/ActiveEmployees';
 import InactiveParameters from './views/ManagementEmp/InactiveEmployees';
 import Nominas from './views/ManagementNomina/nominas';
-import Contract from './views/ManagementContract/CreacteContract';
+import Contract from './views/ManagementContract/CreateContract';
 import Prueba from './views/Prueba';
 
 const styles = makeStyles({

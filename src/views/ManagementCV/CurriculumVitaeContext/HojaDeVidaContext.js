@@ -560,7 +560,7 @@ const HojaDeVidaContextProvider = (props) => {
 					timer: '10000',
 				}).then((result) => {
 					if (result) {
-						window.location.href = '/empleados_activos';
+						window.location.href = '/listar_hojas_de_vida';
 					}
 				});
 			})
