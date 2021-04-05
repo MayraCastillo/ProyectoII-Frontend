@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 //Views
 import Main from './main.js';
 import VerNomina from './views/ManagementNomina/ver_nomina';
-import VerPlanilla from './views/ManagementNomina/planilla';
 import Curriculum from './views/ManagementCV/CreateCV2';
 import CurriculumList from './views/ManagementCV/ManagementCV';
 import CreateEmployee from './views/ManagementEmp/CreateEmployee';

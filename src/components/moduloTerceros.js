@@ -249,13 +249,25 @@ export default function ModuloTerceros(props){
                 tipoTerceroId: nameTipo
             }
         }).then(response => {
-            swal("Éxito", "Se registró exitosamente el tercero: "+nameNombre, "success");
+            //alert(response.status);
+            console.log(response.status);
+            if(response.status==208){
+                swal("Advertencia", "El tercero "+nameNombre+" ya esta registrado", "warning");
+            }else{
+                swal("Éxito", "Se registró exitosamente el tercero: "+nameNombre, "success");
+            }
             handleClose();
             cargarTerceros();
         })
           .catch((error) => {
-                console.log(error);
-                swal("Error", "NO se pudo registrar", "error");
+                console.log(error.response.data.status);
+                if(error.response.data.status===500){
+                    console.log("correo en formato incorrecto");
+                    swal("Advertencia", "Correo en formato incorrecto ", "warning");
+                }else{
+                    swal("Error", "NO se pudo registrar el tercero ", "error");
+                }
+                
             })
 
     }

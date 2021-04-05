@@ -220,6 +220,8 @@ export default function Acciones(props) {
                 id="outlined-required"
                 label="horas"
                 variant="outlined"
+                type="number"
+                InputProps={{ inputProps: { min: 0, max: 240 } }}
                 size="small"
                 onChange={(e)=> setHoras(e.target.value)}
                 value={horasLaboradas}
@@ -237,6 +239,8 @@ export default function Acciones(props) {
                 id="outlined-required"
                 label="Diurno Ordinario"
                 variant="outlined"
+                InputProps={{ inputProps: { min: 0, max: 240 } }}
+                type="number"
                 size="small"
                 onChange={(e)=> setExtraDOR(e.target.value)}
                 value={extraDOR}
@@ -247,6 +251,8 @@ export default function Acciones(props) {
           id="outlined-required"
           label="Nocturno Ordinario"
           variant="outlined"
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
+          type="number"
           size="small"
           onChange={(e)=> setExtraNOR(e.target.value)}
           value={extraNOR}
@@ -261,6 +267,8 @@ export default function Acciones(props) {
           variant="outlined"
           size="small"
           onChange={(e)=> setExtraDDF(e.target.value)}
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
+          type="number"
           value={extraDDF}
         />
         <TextField
@@ -270,6 +278,8 @@ export default function Acciones(props) {
           label="Nocturno Dom y Fes"
           variant="outlined"
           size="small"
+          type="number"
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
           onChange={(e)=> setExtraNDF(e.target.value)}
           value={extraNDF}
         />
@@ -289,6 +299,8 @@ export default function Acciones(props) {
           variant="outlined"
           size="small"
           onChange={(e)=> setRecargoNOR(e.target.value)}
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
+          type="number"
           value={recargoNOR}
         />
 <TextField
@@ -299,6 +311,8 @@ export default function Acciones(props) {
           variant="outlined"
           size="small"
           onChange={(e)=> setRecargoDDF(e.target.value)}
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
+          type="number"
           value={recargoDDF}
         />
 
@@ -310,6 +324,8 @@ export default function Acciones(props) {
           variant="outlined"
           size="small"
           onChange={(e)=> setRecargoNDF(e.target.value)}
+          InputProps={{ inputProps: { min: 0, max: 240 } }}
+          type="number"
           value={recargoNDF}
         />
 </Grid>
@@ -350,6 +366,8 @@ export default function Acciones(props) {
               id="outlined-required"
               variant="outlined"
               onChange={(e)=> setComisiones_sal(e.target.value)}
+              InputProps={{ inputProps: { min: 0 } }}
+              type="number"
               value={comisiones_sal}
             />
             
@@ -359,6 +377,8 @@ export default function Acciones(props) {
               id="outlined-required"
               variant="outlined"
               onChange={(e)=> setBonificaciones_sal(e.target.value)}
+              InputProps={{ inputProps: { min: 0 } }}
+              type=" number"
               value={bonificaciones_sal}
             />
             
@@ -368,6 +388,8 @@ export default function Acciones(props) {
               id="outlined-required"
               variant="outlined"
               onChange={(e)=> setAuxilioExtra_sal(e.target.value)}
+              InputProps={{ inputProps: { min: 0 } }}
+              type="number"
               value={auxilioExtra_sal}
             />
               
@@ -376,6 +398,8 @@ export default function Acciones(props) {
               className={classes.big}
               id="outlined-required"
               variant="outlined"
+              type="number"
+              InputProps={{ inputProps: { min: 0 } }}
               onChange={(e)=> setViaticos_sal(e.target.value)}
                 value={viaticos_sal}
             />
@@ -387,7 +411,9 @@ export default function Acciones(props) {
               id="outlined-required"
               variant="outlined"
               onChange={(e)=> setOtros_sal(e.target.value)}
-                value={otros_sal}
+              InputProps={{ inputProps: { min: 0 } }}
+              type="number"
+              value={otros_sal}
             />
             </Grid>
 
@@ -425,6 +451,8 @@ export default function Acciones(props) {
           id="outlined-required"
           variant="outlined"
           onChange={(e)=> setComisiones_nosal(e.target.value)}
+          InputProps={{ inputProps: { min: 0 } }}
+          type="number"
           value={comisiones_nosal}
         />
       <TextField
@@ -433,6 +461,8 @@ export default function Acciones(props) {
         id="outlined-required"
         variant="outlined"
         onChange={(e)=> setBonificaciones_nosal(e.target.value)}
+        InputProps={{ inputProps: { min: 0 } }}
+        type="number"
         value={bonificaciones_nosal}
       />
 
@@ -442,6 +472,8 @@ export default function Acciones(props) {
         id="outlined-required"
         variant="outlined"
         onChange={(e)=> setAuxilioExtra_nosal(e.target.value)}
+        InputProps={{ inputProps: { min: 0 } }}
+        type="number"
         value={auxilioExtra_nosal}
       />
 
@@ -451,6 +483,8 @@ className={classes.big}
 id="outlined-required"
 variant="outlined"
 onChange={(e)=> setViaticos_nosal(e.target.value)}
+InputProps={{ inputProps: { min: 0 } }}
+type="number"
 value={viaticos_nosal}
 />
 
@@ -460,6 +494,8 @@ className={classes.big}
 id="outlined-required"
 variant="outlined"
 onChange={(e)=> setOtros_nosal(e.target.value)}
+InputProps={{ inputProps: { min: 0 } }}
+type="number"
 value={otros_nosal}
 />
 </Grid>
