@@ -139,8 +139,12 @@ export default function Acciones(props) {
     //alert(props.idcontrato+" - "+props.salario+" - "+extraNOR+" - "+comisiones_sal+" - "+comisiones_nosal+" - "+fechaInicio)
     //console.log(props.idcontrato);
     evt.preventDefault();
+    if(fechaFin<fechaInicio || fechaInicio==='' || fechaFin===''){
+      swal("Advertencia","El período para calcular la nómina es inválido", "warning");
+    }else{
+
     axios.post(url+'parametros/crearNomina/', {
-      salarioBase: props.salario,
+      salarioBase: 120000,
       contratoId: props.idcontrato,
       registroHoras:{
         contratoId: props.idcontrato,
@@ -191,7 +195,7 @@ export default function Acciones(props) {
             console.log(error);
             swal("Error", "No se pudo generar la nómina de "+props.nomEmpleado, "error");
         })
-
+      }
 }
 
 
@@ -523,6 +527,7 @@ value={otros_nosal}
         />
        
        <TextField
+       required
          id="date"
         label="Desde"
         type="date"
@@ -531,16 +536,17 @@ value={otros_nosal}
        InputLabelProps={{
          shrink: true,
        }}
+       
        onChange={(e)=> setFechaInicio(e.target.value)}
        value={fechaInicio}
      />
 
 <TextField
+    required
     id="date"
     label="Hasta"
     type="date"
     variant="outlined"
-    defaultValue="2017-05-24"
     className={classes.big}
     InputLabelProps={{
       shrink: true,

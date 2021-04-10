@@ -742,7 +742,8 @@ export default function CreateContract() {
                 fechaFinContrato: fechaFinContrato,
                 fechaIncioPrueba: fechaInicioPrueba,
                 fechaFinPrueba: fechaFinPrueba,
-                tipo: "Termino fijo"
+                tipo: "Termino fijo",
+                salarioBase:1200000
 
             },
             json: true,
