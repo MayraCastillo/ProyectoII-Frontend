@@ -48,6 +48,7 @@ export default function InformationPersonal() {
 		paises,
 		departamentos,
 		municipios,
+		validarTelefono,
 	} = useContext(HojaDeVidaContext);
 
 	const {
@@ -62,12 +63,7 @@ export default function InformationPersonal() {
 		telefono,
 		correo,
 	} = informacionPersonalContext;
-	{
-		/*
-		console.log(paises);
-		console.log(departamentos);
-		console.log(municipios);*/
-	}
+
 	const validarExistenciaDocumento = (numeroDocumento) => {
 		let response;
 		var authOptions = {
@@ -78,10 +74,11 @@ export default function InformationPersonal() {
 			},
 			json: true,
 		};
-		console.log(authOptions);
+		//console.log(authOptions);
 		axios(authOptions)
 			.then(function (response) {
-				if (response.data.numeroDocumento == numeroDocumento) {
+				console.log(response);
+				if (response.data.numeroDocumento) {
 					swal({
 						title: 'Documento duplicado',
 						text: 'Este documento ya se encuentra registrado',
@@ -96,21 +93,27 @@ export default function InformationPersonal() {
 							});
 						}
 					});
+					return;
 				}
-
-				//setLoading(false);
-				/*	setValidarExistenciaPlato(response.data[0].nombrePlato);
-				//console.log(validarExistenciaPlato);
-				if (response.data[0].nombrePlato == nombrePlato) {
-					setValidarExistenciaPlato('Existe');
-				}*/
+				if (response.data.correo) {
+					swal({
+						title: 'Correo duplicado',
+						text: 'Este correo ya se encuentra registrado',
+						icon: 'warning',
+						button: 'Aceptar',
+						timer: '10000',
+					}).then((result) => {
+						if (result) {
+							guardarInformacionPersonal({
+								...informacionPersonalContext,
+								numeroDocumento: '',
+							});
+						}
+					});
+					return;
+				}
 			})
-			.catch(function (error) {
-				//setLoading(false);
-				//console.log("2")
-				//setValidarExistenciaPlato('No existe');
-				// console.log("No existee");
-			});
+			.catch(function (error) {});
 	};
 	return (
 		<Container maxWidth="lg">
@@ -273,6 +276,9 @@ export default function InformationPersonal() {
 						value={correo}
 						variant="outlined"
 						onChange={obtenerInfo}
+						onBlur={() =>
+							validarExistenciaDocumento(informacionPersonalContext.correo)
+						}
 					/>
 				</div>
 			</form>

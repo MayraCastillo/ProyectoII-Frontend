@@ -148,11 +148,25 @@ const HojaDeVidaContextProvider = (props) => {
 	} = referencias_Familiares_Context;
 
 	const obtenerInfoRefFamiliaresRF1 = (e) => {
-		//console.log(e.target.name, e.target.value);
+		if (e.target.name == 'telefonoRF1') {
+			if (e.target.value.toString().length < 11) {
+				guardarReferenciasFamiliaresRF1({
+					...referencias_Familiares_Context,
+					[e.target.name]: e.target.value,
+				});
+			}
+		} else {
+			guardarReferenciasFamiliaresRF1({
+				...referencias_Familiares_Context,
+				[e.target.name]: e.target.value,
+			});
+		}
+		/* 
 		guardarReferenciasFamiliaresRF1({
 			...referencias_Familiares_Context,
 			[e.target.name]: e.target.value,
 		});
+		*/
 	};
 
 	//RF2
@@ -173,10 +187,24 @@ const HojaDeVidaContextProvider = (props) => {
 	} = referencias_Familiares_rf2_Context;
 	const obtenerInfoRefFamiliaresRF2 = (e) => {
 		//console.log(e.target.name, e.target.value);
+		if (e.target.name == 'telefonoRF2') {
+			if (e.target.value.toString().length < 11) {
+				guardarReferenciasFamiliaresRF2({
+					...referencias_Familiares_rf2_Context,
+					[e.target.name]: e.target.value,
+				});
+			}
+		} else {
+			guardarReferenciasFamiliaresRF2({
+				...referencias_Familiares_rf2_Context,
+				[e.target.name]: e.target.value,
+			});
+		}
+		/* 
 		guardarReferenciasFamiliaresRF2({
 			...referencias_Familiares_rf2_Context,
 			[e.target.name]: e.target.value,
-		});
+		});*/
 	};
 
 	//REFERENCIAS PERSONALES
@@ -195,10 +223,24 @@ const HojaDeVidaContextProvider = (props) => {
 	} = referencias_Personales_rp1_Context;
 	const obtenerInfoRefPersonales1 = (e) => {
 		//console.log(e.target.name, e.target.value);
+		if (e.target.name == 'telefonoRP1') {
+			if (e.target.value.toString().length < 11) {
+				guardarReferenciasPersonales1({
+					...referencias_Personales_rp1_Context,
+					[e.target.name]: e.target.value,
+				});
+			}
+		} else {
+			guardarReferenciasPersonales1({
+				...referencias_Personales_rp1_Context,
+				[e.target.name]: e.target.value,
+			});
+		} /*
 		guardarReferenciasPersonales1({
 			...referencias_Personales_rp1_Context,
 			[e.target.name]: e.target.value,
 		});
+		 */
 	};
 	//Referencias_Personales_2
 
@@ -218,10 +260,24 @@ const HojaDeVidaContextProvider = (props) => {
 
 	const obtenerInfoRefPersonales2 = (e) => {
 		//console.log(e.target.name, e.target.value);
+		if (e.target.name == 'telefonoRP2') {
+			if (e.target.value.toString().length < 11) {
+				guardarReferenciasPersonales2({
+					...referencias_Personales_rp2_Context,
+					[e.target.name]: e.target.value,
+				});
+			}
+		} else {
+			guardarReferenciasPersonales2({
+				...referencias_Personales_rp2_Context,
+				[e.target.name]: e.target.value,
+			});
+		} /*
 		guardarReferenciasPersonales2({
 			...referencias_Personales_rp2_Context,
 			[e.target.name]: e.target.value,
 		});
+		*/
 	};
 
 	//SECCION PAISES-DEPARTAMENTOS-MUNICIPIOS
@@ -289,35 +345,21 @@ const HojaDeVidaContextProvider = (props) => {
 				timer: '10000',
 			});
 		}
+		return;
 	}
 
 	function validarTelefono(telefono) {
-		let expReg = /[3]\d{9}/;
-		let esValido = expReg.test(telefono);
-		if (esValido == false) {
-			swal({
-				title: 'Teléfono incorrecto en la pestaña: INFORMACIÓN PERSONAL',
-				text:
-					'Asegurese de ingresar bien el teléfono y con el formato requerido',
-				icon: 'warning',
-				button: 'Aceptar',
-				timer: '10000',
-			});
-		}
+		console.log('VERIFICANDO TELEFONO...');
+		const expReg = /[3]\d{9}/;
+		const esValido = expReg.test(telefono);
+
+		return esValido;
 	}
 	function validarDocumento(documento) {
-		let expReg = /\d{10}/;
-		let esValido = expReg.test(documento);
+		const expReg = /\d/;
+		const esValido = expReg.test(documento);
 
-		if (esValido == false) {
-			swal({
-				title: 'Documento incorrecto en la pestaña: INFORMACIÓN PERSONAL',
-				text: 'Asegurese de ingresar bien el Documento',
-				icon: 'warning',
-				button: 'Aceptar',
-				timer: '10000',
-			});
-		}
+		return esValido;
 	}
 
 	const guardarHV = () => {
@@ -353,7 +395,16 @@ const HojaDeVidaContextProvider = (props) => {
 
 			return;
 		}
-		validarDocumento(informacionPersonalContext.numeroDocumento);
+		if (!validarDocumento(informacionPersonalContext.numeroDocumento)) {
+			swal({
+				title: 'Documento incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el Documento',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
 		if (informacionPersonalContext.pais == '') {
 			swal({
 				title: 'Campo vacío en la pestaña: INFORMACIÓN PERSONAL',
@@ -399,7 +450,17 @@ const HojaDeVidaContextProvider = (props) => {
 			return;
 		}
 		validarCorreo(informacionPersonalContext.correo);
-		validarTelefono(informacionPersonalContext.telefono);
+		if (!validarTelefono(informacionPersonalContext.telefono)) {
+			swal({
+				title: 'Teléfono incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text:
+					'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
 
 		if (estudios.length == 0) {
 			swal({
@@ -457,10 +518,40 @@ const HojaDeVidaContextProvider = (props) => {
 
 			return;
 		}
+		if (!validarTelefono(referencias_Familiares_Context.telefonoRF1)) {
+			swal({
+				title:
+					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA PERSONAL',
+				text:
+					'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+			return;
+		}
+
 		if (referencias_Familiares_Context.parentescoRF1 == '') {
 			swal({
 				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares',
 				text: 'El campo parentesco es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
+
+			return;
+		}
+
+		if (
+			referencias_Familiares_Context.nombresRF1.toLocaleLowerCase() ==
+				referencias_Familiares_rf2_Context.nombresRF2.toLocaleLowerCase() &&
+			referencias_Familiares_Context.apellidosRF1.toLocaleLowerCase() ==
+				referencias_Familiares_rf2_Context.apellidosRF2.toLocaleLowerCase()
+		) {
+			swal({
+				title: 'REFERENCIAS/Referencias Familiares',
+				text: 'Referencias Familiares Repetidas',
 				icon: 'warning',
 				button: 'Aceptar',
 				timer: '10000',
@@ -499,6 +590,18 @@ const HojaDeVidaContextProvider = (props) => {
 				timer: '10000',
 			});
 
+			return;
+		}
+		if (!validarTelefono(referencias_Personales_rp1_Context.telefonoRP1)) {
+			swal({
+				title:
+					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA PERSONAL',
+				text:
+					'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '10000',
+			});
 			return;
 		}
 		let response;
@@ -550,6 +653,7 @@ const HojaDeVidaContextProvider = (props) => {
 			},
 			json: true,
 		};
+		console.log(authOptions);
 		axios(authOptions)
 			.then(function (response) {
 				swal({
@@ -563,6 +667,7 @@ const HojaDeVidaContextProvider = (props) => {
 						window.location.href = '/listar_hojas_de_vida';
 					}
 				});
+				window.location.href = '/listar_hojas_de_vida';
 			})
 			.catch(function (error) {
 				swal({
@@ -589,7 +694,7 @@ const HojaDeVidaContextProvider = (props) => {
 				informacionPersonalContext,
 				guardarInformacionPersonal,
 				obtenerInfo,
-
+				validarTelefono,
 				estudios,
 				setEstudios,
 				estudioEditar,
