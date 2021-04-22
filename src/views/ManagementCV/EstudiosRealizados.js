@@ -178,6 +178,7 @@ export default function EstudiosRealizados() {
 			<br />
 			<div xs={12}>
 				<Button
+					data-cy="btn-estudios-realizados"
 					startIcon={<NoteAddIcon />}
 					onClick={() => {
 						mostrarModal();

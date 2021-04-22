@@ -84,14 +84,12 @@ export default function InformationPersonal() {
 						text: 'Este documento ya se encuentra registrado',
 						icon: 'warning',
 						button: 'Aceptar',
-						timer: '10000',
+						timer: '3000',
 					}).then((result) => {
-						if (result) {
-							guardarInformacionPersonal({
-								...informacionPersonalContext,
-								numeroDocumento: '',
-							});
-						}
+						guardarInformacionPersonal({
+							...informacionPersonalContext,
+							numeroDocumento: '',
+						});
 					});
 					return;
 				}
@@ -125,6 +123,7 @@ export default function InformationPersonal() {
 						Datos Personales:
 					</Typography>
 					<TextField
+						data-cy="input-informacion-personal-nombres"
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres"
@@ -136,6 +135,7 @@ export default function InformationPersonal() {
 						required
 					/>
 					<TextField
+						data-cy="input-informacion-personal-apellidos"
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos"
@@ -149,22 +149,20 @@ export default function InformationPersonal() {
 						<InputLabel id="demo-simple-select-outlined-label">
 							Tipo de Documento
 						</InputLabel>
-						<Select
+						<select
+							data-cy="input-informacion-personal-tipoDoc"
 							value={tipoDocumento}
 							label="Tipo de Documento"
 							onChange={tipoDocumentoChangeHandler}
 						>
-							<MenuItem value="">
-								<em>Atrás</em>
-							</MenuItem>
-							<MenuItem value={'TARJETA_IDENTIDAD'}>Tarjeta Identidad</MenuItem>
-							<MenuItem value={'CEDULA'}>Cédula Ciudadanía</MenuItem>
-							<MenuItem value={'CEDULA_EXTRANJERIA'}>
-								Cédula Extranjería
-							</MenuItem>
-						</Select>
+							<option value="">Seleccione</option>
+							<option value={'TARJETA_IDENTIDAD'}>Tarjeta Identidad</option>
+							<option value={'CEDULA'}>Cédula Ciudadanía</option>
+							<option value={'CEDULA_EXTRANJERIA'}>Cédula Extranjería</option>
+						</select>
 					</FormControl>
 					<TextField
+						data-cy="input-informacion-personal-numDocumento"
 						margin="normal"
 						label="Numero Documento"
 						name="numeroDocumento"
@@ -187,7 +185,8 @@ export default function InformationPersonal() {
 					</Typography>
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
-						<Select
+						<select
+							data-cy="input-informacion-personal-pais"
 							label="País"
 							value={pais}
 							onChange={paisSelecionadoChangeHandler}
@@ -198,13 +197,14 @@ export default function InformationPersonal() {
 									{paisContext.nombre}
 								</option>
 							))}
-						</Select>
+						</select>
 					</FormControl>
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel htmlFor="outlined-departamento-simple">
 							Departamento
 						</InputLabel>
-						<Select
+						<select
+							data-cy="input-informacion-personal-departamento"
 							label="Departamento"
 							value={departamento}
 							onChange={departamentoSelecionadoChangeHandler}
@@ -218,13 +218,14 @@ export default function InformationPersonal() {
 									{departamentoContext.nombre}
 								</option>
 							))}
-						</Select>
+						</select>
 					</FormControl>
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel htmlFor="outlined-municipio-simple">
 							Município
 						</InputLabel>
-						<Select
+						<select
+							data-cy="input-informacion-personal-municipio"
 							label="Município"
 							value={municipio}
 							onChange={municipioSelecionadoChangeHandler}
@@ -238,9 +239,10 @@ export default function InformationPersonal() {
 									{municipioContext.nombre}
 								</option>
 							))}
-						</Select>
+						</select>
 					</FormControl>
 					<TextField
+						data-cy="input-informacion-personal-direccion"
 						inputProps={{ maxlength: 40 }}
 						id="outlined-helperText"
 						label="Dirección"
@@ -257,6 +259,7 @@ export default function InformationPersonal() {
 						Información de Contacto:
 					</Typography>
 					<TextField
+						data-cy="input-informacion-personal-telefono"
 						id="outlined-helperText"
 						label="Teléfono"
 						name="telefono"
@@ -268,6 +271,7 @@ export default function InformationPersonal() {
 						type="number"
 					/>
 					<TextField
+						data-cy="input-informacion-personal-correo"
 						inputProps={{ maxlength: 30 }}
 						id="outlined-helperText"
 						label="Correo Electrónico"

@@ -336,16 +336,8 @@ const HojaDeVidaContextProvider = (props) => {
 	function validarCorreo(correo) {
 		var expReg = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 		var esValido = expReg.test(correo);
-		if (esValido == false) {
-			swal({
-				title: 'Correo incorrecto en la pestaña: INFORMACIÓN PERSONAL',
-				text: 'Asegurese de ingresar bien el correo',
-				icon: 'warning',
-				button: 'Aceptar',
-				timer: '10000',
-			});
-		}
-		return;
+
+		return esValido;
 	}
 
 	function validarTelefono(telefono) {
@@ -369,7 +361,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El nombre no puede estar vacío',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -380,7 +372,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Los apellidos no pueder estar vacios',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 			return;
 		}
@@ -390,7 +382,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes elegir un tipo de Documento',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -401,7 +393,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Asegurese de ingresar bien el Documento',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 			return;
 		}
@@ -411,7 +403,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes elegir un tipo país',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -422,7 +414,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes elegir un tipo departamento',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -433,7 +425,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes elegir un tipo município',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -444,12 +436,12 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes ingresar una dirección',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
 		}
-		validarCorreo(informacionPersonalContext.correo);
+
 		if (!validarTelefono(informacionPersonalContext.telefono)) {
 			swal({
 				title: 'Teléfono incorrecto en la pestaña: INFORMACIÓN PERSONAL',
@@ -457,7 +449,18 @@ const HojaDeVidaContextProvider = (props) => {
 					'Asegurese de ingresar bien el teléfono y con el formato requerido',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
+			});
+			return;
+		}
+
+		if (!validarCorreo(informacionPersonalContext.correo)) {
+			swal({
+				title: 'Correo incorrecto en la pestaña: INFORMACIÓN PERSONAL',
+				text: 'Asegurese de ingresar bien el correo',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
 			});
 			return;
 		}
@@ -468,7 +471,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes ingresar al menos un estudio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -479,7 +482,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Debes ingresar al menos un estudio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -491,7 +494,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo nombres es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -502,7 +505,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo apellidos es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -513,7 +516,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo teléfono es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -526,7 +529,7 @@ const HojaDeVidaContextProvider = (props) => {
 					'Asegurese de ingresar bien el teléfono y con el formato requerido',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 			return;
 		}
@@ -537,7 +540,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo parentesco es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -554,7 +557,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'Referencias Familiares Repetidas',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -565,7 +568,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo nombres es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -576,7 +579,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo apellidos es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -587,7 +590,7 @@ const HojaDeVidaContextProvider = (props) => {
 				text: 'El campo teléfono es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 
 			return;
@@ -600,7 +603,7 @@ const HojaDeVidaContextProvider = (props) => {
 					'Asegurese de ingresar bien el teléfono y con el formato requerido',
 				icon: 'warning',
 				button: 'Aceptar',
-				timer: '10000',
+				timer: '3000',
 			});
 			return;
 		}
@@ -661,7 +664,7 @@ const HojaDeVidaContextProvider = (props) => {
 					text: 'La hoja de vida ha sido registrada con éxito',
 					icon: 'success',
 					button: 'Aceptar',
-					timer: '10000',
+					timer: '3000',
 				}).then((result) => {
 					if (result) {
 						window.location.href = '/listar_hojas_de_vida';
@@ -675,7 +678,7 @@ const HojaDeVidaContextProvider = (props) => {
 					text: 'Ocurrió un error al crear la hoja de vida',
 					icon: 'error',
 					button: 'Aceptar',
-					timer: '10000',
+					timer: '3000',
 				});
 
 				console.log(error);

@@ -54,10 +54,19 @@ export default function CreateCV2() {
 						textColor="primary"
 						variant="fullWidth"
 					>
-						<Tab label="Información Personal" />
-						<Tab label="Estudios Realizados" />
-						<Tab label="Experiencia Laboral" />
-						<Tab label="Referencias" />
+						<Tab
+							data-cy="tab-informacion-personal"
+							label="Información Personal"
+						/>
+						<Tab
+							data-cy="tab-estudios-realizados"
+							label="Estudios Realizados"
+						/>
+						<Tab
+							data-cy="tab-experiencia-laboral"
+							label="Experiencia Laboral"
+						/>
+						<Tab data-cy="tab-referencias" label="Referencias" />
 					</Tabs>
 				</AppBar>
 				{value === 0 && <InformationPersonal />}

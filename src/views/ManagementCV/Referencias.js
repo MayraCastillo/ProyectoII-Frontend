@@ -240,6 +240,7 @@ export default function Referencias() {
 					<br />
 					<Divider />
 					<Button
+						data-cy="btn-guardar-hv"
 						startIcon={<SaveIcon />}
 						color="primary"
 						variant="contained"
