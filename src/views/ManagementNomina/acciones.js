@@ -141,10 +141,14 @@ export default function Acciones(props) {
     evt.preventDefault();
     if(fechaFin<fechaInicio || fechaInicio==='' || fechaFin===''){
       swal("Advertencia","El período para calcular la nómina es inválido", "warning");
+    }else if(horasLaboradas<0 || extraDOR<0 || extraNOR<0 || extraDDF<0 || extraNDF<0 || recargoNOR<0 || recargoDDF<0 || recargoNDF<0){
+      swal("Advertencia","Horas laboradas inválidas", "warning");
+    }else if(comisiones_sal<0 || comisiones_nosal<0 || bonificaciones_sal<0 || bonificaciones_nosal<0 || auxilioExtra_nosal<0 || auxilioExtra_sal<0 || viaticos_nosal<0 || viaticos_nosal<0 || otros_nosal<0 || otros_sal<0){
+      swal("Advertencia","Factores Salariales o no Salariales inválidos", "warning");
     }else{
 
     axios.post(url+'parametros/crearNomina/', {
-      salarioBase: 120000,
+      salarioBase: props.salario,
       contratoId: props.idcontrato,
       registroHoras:{
         contratoId: props.idcontrato,

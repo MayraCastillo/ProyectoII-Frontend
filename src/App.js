@@ -1,7 +1,7 @@
 import './assets/css/App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import ModuloTerceros from './components/moduloTerceros';
+import ModuloTerceros from './views/ManagementConfig/Terceros/terceros';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 

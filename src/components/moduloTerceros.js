@@ -11,6 +11,7 @@ import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import EditIcon from '@material-ui/icons/Edit';
 import Modal from "@material-ui/core/Modal";
 import swal from 'sweetalert';
 import Table from '@material-ui/core/Table';
@@ -20,7 +21,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-
+import BuscarTercero from '../views/ManagementConfig/Terceros/buscarTercero';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import { GridLinkOperator, XGrid } from '@material-ui/x-grid';
 
 const useStyles = makeStyles((theme) => ({
         root: {
@@ -67,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
         paper: {
             position: "absolute",
             width: 700,
-            height: 600,
+            height: 630,
             backgroundColor: theme.palette.background.paper,
             border: "2px solid #000",
             boxShadow: theme.shadows[5],
@@ -155,6 +158,7 @@ export default function ModuloTerceros(props){
     const [nameCiudad, setNameCiudad] = React.useState('');
     const [namePais, setNamePais] = React.useState('');
     const [nameDpto, setNameDpto] = React.useState('');
+    const [nit, setNit] = React.useState('');
 
     const url = "http://localhost:8091/";
     
@@ -238,6 +242,7 @@ export default function ModuloTerceros(props){
         evt.preventDefault();
         swal("Información","registrando "+nameNombre, "info");
         axios.post(url+'crearTercero/', {
+            nit: nit,
             municipio: {
                 municipio_id: nameCiudad
             },
@@ -273,19 +278,39 @@ export default function ModuloTerceros(props){
     }
     
     
+    const filterModel = {
+        items: [
+          { columnField: 'nit', operatorValue: 'contains', value: '123' },
+          { columnField: 'nombre', operatorValue: 'startsWith', value: 'tercero' },
+        ],
+        linkOperator: GridLinkOperator.Or,
+      };
     
-    
+      const { data } = {
+          terceros
+      }
     
       const body = (
             <div style={modalStyle} className={classes.paper} align="center">
                 <br/>
-                <Typography variant="h3" color="primary" gutterBottom  align ="center">
+                <Typography variant="h5" color="primary" gutterBottom  align ="center">
                     Registrar Tercero
                 </Typography>
                 <br/>
                 <br/>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <div>
+                    <TextField
+                            required
+                            id="outlined-required"
+                            className={classes.formControl}
+                            size="medium"
+                            label="Nit"
+                            //value={nameNombre}
+                            onChange={(e) => setNit(e.target.value)}
+                            variant="outlined"
+                            />
+
                         <TextField
                             required
                             id="outlined-required"
@@ -297,7 +322,11 @@ export default function ModuloTerceros(props){
                             variant="outlined"
                             />
             
-                        <TextField
+                       
+                    </div>
+            
+                    <div style={{marginTop: "18px"}}>    
+                    <TextField
                             required
                             id="outlined-required"
                             className={classes.formControl}
@@ -305,9 +334,7 @@ export default function ModuloTerceros(props){
                             onChange={(e) => setNameDireccion(e.target.value)}
                             variant="outlined"
                             />
-                    </div>
-            
-                    <div style={{marginTop: "18px"}}>      
+
                         <TextField
                             required
                             id="outlined-required"
@@ -317,7 +344,13 @@ export default function ModuloTerceros(props){
                             variant="outlined"
                             />
             
-                        <TextField
+                      
+                    </div>
+            
+            
+                    <div style={{marginTop: "18px"}}>
+
+                    <TextField
                             required
                             id="outlined-required"
                             className={classes.formControl}
@@ -325,12 +358,6 @@ export default function ModuloTerceros(props){
                             onChange={(e) => setNameCorreo(e.target.value)}
                             variant="outlined"
                             />
-                    </div>
-            
-            
-                    <div style={{marginTop: "18px"}}>
-
-                 
 
                         <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Departamento</InputLabel>
@@ -434,11 +461,16 @@ export default function ModuloTerceros(props){
         
      return (
                                         <div className={classes.root} align="center">
-                                            <Typography variant="h3" color="primary" component="h2" gutterBottom style={{marginBottom: '1em'}} align ="center">
+                                            <Typography variant="h5" color="primary" component="h2" gutterBottom style={{marginBottom: '1em'}} align ="center">
                                                 Información Terceros
                                             </Typography>
-                                           
-                                           
+
+                                                <BuscarTercero/>
+
+                                                <div>
+                                                <Typography>datagrid</Typography>
+    
+    </div>
                                            
                                               <TableContainer className={classes.container}>  
                     <Table stickyHeader className={classes.table} size="small">
@@ -446,7 +478,7 @@ export default function ModuloTerceros(props){
                             <TableRow>
                                 <TableCell  className={classes.head} align="center">
                                     <Typography variant="body1" gutterBottom align ="center">
-                                        Id
+                                        Nit
                                     </Typography>
                                 </TableCell>
                                 <TableCell align="center" className={classes.head} >
@@ -484,6 +516,11 @@ export default function ModuloTerceros(props){
                                         Correo
                                     </Typography>
                                 </TableCell>
+                                <TableCell align="center" className={classes.head} colSpan={2} >
+                                    <Typography variant="body1" gutterBottom align ="center">
+                                        Acciones
+                                    </Typography>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -493,7 +530,7 @@ export default function ModuloTerceros(props){
                 
                                     <TableCell align="center">
                                         <Typography variant="body1" gutterBottom align ="center">
-                                            {row.terceroId}
+                                            {row.nit}
                                         </Typography>
                                     </TableCell>
                 
@@ -538,6 +575,18 @@ export default function ModuloTerceros(props){
                                             {row.correo}
                                         </Typography>
                                     </TableCell>
+
+                                    <TableCell align="center">
+                                        <IconButton>
+                                            <EditIcon/>
+                                        </IconButton>
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                    <IconButton>
+                                            <RemoveCircleIcon/>
+                                        </IconButton>
+                                    </TableCell>
                 
                                 </TableRow>
                                             );
@@ -573,6 +622,9 @@ export default function ModuloTerceros(props){
                                                     {body}
                                                 </Modal>
                                             </div>
+
+                                           
+
                                         </div>
                                         );
 }
