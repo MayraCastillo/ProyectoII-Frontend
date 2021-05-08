@@ -21,6 +21,7 @@ import InactiveParameters from './views/ManagementEmp/InactiveEmployees';
 import Nominas from './views/ManagementNomina/nominas';
 import Contract from './views/ManagementContract/CreateContract';
 import Prueba from './views/Prueba';
+import NuevaNomina from './views/ManagementNomina2/NominaPrueba';
 
 const styles = makeStyles({
 	root: {
@@ -53,7 +54,7 @@ function App() {
 					<Route path="/gestion_hoja_de_vida" component={Curriculum} />
 					<Route path="/listar_hojas_de_vida" component={CurriculumList} />
 					<Route path="/ver_nomina" component={VerNomina} />
-					<Route path="/ver_planilla" component={Nominas} />
+					<Route path="/ver_planilla" component={VerPlanilla} />
 					<Route path="/gestion_cuentas" component={Accounts} />
 					<Route path="/configuracion" component={Configuration} />
 					<Route path="/crear_entidad" component={ModuloTerceros} />
@@ -64,6 +65,7 @@ function App() {
 					<Route path="/crear_contrato" component={Contract} />
 					<Route path="/registrar_empleado" component={CreateEmployee} />
 					<Route path="/prueba" component={Prueba} />
+					<Route path="/nueva_nomina" component={NuevaNomina} />
 				</Switch>
 			</Router>
 		</div>

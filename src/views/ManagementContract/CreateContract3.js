@@ -111,10 +111,6 @@ const notaClausulas = "Recuerde que dependiendo de la naturaleza del contrato, a
 export default function CreateContract() {
 	const styles = useStyles();
 	const classes = useStyles();
-
-    //Variables Auxiliares
-    const [inputField, setInputField] = useState('TEXT');
-
     const [modalStart, setModalStart] = useState(true);
     const [modalConfirmate, setModalConfirmate] = useState(false);
     const [dataTarifaARL, setDataTarifaARL] = useState([]);
@@ -125,44 +121,50 @@ export default function CreateContract() {
     const [opcionSeleccionada, setOpcionSeleccionada] = useState(0); 
     const [opcStringSeleccionado, setOpcStringSeleccionado] = useState('');
     
-    const [newObligation, setNewObligation] = useState('');
-    const [newClause, setNewClause] = useState('');
+    const [show, setShow] = useState(true);
+    const [newObligation, setNewObligation] = useState('(OBLIGACIÓN)');
+    const [newClause, setNewClause] = useState('(CLAUSULA)');
 
 	
     //Introduction
-    const [nameEmployer, setNameEmployer] = useState('');
-    const [addressEmployer, setAddressEmployer] = useState('');
-    const [nameCompany, setNameCompany] = useState('');
-    const [nitCompany, setnitCompany] = useState('');
-    const [nameEmployee, setNameEmployee] = useState('');
-    const [addressEmployee, setAddressEmployee] = useState('');
+    const [nameEmployer, setNameEmployer] = useState('(Héctor Meneses)');
+    const [addressEmployer, setAddressEmployer] = useState('(Popayán)');
+    const [nameCompany, setNameCompany] = useState('(GDA)');
+    const [nitCompany, setnitCompany] = useState('124');
+    const [nameEmployee, setNameEmployee] = useState('Lupita Perez');
+    const [addressEmployee, setAddressEmployee] = useState('Popayán');
     
     //Clauses
-    const [positionEmployee, setPositionEmployee] = useState('');
+    const [positionEmployee, setPositionEmployee] = useState('Secretaria');
     const [obligationsEmployer, setObligationsEmployer] = useState([]);
     const [obligationsEmployee, setObligationsEmployee] = useState([]);
-    const [addressCompany, setAddressCompany] = useState('');
-    const [scheduleEmployee, setScheduleEmployee] = useState('');
-    const [salaryNumEmployee, setSalaryNumEmployee] = useState('');
-    const [paymentPeriodicity, setPaymentPeriodicity] = useState('');
-    const [wayToPay, setWayToPay] = useState('');
-    const [contractDuration, setContractDuration] = useState('');
-    const [directionEmployer, setDirectionEmployer] = useState('');
-    const [directionEmployee, setDirectionEmployee] = useState('');
+    const [addressCompany, setAddressCompany] = useState('Calle 3 # 5-36, Popayán');
+    const [scheduleEmployee, setScheduleEmployee] = useState('(JORNADA DE TRABAJO)');
+    const [salaryNumEmployee, setSalaryNumEmployee] = useState('1200000');
+    const [salaryStringEmployee, setSalaryStringEmployee] = useState('UN MILLÓN DOSCIENTOS MIL');
+    const [paymentPeriodicity, setPaymentPeriodicity] = useState('(PERIODICIDAD DE PAGO)');
+    const [wayToPay, setWayToPay] = useState('(FORMA DE PAGO)');
+    const [contractDuration, setContractDuration] = useState('55');
+    const [directionEmployer, setDirectionEmployer] = useState('Calle 7');
+    const [directionEmployee, setDirectionEmployee] = useState('cra 6');
     const [clauses, setClauses] = useState([]);
 
-    //Firms
-    const [idEmployer, setIdEmployer] = useState('');
-    const [idEmployee, setIdEmployee] = useState('');
+    const [wayToPayAux, setWayToPayAux] = useState('');
+    const [bankAccountNumber, setBankAccountNumber] = useState('12345');
+    const [nameBank, setNameBank] = useState('BBC');
+    const [accountHolder, setAccountHolder] = useState('Mayra Castillo');
+    const [addressPayment, setAddressPayment] = useState('(DIRECCIÓN DE PAGO)');
+    const [otherMeansPayment, setOtherMeansPayment] = useState('(OTRA FORMA DE PAGO)');
 
-    const [fechaActual, setFechaActual] = useState("");
+    //Firms
+    const [idEmployer, setIdEmployer] = useState('7819');
+    const [idEmployee, setIdEmployee] = useState('1061');
+
     const [fechaInicioContrato, setFechaInicioContrato] = useState('');
     const [fechaFinContrato, setFechaFinContrato] = useState('');
     const [fechaInicioPrueba, setFechaInicioPrueba] = useState('');
     const [fechaFinPrueba, setFechaFinPrueba] = useState('');
     const [idNivelRiesgo, setIdNivelRiesgo] = useState('');
-
-    
 
     const bodyStart = (
 		<div className={styles.modal2}>
@@ -201,22 +203,28 @@ export default function CreateContract() {
 
             <GridItem xs={12} sm={12} md={6}>
                 Fecha Inicio
-                <input 
-					className="input-fecha"
+                <TextField
+					required
+					fullWidth
+					margin="normal"
+					variant="outlined"
+					size="small"
 					type="date"
-					min= {fechaActual}
 					onChange={(e) => setFechaInicioContrato(e.target.value)}
-				/>
+			    />
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
                 Fecha Fin
-                <input 
-					className="input-fecha"
+                <TextField
+					required
+					fullWidth
+					margin="normal"
+					variant="outlined"
+					size="small"
 					type="date"
-					min= {fechaInicioContrato}
 					onChange={(e) => setFechaFinContrato(e.target.value)}
-				/>
+			    />
             </GridItem>
             
             <GridItem xs={12} sm={12} md={12} style={{marginTop: '30px'}}>
@@ -225,22 +233,28 @@ export default function CreateContract() {
 
             <GridItem xs={12} sm={12} md={6}>
                 Fecha Inicio
-                <input 
-					className="input-fecha"
+                <TextField
+					required
+					fullWidth
+					margin="normal"
+					variant="outlined"
+					size="small"
 					type="date"
-					min= {fechaInicioContrato}
 					onChange={(e) => setFechaInicioPrueba(e.target.value)}
-				/>
+			    />
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
                 Fecha Fin
-                <input 
-					className="input-fecha"
+                <TextField
+					required
+					fullWidth
+					margin="normal"
+					variant="outlined"
+					size="small"
 					type="date"
-					min= {fechaInicioPrueba}
 					onChange={(e) => setFechaFinPrueba(e.target.value)}
-				/>
+			    />
             </GridItem>
 
             <GridItem xs={12} sm={12} md={12} style={{marginTop: '30px'}}>
@@ -303,15 +317,15 @@ export default function CreateContract() {
     
     const startContract = () => {
 		abrirCerrarModalStart();
-        changeIndex("SIGUIENTE");
+        changeIndex("Siguiente");
 	};
 
     const CancelConfirmateContract = () => {
 		abrirCerrarModalConfirmate();
-        changeIndex("VOLVER");
+        changeIndex("Volver");
 	};
 
-    /*const defineWayToPay = (i) => {
+    const defineWayToPay = (i) => {
         let aux = '';
         switch (i) {
             case 21:
@@ -328,113 +342,63 @@ export default function CreateContract() {
                 console.log('Lo lamentamos. Ha ocurrido un error en el sistema');
         }
         setWayToPay(aux);
-    };*/
-
-    const getCurrentDate = () => {
-        let currentDate = new Date();
-        setFechaActual(currentDate.toISOString().slice(0,10));
-    }
-
-    const verificationInput = (indice) => {
-        switch (indice) {
-            case 0: return false;
-            case 1: console.log(!nameEmployer.trim()); return !nameEmployer.trim(); break;
-            case 2: return !addressEmployer.trim(); break;
-            case 3: return !nameCompany.trim(); break;
-            case 4: if(!(!nitCompany.trim())){
-                        if(isNumberValide(nitCompany, "NUMDOC")){return false;}
-                    }return true; break;
-            
-            case 5: return !positionEmployee.trim(); break;
-            case 7: return !newObligation.trim(); break;
-            case 9: return !newObligation.trim(); break;
-            case 10: return !addressCompany.trim(); break;
-            case 11: return !scheduleEmployee.trim(); break;
-            case 13: if(!(!salaryNumEmployee.trim())){
-                        if(isNumberValide(salaryNumEmployee, "SALARIO")){return false;}
-                    }return true; break;
-
-            case 14: if(!(!contractDuration.trim())){
-                        if(isNumberValide(contractDuration, "DURACION")){return false;}
-                    }return true; break;
-            case 15: return !directionEmployer.trim(); break;
-            case 16: return !directionEmployee.trim(); break;
-            case 18: return !newClause.trim(); break;
-
-            case 19: if(!(!idEmployer.trim())){
-                        if(isNumberValide(idEmployer, "NUMDOC")){return false;}
-                    }return true; break;
-        }
-    }
-
-    const isNumberValide = (number, tipo) => {
-        if (parseInt(number, 10)){
-            if (tipo === "NUMDOC"){
-                return parseInt(number, 10) > 9999999 && parseInt(number, 10) < 9999999999;
-            }
-            if (tipo === "SALARIO"){
-                if(paymentPeriodicity === 'Diaria'){
-                    return parseFloat(number) >= 30284.2;
-                }else if(paymentPeriodicity === 'Semanal'){
-                    return parseFloat(number) >= 227131.5;
-                }else if(paymentPeriodicity === 'Quincenal'){
-                    return parseFloat(number) >= 454263;
-                }else if(paymentPeriodicity === 'Mensual'){
-                    return parseFloat(number) >= 908526;
-                }
-                
-            }if (tipo === "DURACION"){
-                return parseInt(number, 10) > 0;
-            }
-            return false;
-        }else{
-            /*swal({
-                title: 'Dato Inválido',
-                text: 'No ha sido posible continuar con el contrato. \nEl dato ingresado debe ser númerico.',
-                icon: 'error',
-                button: 'Aceptar',
-                timer: '5000',
-            });*/
-            return false;
-        }
-    }
+    };
 
     const changeIndex = (operation) => {
-        
-        if(indice == 12){
+        console.log(opcStringSeleccionado);
+        if(indice == 16){
             setPaymentPeriodicity(opcStringSeleccionado);
         }
+        if(indice == 17){
+            setWayToPayAux(opcStringSeleccionado);
+        }
 
-        if(operation == 'SIGUIENTE'){
-            if(!verificationInput(indice)){
-                if((indice == 6 || indice == 8 || indice == 17) &&  opcionSeleccionada == 0){
-                    setIndice(indice+2);
-                    conditionals(indice+2);
-                }else if(indice == 7 || indice == 9 || indice == 18){
-                    if(indice == 7){addObligationsEmployer();}
-                    else if(indice == 9){addObligationsEmployee();}
-                    else{addClauses(); setNewClause('');}
-                    setNewObligation('');
-                    setIndice(indice-1);
-                    conditionals(indice-1);
-                }else{
-                    setIndice(indice+1);
-                    conditionals(indice+1);
-                }
+        if(indice == 21 || indice == 22 || indice == 23){
+            defineWayToPay(indice);
+        }
+
+        if(operation == 'Siguiente'){
+            if((indice == 8 || indice == 10 || indice == 27) &&  opcionSeleccionada == 0){
+                setIndice(indice+2);
+                conditionals(indice+2);
+            }else if(indice == 9 || indice == 11 || indice == 28){
+                if(indice == 9){addObligationsEmployer();}
+                else if(indice ==11){addObligationsEmployee();}
+                else{addClauses()}
+                setIndice(indice-1);
+                conditionals(indice-1);
+            }else if(indice == 17 &&  wayToPayAux == "Mediante pago en efectivo"){
+                setIndice(indice+5);
+                conditionals(indice+5);
+            }else if(indice == 17 && wayToPayAux == "Otra forma de pago"){
+                setIndice(indice+6);
+                conditionals(indice+6);
+            }else if(indice == 21){
+                setIndice(indice+3);
+                conditionals(indice+3);
+            }else if(indice == 22){
+                setIndice(indice+2);
+                conditionals(indice+2);
             }else{
-                swal({
-                    title: 'Error al Crear el Contrato',
-                    text: 'No ha sido posible continuar con el contrato. \nEs necesario que ingrese de manera correcta el dato solicitado',
-                    icon: 'error',
-                    button: 'Aceptar',
-                    timer: '5000',
-                });
-                return;
+                setIndice(indice+1);
+                conditionals(indice+1);
             }
         }else{
-            if(indice == 8 || indice == 10 || indice == 19){
+            if(indice == 10 || indice == 12 || indice == 29){
                 if(opcionSeleccionada == 0){ setIndice(indice-2); conditionals(indice-2);}
                 else{ setIndice(indice-1); conditionals(indice-1);}
+            }else if(indice == 22){
+                setIndice(indice-5);
+                conditionals(indice-5);
+            }else if(indice == 23){
+                setIndice(indice-6);
+                conditionals(indice-6);
+            }else if(indice == 24 && wayToPayAux == "Mediante pago en efectivo"){
+                setIndice(indice-2);
+                conditionals(indice-2);
+            }else if(indice == 24 && wayToPayAux == "Mediante depósito en cuenta bancaria"){
+                setIndice(indice-3);
+                conditionals(indice-3);
             }else{
                 setIndice(indice-1);
                 conditionals(indice-1);
@@ -445,73 +409,88 @@ export default function CreateContract() {
     const conditionals = (indice) => {
         let nota = "";
         let mensaje = "";
-        
+
         switch (indice) {
             case 0:
                 abrirCerrarModalStart();
                 break;
             //Introduction
             case 1:
-                setInputField('TEXT');
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite el nombre completo de la persona empleadora";
                 document.getElementById('datoIngresado').value = nameEmployer;
                 break;
-            case 2:
+            case 2: 
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite el municipio de domicilio de la persona empleadora";
                 document.getElementById('datoIngresado').value = addressEmployer;
                 break;
             case 3:
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite el nombre de la empresa que representa la persona empleadora";
                 document.getElementById('datoIngresado').value = nameCompany;
                 break;
             case 4:
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite el NIT de la empresa que representa la persona empleadora. Sin comas, puntos, ni guiones";
                 document.getElementById('datoIngresado').value = nitCompany;
                 break;
-
+            case 5:
+                setShow(true);
+                nota = notaTrabajador; 
+                mensaje = "Digite el nombre completo de la persona trabajadora";
+                document.getElementById('datoIngresado').value = nameEmployee;
+                break;
+            case 6: 
+                setShow(true);
+                nota = notaTrabajador; 
+                mensaje = "Digite el municipio de domicilio de la persona trabajadora";
+                document.getElementById('datoIngresado').value = addressEmployee;
+                break;
+            
             //Clauses
-            case 5: 
-                setInputField('TEXT');
+            case 7: 
+                setShow(true);
                 nota = notaTrabajador; 
                 mensaje = "Digite el cargo a desempeñar por parte del trabajador";
                 var txtData = document.querySelector("input");
                 txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = positionEmployee;
-                break; 
-            case 6: 
-                setInputField('SELECT');
+                break;
+            case 8: 
+                setShow(false);
                 nota = notaEmpleador; 
                 mensaje = "¿Desea agregar otra obligación a cargo del empleador?";
                 setOpciones([{id: 0, nombre: 'No'}, {id: 1, nombre: 'Si'}]);
                 break;
-            case 7: 
-                setInputField('TEXT');
+            case 9: 
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite la obligación adicional del empleador que desea agregar";
                 var txtData = document.querySelector("input");
                 txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = newObligation;
                 break;
-            case 8: 
-                setInputField('SELECT');
+            case 10: 
+                setShow(false);
                 nota = notaTrabajador; 
                 mensaje = "¿Desea agregar otra obligación a cargo del trabajador?";
                 setOpciones([{id: 0, nombre: 'No'}, {id: 1, nombre: 'Si'}]);
                 break;
-            case 9: 
-                setInputField('TEXT');
+            case 11: 
+                setShow(true);
                 nota = notaTrabajador; 
                 mensaje = "Digite la obligación adicional del trabajador que desea agregar";
                 var txtData = document.querySelector("input");
                 txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = newObligation;
                 break;
-            case 10: 
-                setInputField('TEXT');
+            case 12: 
+                setShow(true);
                 nota = notaTrabajador; 
                 mensaje = "Digite la dirección actual donde el trabajador prestará el servicio";
                 var txtData = document.querySelector("input");
@@ -519,63 +498,120 @@ export default function CreateContract() {
                 document.getElementById('datoIngresado').value = addressCompany;
                 break;
             
-            case 11:
-                setInputField('TEXT'); 
+            case 13: 
+                setShow(true);
                 nota = notaHorario; 
                 mensaje = "Digite el horario en el cual el trabajador cumplirá las actividades."+ 
                           "<br />Ejemplo: Lunes a viernes en el horario de 8:00am a 5:00pm";
-                var txtData = document.querySelector("input");
-                txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = scheduleEmployee;
                 break;
 
-            case 12: 
-                setInputField('SELECT');
+            case 14: 
+                setShow(true);
+                nota = notaSalario; 
+                mensaje = "Digite el salario que percibirá la parte trabajadora (EN NÚMEROS)";
+                document.getElementById('datoIngresado').value = salaryNumEmployee;
+                break;
+
+            case 15: 
+                setShow(true);
+                nota = notaSalario; 
+                mensaje = "Digite el salario que percibirá la parte trabajadora (EN LETRAS)";
+                var txtData = document.querySelector("input");
+                txtData.setAttribute("id", "datoIngresado");
+                document.getElementById('datoIngresado').value = salaryStringEmployee;
+                break;
+
+            case 16: 
+                setShow(false);
                 nota = notaSalario; 
                 mensaje = "¿Con que periodicidad se pagará el salario al trabajador?";
                 setOpciones([{id: 1, nombre: 'Diaria'}, {id: 2, nombre: 'Semanal'},
                              {id: 3, nombre: 'Quincenal'}, {id: 4, nombre: 'Mensual'}]);
                 break;
 
-            case 13: 
-                setInputField('TEXT');
-                nota = notaSalario; 
-                mensaje = "Digite el salario que percibirá la parte trabajadora (EN NÚMEROS)";
-                var txtData = document.querySelector("input");
-                txtData.setAttribute("id", "datoIngresado");
-                document.getElementById('datoIngresado').value = salaryNumEmployee;
+            case 17: 
+                setShow(false);
+                mensaje = "La forma de pago se realizará de la siguiente manera:";
+                setOpciones([{id: 1, nombre: 'Mediante depósito en cuenta bancaria'},
+                             {id: 2, nombre: 'Mediante pago en efectivo'},
+                             {id: 3, nombre: 'Otra forma de pago'}]);
                 break;
 
-            case 14: 
+            case 18: 
+                setShow(false);
+                mensaje = "Digite el salario que percibirá la parte trabajadora (en letras)";
+                setOpciones([{id: 0, nombre: 'Corriente'}, {id: 1, nombre: 'De ahorro'}]);
+                break;
+
+            case 19: 
+                setShow(true);
+                mensaje = "Digite el número de la cuenta bancaria donde se hará el pago del salario del trabajador";
+                var txtData = document.querySelector("input");
+                txtData.setAttribute("id", "datoIngresado");
+                document.getElementById('datoIngresado').value = bankAccountNumber;
+                break;
+
+            case 20: 
+                setShow(true);
+                mensaje = "Digite el banco al que pertenece la cuenta bancaria";
+                document.getElementById('datoIngresado').value = nameBank;
+                break;
+
+            case 21: 
+                setShow(true);
+                mensaje = "Digite el nombre del titular de la cuenta bancaria en la cual se va a realizar el pago del trabajador";
+                document.getElementById('datoIngresado').value = accountHolder;
+                break;
+            
+            case 22: 
+                setShow(true);
+                mensaje = "Digite el nombre del municipio y dirección donde se realizará el pago";
+                var txtData = document.querySelector("input");
+                txtData.setAttribute("id", "datoIngresado");
+                document.getElementById('datoIngresado').value = addressPayment;
+                break;
+
+            case 23: 
+                setShow(true);
+                mensaje = "Digite de manera clara y precisa cuál será la manera de pago. Recuerde que el contenido y la eficacia que sea por usted redactado, son de su exclusiva responsabilidad";
+                var txtData = document.querySelector("input");
+                txtData.setAttribute("id", "datoIngresado");
+                document.getElementById('datoIngresado').value = otherMeansPayment;
+                break;
+
+            case 24: 
+                setShow(true);
                 nota = notaDuración; 
                 mensaje = "Digite la duración del contrato (EN DÍAS)";
                 document.getElementById('datoIngresado').value = contractDuration;
                 break;
             
-            case 15:
+            case 25: 
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite la dirección del empleador";
                 document.getElementById('datoIngresado').value = directionEmployer;
                 break;
-            
-            case 16:
-                setInputField('TEXT'); 
-                nota = notaEmpleador; 
-                mensaje = "Digite la dirección del empleado";
+
+            case 26: 
+                setShow(true);
+                nota = notaTrabajador; 
+                mensaje = "Digite la dirección del trabajador";
                 var txtData = document.querySelector("input");
                 txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = directionEmployee;
                 break;
 
-            case 17: 
-                setInputField('SELECT');
+            case 27: 
+                setShow(false);
                 nota = notaClausulas; 
                 mensaje = "¿Desea agregar una cláusula adicional al presente contrato?";
                 setOpciones([{id: 0, nombre: 'No'}, {id: 1, nombre: 'Si'}]);
                 break;
             
-            case 18: 
-                setInputField('TEXT');
+            case 28: 
+                setShow(true);
                 nota = notaClausulas; 
                 mensaje = "Digite la obligación adicional del trabajador que desea agregar";
                 var txtData = document.querySelector("input");
@@ -583,16 +619,23 @@ export default function CreateContract() {
                 document.getElementById('datoIngresado').value = newClause;
                 break;
             
-            case 19: 
-                setInputField('TEXT');
+            case 29: 
+                setShow(true);
                 nota = notaEmpleador; 
                 mensaje = "Digite el número de identificación del empleador";
                 var txtData = document.querySelector("input");
                 txtData.setAttribute("id", "datoIngresado");
                 document.getElementById('datoIngresado').value = idEmployer;
                 break;
+
+            case 30: 
+                setShow(true);
+                nota = notaEmpleador; 
+                mensaje = "Digite el número de identificación del trabajador";
+                document.getElementById('datoIngresado').value = idEmployee;
+                break;
                 
-            case 20:
+            case 31:
                 abrirCerrarModalConfirmate();
                 break;
 
@@ -609,25 +652,32 @@ export default function CreateContract() {
             case 2: setAddressEmployer(texto); break;
             case 3: setNameCompany(texto); break;
             case 4: setnitCompany(texto); break;
+            case 5: setNameEmployee(texto); break;
+            case 6: setAddressEmployee(texto); break;
 
-            case 5: setPositionEmployee(texto); break;
-            case 7: setNewObligation(texto); break;
+            case 7: setPositionEmployee(texto); break;
             case 9: setNewObligation(texto); break;
-            case 10: setAddressCompany(texto); break;
-            case 11: setScheduleEmployee(texto); break;
-            case 13: setSalaryNumEmployee(texto); break;
+            case 11: setNewObligation(texto); break;
+            case 12: setAddressCompany(texto); break;
+            case 13: setScheduleEmployee(texto); break;
+            case 14: setSalaryNumEmployee(texto); break;
+            case 15: setSalaryStringEmployee(texto); break;
+            case 19: setBankAccountNumber(texto); break;
+            case 20: setNameBank(texto); break;
+            case 21: setAccountHolder(texto); break;
+            case 22: setAddressPayment(texto); break;
+            case 23: setOtherMeansPayment(texto); break;
+            case 24: setContractDuration(texto); break;
+            case 25: setDirectionEmployer(texto); break;
+            case 26: setDirectionEmployee(texto); break;
+            case 28: setNewClause(texto); break;
             
-            case 14: setContractDuration(texto); break;
-            case 15: setDirectionEmployer(texto); break;
-            case 16: setDirectionEmployee(texto); break;
-            case 18: setNewClause(texto); break;
-            
-            case 19: setIdEmployer(texto); break;
+            case 29: setIdEmployer(texto); break;
+            case 30: setIdEmployee(texto); break;
             default:
               console.log('Lo lamentamos');
         }
     }
-           
 
     const getListTarifaARL = () => {
         let urlGetListTarifaARL = baseURL+'/listarTarifasArl';
@@ -640,41 +690,19 @@ export default function CreateContract() {
       });
     };
 
-    const getInfoByID = () => {
-        let baseURLHV = 'http://localhost:8091/buscarEmpleadoPorNumeroDocumento/';
-        //let urlGetInfoByID = baseURLHV+localStorage.getItem('idNewEmployee');
-        let urlGetInfoByID = baseURLHV+'123';
-        Axios.get(urlGetInfoByID)
-            .then((response) => {
-                console.log(response.data);
-                setData(response.data);
-                setNameEmployee(response.data.nombres+" "+response.data.apellidos);
-                setAddressEmployee(response.data.municipio.nombre);
-                setIdEmployee(""+response.data.numeroDocumento);
-                for (const index in response.data.listaBancos){
-                    if(response.data.listaBancos[index].estado === 'ACTIVO'){
-                        setWayToPay('Mediante transferencia a la cuenta (de)'+
-                        response.data.listaBancos[index].tipoCuenta+', número '+
-                        response.data.listaBancos[index].empleado_banco_pk.numeroCuenta+' del '+
-                        response.data.listaBancos[index].empleado_banco_pk.banco.nombre+' a nombre de '+
-                        response.data.nombres+" "+response.data.apellidos);
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-        });
-    };
-
     useEffect(() => {
-        getInfoByID();
         getListTarifaARL();
-        getCurrentDate();
     },[]);
 
     async function addContractConfirm() {
         let bandera = false;
-        if (!fechaInicioContrato.trim()|| !fechaFinContrato.trim() || !fechaInicioPrueba.trim() ||
+        if (!nameEmployer.trim() || !addressEmployer.trim() || !nameCompany.trim() || 
+            !nitCompany.trim() || !nameEmployee.trim() || !addressEmployee.trim() || 
+            !positionEmployee.trim() || !addressCompany.trim() || !scheduleEmployee.trim() || 
+            !salaryNumEmployee.trim() || !salaryStringEmployee.trim()|| !paymentPeriodicity.trim() ||
+            !wayToPay.trim()|| !contractDuration.trim() || !directionEmployer.trim() || 
+            !directionEmployee.trim()|| !idEmployer.trim() || !idEmployee.trim() ||
+            !fechaInicioContrato.trim()|| !fechaFinContrato.trim() || !fechaInicioPrueba.trim() ||
             !fechaFinPrueba.trim()|| idNivelRiesgo.length == 0) {
             bandera = true;
             swal({
@@ -701,6 +729,7 @@ export default function CreateContract() {
                 {
                     empleado:{
                         numeroDocumento: parseInt(localStorage.getItem('idNewEmployee'))
+                        //numeroDocumento: 123
                     },
                     empresa:{
                         nit: 124
@@ -714,8 +743,7 @@ export default function CreateContract() {
                 fechaIncioPrueba: fechaInicioPrueba,
                 fechaFinPrueba: fechaFinPrueba,
                 tipo: "Termino fijo",
-                salarioBase: parseInt(salaryNumEmployee),
-                estado: 'ACTIVO'
+                salarioBase: 1200000
             },
             json: true,
         };
@@ -730,7 +758,7 @@ export default function CreateContract() {
                         button: "Aceptar",
                         timer: '5000',
                     });
-                    //window.location.href = '/';
+                    window.location.href = '/';
                 }
                 if(response.status == 208){
                     swal({
@@ -758,14 +786,16 @@ export default function CreateContract() {
 
                         <Typography id="message" variant="body2" component="p"> </Typography><br />
 
-                        {inputField==='TEXT' ? (
-                            <input 
+                        {show ? (
+                            <input
                                 required
                                 id="datoIngresado"
-                                className="input-text"
+                                size="small"
+                                style={{width: '60%'}}
+                                variant="outlined"
                                 onChange={(e) => dataCollection(e.target.value)}
                             />
-                        ) : inputField==='SELECT' ?(
+                        ) : (
                             <FormControl required id="opcionSeleccionada" style={{width: '60%', textAlign: 'left'}} variant="outlined" size="small">
                                 <Select
                                     value={opcionSeleccionada}
@@ -778,14 +808,7 @@ export default function CreateContract() {
                                     ))}
                                 </Select>
                             </FormControl>
-                        ) : inputField==='DATE' ?(
-                                <input 
-                                className="input-fecha"
-                                type="date"
-                                //max= {fechaMinNacimiento}
-                                //onChange={(e) => setFechaNacimiento(e.target.value)}
-                                />
-                        ) : null}    
+                        )}    
                         <br /><br />
 
                         <div>
@@ -793,7 +816,7 @@ export default function CreateContract() {
                                 variant="contained"
                                 color="primary"
                                 style={{marginRight:"18px", width: '110px'}}
-                                onClick={() => changeIndex("VOLVER")}
+                                onClick={() => changeIndex("Volver")}
                             >Volver
                             </Button>
 
@@ -801,7 +824,7 @@ export default function CreateContract() {
                                 variant="contained"
                                 color="primary"
                                 style={{width: '110px'}}
-                                onClick={() => changeIndex("SIGUIENTE")}
+                                onClick={() => changeIndex("Siguiente")}
                             >Siguiente
                             </Button>
                         </div><br />
@@ -826,6 +849,7 @@ export default function CreateContract() {
                     addressCompany= {addressCompany}
                     scheduleEmployee= {scheduleEmployee}
                     salaryNumEmployee= {salaryNumEmployee}
+                    salaryStringEmployee= {salaryStringEmployee}
                     paymentPeriodicity= {paymentPeriodicity}
                     wayToPay= {wayToPay}
                     contractDuration= {contractDuration}

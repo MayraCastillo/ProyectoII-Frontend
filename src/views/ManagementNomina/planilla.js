@@ -378,7 +378,7 @@ const openCloseModal = () => {
     )
   
   const cargarContratos = async() => {
-    await axios.get(url+'listarContratosPorEstado/123')
+    await axios.get(url+'listarContratosPorEstado/124')
     .then((response) => {
         setContratos(response.data);
         console.log(response);
