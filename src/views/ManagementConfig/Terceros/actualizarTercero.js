@@ -70,9 +70,12 @@ const useStyles = makeStyles((theme) => ({
         marginRight: "14px"
     },
 
-    title: {
-        color: "#8c9eff"
+    title:{
+        color: "#0f4c75",
+        fontWeight: 450,
+        fontSize: 34
     },
+
     table: {
         minWidth: 650,
         border: '0.1px solid #000000',
@@ -93,6 +96,11 @@ const useStyles = makeStyles((theme) => ({
 
     form:{
         marginLeft:"8px"
+    },
+
+    accept:{
+        marginRight: "14px",
+        backgroundColor: "#0f4c75"
     },
 
 }));
@@ -209,7 +217,7 @@ export default function Actualizar(props){
         <div>
             <br/>
             <br/>
-            <Typography variant="h5" color="primary" gutterBottom>Editar Tercero</Typography>
+            <Typography variant="h5" className={classes.title} gutterBottom>Editar Tercero</Typography>
             <br/>
             <br/>
             <div>
@@ -285,7 +293,7 @@ export default function Actualizar(props){
                             type="submit" 
                             //onClick={handleSubmit} 
                             size="large"
-                            className={classes.button}
+                            className={classes.accept}
                             startIcon={ < SaveIcon / > }
                             >
                             Guardar

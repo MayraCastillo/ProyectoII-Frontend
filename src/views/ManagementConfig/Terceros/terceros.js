@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import EditIcon from '@material-ui/icons/Edit';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Modal from "@material-ui/core/Modal";
 import swal from 'sweetalert';
 import Table from '@material-ui/core/Table';
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
             background: '#ffffff',
             border:0,
             '& .super-app-theme--header': {
-                backgroundColor: '#3949ab',
+                backgroundColor: '#0f4c75',
                 color: '#ffff',
                 display: "flex",
                 borderBottom:'1px solid #BDBDBD',
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(0),
         },
         add: {
-            color: "#3700B3",
+            color: "#0f4c75",
             marginLeft: "49px"
         },
         icon: {
@@ -95,7 +96,18 @@ const useStyles = makeStyles((theme) => ({
         },
 
         button: {
-            marginRight: "14px"
+            marginRight: "14px",
+            backgroundColor: "#0f4c75"
+        },
+
+        cancel:{
+            marginRight: "14px",
+            backgroundColor: "#ec0101"
+        },
+
+        accept:{
+            marginRight: "14px",
+            backgroundColor: "#0f4c75"
         },
 
         title: {
@@ -112,16 +124,22 @@ const useStyles = makeStyles((theme) => ({
 
         container: {
             maxHeight: 440,
-            backgroundColor: '#EDE7F6',
+            backgroundColor: '#d0e8f2',
             fontSize: 18
         },
         head: {
-            backgroundColor: "#3949ab",
+            backgroundColor: "#0f4c75",
             color: theme.palette.common.white,
         },
 
         form:{
             marginLeft:"8px"
+        },
+
+        title:{
+            color: "#0f4c75",
+            fontWeight: 450,
+            fontSize: 34
         }
 
     }));
@@ -430,7 +448,7 @@ export default function ModuloTerceros(props){
     
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        swal("Información","registrando "+nameNombre, "info");
+        //swal("Información","registrando "+nameNombre, "info");
         axios.post(url+'crearTercero/', {
             nit: nit,
             municipio: {
@@ -475,7 +493,7 @@ export default function ModuloTerceros(props){
       const body = (
             <div style={modalStyle} className={classes.paper} align="center">
                 <br/>
-                <Typography variant="h5" color="primary" gutterBottom  align ="center">
+                <Typography variant="h5" className={classes.title} gutterBottom  align ="center">
                     Registrar Tercero
                 </Typography>
                 <br/>
@@ -626,8 +644,8 @@ export default function ModuloTerceros(props){
                             type="submit" 
                             onClick={handleClose}
                             size="large"
-                            className={classes.button}
-                            startIcon={ < SaveIcon / > }
+                            className={classes.cancel}
+                            startIcon={ < CancelIcon / > }
                             >
                             Cancelar
                         </Button>
@@ -671,7 +689,9 @@ export default function ModuloTerceros(props){
         
      return (
                                         <div className={classes.root} align="center">
-                                            <Typography variant="h5" color="primary" component="h2" gutterBottom style={{marginBottom: '1em'}} align ="center">
+                                            <br/>
+                                            <br/>
+                                            <Typography variant="h5" className={classes.title} component="h2" gutterBottom style={{marginBottom: '1em'}} align ="center">
                                                 Información Terceros
                                             </Typography>
                                                 <br/>

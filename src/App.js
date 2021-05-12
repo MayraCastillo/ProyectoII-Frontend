@@ -24,17 +24,19 @@ import Prueba from './views/Prueba';
 const styles = makeStyles({
 	root: {
 		display: 'flex',
-		marginLeft: '6em',
 		marginRight: '1em',
+		marginLeft:"1em",
 		align: 'center',
 
 		background: '#ffffff',
+		//background: '#fae3e3',
 	},
 	content: {
-		display: 'flex',
+		//display: 'flex',
 		flexGrow: 1,
 		padding: '3px',
 		marginLeft: '70px',
+		
 	},
 });
 
@@ -44,7 +46,7 @@ function App() {
 	return (
 		<div className={classes.root}>
 			<Router>
-				<CssBaseline />
+				
 				<Main />
 				<Switch>
 					<Route path="/" component={Main} exact />

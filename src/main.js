@@ -44,13 +44,15 @@ const drawerWidth = 280;
 const styles = (theme) => ({
 	root: {
 		display: 'flex',
+		
 	},
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
+		backgroundColor:"#0f4c75"
 	},
 	appBarShift: {
 		marginLeft: drawerWidth,
-		background: '#8c9eff',
+		//background: '#8c9eff',
 		width: `calc(100% - ${drawerWidth}px)`,
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,
@@ -60,7 +62,7 @@ const styles = (theme) => ({
 	menuButton: {
 		marginLeft: 12,
 		marginRight: 36,
-		background: '#8c9eff',
+		background: '#0f4c75',
 	},
 	menuButtonIconClosed: {
 		transition: theme.transitions.create(['transform'], {
@@ -83,23 +85,27 @@ const styles = (theme) => ({
 		width: drawerWidth,
 		flexShrink: 0,
 		whiteSpace: 'nowrap',
+		backgroundColor:"#ffffff"
 	},
 	drawerOpen: {
 		width: drawerWidth,
+		backgroundColor:"#d0e8f2",
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
+			
 		}),
 	},
 	drawerClose: {
+		backgroundColor:"#d0e8f2",
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
 		overflowX: 'hidden',
-		width: theme.spacing.unit * 7 + 1,
+		width: theme.spacing.unit * 0 + 0,
 		[theme.breakpoints.up('sm')]: {
-			width: theme.spacing.unit * 9 + 1,
+			width: theme.spacing.unit * 8 + 0,
 		},
 	},
 	toolbar: {
@@ -113,6 +119,7 @@ const styles = (theme) => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing.unit * 3,
+		backgroundColor:"#ffffff"
 	},
 	grow: {
 		flexGrow: 1,
@@ -123,12 +130,17 @@ const styles = (theme) => ({
 
 	listItemText: {
 		fontSize: '1.5em',
-		color: '#3949ab',
+		color: '#1b262c',
 	},
 
 	list: {
-		background: '#EDE7F6',
+		background: '#d0e8f2',
 	},
+
+	icon:{
+		fontSize: '1.5em',
+		color: '#1b262c',
+	}
 });
 
 class MiniDrawer extends React.Component {
@@ -183,7 +195,7 @@ class MiniDrawer extends React.Component {
 		};
 
 		return (
-			<div className={classes.root}>
+			<div>
 				<CssBaseline />
 				<AppBar
 					position="fixed"
@@ -262,7 +274,7 @@ class MiniDrawer extends React.Component {
 					<List className={classes.list}>
 						<ListItem button onClick={handleClickHv}>
 							<ListItemIcon>
-								<PermContactCalendarIcon />
+								<PermContactCalendarIcon className={classes.icon} />
 							</ListItemIcon>
 
 							<ListItemText
@@ -276,7 +288,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/gestion_hoja_de_vida">
 										<ListItemIcon>
-											<ToggleOnIcon />
+											<ToggleOnIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
 									<Link
@@ -296,7 +308,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/listar_hojas_de_vida">
 										<ListItemIcon>
-											<ToggleOnIcon />
+											<ToggleOnIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
 									<Link
@@ -318,7 +330,7 @@ class MiniDrawer extends React.Component {
 						<Divider />
 						<ListItem button onClick={handleClick}>
 							<ListItemIcon>
-								<HowToRegIcon />
+								<HowToRegIcon className={classes.icon} />
 							</ListItemIcon>
 							<ListItemText
 								primary="Empleados"
@@ -331,7 +343,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/empleados_activos">
 										<ListItemIcon>
-											<ToggleOnIcon />
+											<ToggleOnIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
 									<Link to="/empleados_activos">
@@ -342,7 +354,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/empleados_inactivos">
 										<ListItemIcon>
-											<ToggleOffIcon />
+											<ToggleOffIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
 									<Link to="/empleados_inactivos">
@@ -352,7 +364,7 @@ class MiniDrawer extends React.Component {
 
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<PersonAddIcon />
+										<PersonAddIcon className={classes.icon} />
 									</ListItemIcon>
 
 									<Link to="/gestion_empleados">
@@ -366,7 +378,7 @@ class MiniDrawer extends React.Component {
 
 						<ListItem button onClick={handleClickAccounts}>
 							<ListItemIcon>
-								<SupervisorAccountIcon />
+								<SupervisorAccountIcon className={classes.icon} />
 							</ListItemIcon>
 							<ListItemText
 								primary="Cuentas"
@@ -378,14 +390,14 @@ class MiniDrawer extends React.Component {
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<PlaylistAddCheckIcon />
+										<PlaylistAddCheckIcon className={classes.icon} />
 									</ListItemIcon>
 
 									<ListItemText primary="Listar cuentas" />
 								</ListItem>
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<PersonAddIcon />
+										<PersonAddIcon className={classes.icon}/>
 									</ListItemIcon>
 									<Link to="gestion_cuentas">
 										<ListItemText primary="Crear cuenta" />
@@ -397,7 +409,7 @@ class MiniDrawer extends React.Component {
 
 						<ListItem button onClick={handleClickNomina}>
 							<ListItemIcon>
-								<TableChartIcon />
+								<TableChartIcon className={classes.icon} />
 							</ListItemIcon>
 							<ListItemText
 								primary="Nómina"
@@ -409,7 +421,7 @@ class MiniDrawer extends React.Component {
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<MonetizationOnIcon />
+										<MonetizationOnIcon className={classes.icon} />
 									</ListItemIcon>
 
 									<Link to="ver_nomina">
@@ -419,7 +431,7 @@ class MiniDrawer extends React.Component {
 						
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<SaveIcon />
+										<SaveIcon className={classes.icon} />
 									</ListItemIcon>
 									<Link to="ver_planilla">
 										<ListItemText primary="Generar Nómina" />
@@ -431,7 +443,7 @@ class MiniDrawer extends React.Component {
 
 						<ListItem button onClick={handleClickConfig}>
 							<ListItemIcon>
-								<TuneIcon />
+								<TuneIcon className={classes.icon} />
 							</ListItemIcon>
 							<ListItemText
 								primary="Configuración"
@@ -443,7 +455,7 @@ class MiniDrawer extends React.Component {
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<BusinessIcon />
+										<BusinessIcon className={classes.icon} />
 									</ListItemIcon>
 
 									<Link to="/">
@@ -452,7 +464,7 @@ class MiniDrawer extends React.Component {
 								</ListItem>
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<SecurityIcon />
+										<SecurityIcon className={classes.icon} />
 									</ListItemIcon>
 
 									<ListItemText primary="Tarifa seguridad social" />
@@ -461,7 +473,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/parametros_legales">
 										<ListItemIcon>
-											<ContactMailIcon />
+											<ContactMailIcon className={classes.icon}/>
 										</ListItemIcon>
 									</Link>
 									<Link to="/parametros_legales">
@@ -472,7 +484,7 @@ class MiniDrawer extends React.Component {
 								<ListItem button className={classes.nested}>
 									<Link to="/crear_entidad">
 										<ListItemIcon>
-											<ContactMailIcon />
+											<ContactMailIcon className={classes.icon}/>
 										</ListItemIcon>
 									</Link>
 									<Link to="/crear_entidad">
@@ -482,7 +494,7 @@ class MiniDrawer extends React.Component {
 
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<HourglassFullIcon />
+										<HourglassFullIcon className={classes.icon}/>
 									</ListItemIcon>
 
 									<ListItemText primary="Tarifa horas extra" />
@@ -490,7 +502,7 @@ class MiniDrawer extends React.Component {
 
 								<ListItem button className={classes.nested}>
 									<ListItemIcon>
-										<PaymentIcon />
+										<PaymentIcon  className={classes.icon}/>
 									</ListItemIcon>
 
 									<ListItemText primary="Recargos" />
@@ -500,6 +512,9 @@ class MiniDrawer extends React.Component {
 						<Divider />
 					</List>
 				</Drawer>
+				<main className={classes.content}>
+        <div className={classes.toolbar} />
+		</main>
 			</div>
 		);
 	}
