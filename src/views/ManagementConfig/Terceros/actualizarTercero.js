@@ -100,7 +100,8 @@ const useStyles = makeStyles((theme) => ({
 
     accept:{
         marginRight: "14px",
-        backgroundColor: "#0f4c75"
+        backgroundColor: "#0f4c75",
+        color:"#ffffff"
     },
 
 }));
@@ -204,10 +205,14 @@ export default function Actualizar(props){
             //cargarTerceros();
         })
           .catch((error) => {
-                console.log(error.response.data.status);
-                    swal("Error", "NO se pudo actualizar el tercero:  " + error.response.data[0].message, "error");
-                    console.log(error.response.data[0].message);
-                
+                //console.log(error.response.data.status);
+                console.log(error.message);
+                if(error.message === "Network Error"){
+                    swal("Error", "No se pudo acceder al sistema: "+error.message, "error");
+                }else{
+                     swal("Error", "NO se pudo actualizar el tercero:  " + error.response.data[0].message, "error");
+                     console.log(error.response.data[0].message);
+                }
             })
 
     }
@@ -289,7 +294,7 @@ export default function Actualizar(props){
                     <FormControl>
                         <Button  
                             variant="contained" 
-                            color="primary" 
+                            //color="primary" 
                             type="submit" 
                             //onClick={handleSubmit} 
                             size="large"
