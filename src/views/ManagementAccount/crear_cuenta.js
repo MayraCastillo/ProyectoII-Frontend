@@ -4,13 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-     width:"100%",
+     marginLeft:"100px",
      marginTop:"90px",
-     position:"relative",
-     //padding:"100px",
+     padding:"100px",
      alignItems: "center",
-     //background: '#ffffff',
-     backgroundColor: "#fae3e3"
+     background: '#ffffff'
   },
 });
 export default function Accounts() {

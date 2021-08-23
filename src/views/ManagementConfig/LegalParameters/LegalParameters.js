@@ -21,19 +21,19 @@ import swal from 'sweetalert';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
-	  backgroundColor: theme.palette.common.black,
-	  color: theme.palette.common.white,
+		backgroundColor: '#154c79',
+		color: theme.palette.common.white,
 	},
 	body: {
-	  fontSize: 14,
+		fontSize: 14,
 	},
-  }))(TableCell);
-  
+}))(TableCell);
+
 const StyledTableRow = withStyles((theme) => ({
 	root: {
-	  '&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
-	  },
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
 	},
 }))(TableRow);
 
@@ -67,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
 
 	inputMaterial: {
 		width: '100%',
+	},
+
+	table: {
+		minWidth: 700,
 	},
 }));
 
@@ -301,11 +305,10 @@ export default function GestionPlatos() {
 		<div className={styles.root}>
 			<GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-					<Typography variant="h3" component="h2" >
-						Parámetros Legales
-					</Typography><br></br>
+					<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+						<b>Parámetros Legales</b>
+					</Typography>
 
-					<p>Descripción si se ve necesaria q</p><br></br>
 					<div align="right">
 					<Button 
 						variant="contained"
@@ -315,41 +318,44 @@ export default function GestionPlatos() {
 						onClick={() => abrirCerrarModalCreate()}
 					>Agregar Parametro
 					</Button></div>
+				</GridItem>
 
-					<TableContainer component={Paper} style={{marginTop:"20px"}}>
-						<Table size="small" aria-label="a dense table">
-							<TableHead>
-								<TableRow>
-									<StyledTableCell>ID</StyledTableCell>
-									<StyledTableCell>Nombre del Parametro</StyledTableCell>
-									<StyledTableCell>Valor</StyledTableCell>
-									<StyledTableCell></StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{data.map((parameter) => (
-									<StyledTableRow hover key={parameter.parametroId}>
-										<StyledTableCell>{parameter.parametroId}</StyledTableCell>
-										<StyledTableCell>{parameter.nombre}</StyledTableCell>
-										<StyledTableCell>{parameter.valor}</StyledTableCell>
-										<StyledTableCell>
-											<Button
-												startIcon={<Edit />}
-												//style={{marginRight:"18px"}}
-												//onClick={() => selectParameter(parameter)}
-											>
-											</Button>
-										</StyledTableCell>
-									</StyledTableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					<br></br>
-					<p id="message"></p>
-					<br></br>
-					<br></br>
-                </GridItem>
+				<GridItem xs={12} sm={12} md={12} style={{ marginTop: 20 }}>
+				{data.length > 0 ? (
+				<TableContainer component={Paper}>
+					<Table className={styles.table} aria-label="customized table">
+						<TableHead>
+							<TableRow>
+								<StyledTableCell>ID</StyledTableCell>
+								<StyledTableCell>Nombre del Parametro</StyledTableCell>
+								<StyledTableCell>Valor</StyledTableCell>
+								<StyledTableCell>Acciones</StyledTableCell>
+							</TableRow>
+						</TableHead>
+
+						<TableBody>
+							{data.map((parameter) => (
+								<StyledTableRow hover key={parameter.parametroId}>
+									<StyledTableCell>{parameter.parametroId}</StyledTableCell>
+									<StyledTableCell>{parameter.nombre}</StyledTableCell>
+									<StyledTableCell>{parameter.valor}</StyledTableCell>
+									<StyledTableCell>
+										<Button
+											startIcon={<Edit />}
+											//style={{marginRight:"18px"}}
+											//onClick={() => selectParameter(parameter)}
+										>
+										</Button>
+									</StyledTableCell>
+								</StyledTableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				) : (
+					<p>No hay Parámetros Legales Registrados</p> 
+				)}
+				</GridItem>
 
 				<Modal 
 				//open={modalEditar} onClose={abrirCerrarModalEditar}
