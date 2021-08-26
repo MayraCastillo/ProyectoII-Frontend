@@ -19,15 +19,19 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 import Collapse from '@material-ui/core/Collapse';
-import HowToRegIcon from '@material-ui/icons/HowToReg';
-import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar'; //Gestion HV
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import FolderSharedIcon from '@material-ui/icons/FolderShared';
+import HowToRegIcon from '@material-ui/icons/HowToReg';//Empleados
+import VisibilityIcon from '@material-ui/icons/Visibility';
+
 import TuneIcon from '@material-ui/icons/Tune';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
-import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
@@ -174,10 +178,6 @@ class MiniDrawer extends React.Component {
 		const { anchorEl } = this.state;
 		const open = Boolean(anchorEl);
 
-		const handleClickAccounts = () => {
-			this.setState({ openAccounts: !this.state.openAccounts });
-		};
-
 		const handleClickNomina = () => {
 			this.setState({ openNomina: !this.state.openNomina });
 		};
@@ -186,7 +186,7 @@ class MiniDrawer extends React.Component {
 			this.setState({ openConfig: !this.state.openConfig });
 		};
 
-		const handleClick = () => {
+		const handleClickEmp = () => {
 			this.setState({ openUser: !this.state.openUser });
 		};
 
@@ -236,23 +236,6 @@ class MiniDrawer extends React.Component {
 							>
 								<AccountCircle />
 							</IconButton>
-							<Menu
-								id="menu-appbar"
-								anchorEl={anchorEl}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={open}
-								onClose={this.handleClose}
-							>
-								<MenuItem onClick={this.handleClose}>Profile</MenuItem>
-								<MenuItem onClick={this.handleClose}>My account</MenuItem>
-							</Menu>
 						</div>
 					</Toolbar>
 				</AppBar>
@@ -301,7 +284,10 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText primary="Registrar Hoja de Vida" />
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Registrar Hoja de Vida"
+											/>
 										</Typography>
 									</Link>
 								</ListItem>
@@ -321,17 +307,22 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText primary="Ver Hojas de vida" />
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Ver Hojas de vida"
+											/>
 										</Typography>
 									</Link>
 								</ListItem>
 							</List>
 						</Collapse>
 						<Divider />
-						<ListItem button onClick={handleClick}>
+
+						<ListItem button onClick={handleClickEmp}>
 							<ListItemIcon>
 								<HowToRegIcon className={classes.icon} />
 							</ListItemIcon>
+
 							<ListItemText
 								primary="Empleados"
 								classes={{ primary: classes.listItemText }}
@@ -341,68 +332,29 @@ class MiniDrawer extends React.Component {
 						<Collapse in={this.state.openUser} timeout="auto" unmountOnExit>
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
-									<Link to="/empleados_activos">
+									<Link to="/listar_empleados">
 										<ListItemIcon>
-											<ToggleOnIcon className={classes.icon} />
+											<VisibilityIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link to="/empleados_activos">
-										<ListItemText primary="Activos" />
+									<Link
+										to="/listar_empleados"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Listar Empleados"
+											/>
+										</Typography>
 									</Link>
 								</ListItem>
 
-								<ListItem button className={classes.nested}>
-									<Link to="/empleados_inactivos">
-										<ListItemIcon>
-											<ToggleOffIcon className={classes.icon} />
-										</ListItemIcon>
-									</Link>
-									<Link to="/empleados_inactivos">
-										<ListItemText primary="Inactivos" />
-									</Link>
-								</ListItem>
-
-								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<PersonAddIcon className={classes.icon} />
-									</ListItemIcon>
-
-									<Link to="/gestion_empleados">
-										<ListItemText primary="Crear Empleado" />
-									</Link>
-								</ListItem>
-							</List>
-						</Collapse>
-
-						<Divider />
-
-						<ListItem button onClick={handleClickAccounts}>
-							<ListItemIcon>
-								<SupervisorAccountIcon className={classes.icon} />
-							</ListItemIcon>
-							<ListItemText
-								primary="Cuentas"
-								classes={{ primary: classes.listItemText }}
-							/>
-							{open ? <ExpandLess /> : <ExpandMore />}
-						</ListItem>
-						<Collapse in={this.state.openAccounts} timeout="auto" unmountOnExit>
-							<List component="div" disablePadding>
-								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<PlaylistAddCheckIcon className={classes.icon} />
-									</ListItemIcon>
-
-									<ListItemText primary="Listar cuentas" />
-								</ListItem>
-								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<PersonAddIcon className={classes.icon}/>
-									</ListItemIcon>
-									<Link to="gestion_cuentas">
-										<ListItemText primary="Crear cuenta" />
-									</Link>
-								</ListItem>
 							</List>
 						</Collapse>
 						<Divider />
@@ -411,8 +363,9 @@ class MiniDrawer extends React.Component {
 							<ListItemIcon>
 								<TableChartIcon className={classes.icon} />
 							</ListItemIcon>
+
 							<ListItemText
-								primary="Nómina"
+								primary="Nóminas"
 								classes={{ primary: classes.listItemText }}
 							/>
 							{open ? <ExpandLess /> : <ExpandMore />}
@@ -420,21 +373,50 @@ class MiniDrawer extends React.Component {
 						<Collapse in={this.state.openNomina} timeout="auto" unmountOnExit>
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<MonetizationOnIcon className={classes.icon} />
-									</ListItemIcon>
-
-									<Link to="ver_nomina">
-										<ListItemText primary="Pagadas" />
+									<Link to="/ver_nomina">
+										<ListItemIcon>
+											<MonetizationOnIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/ver_nomina"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Pagadas"
+											/>
+										</Typography>
 									</Link>
 								</ListItem>
-						
+
 								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<SaveIcon className={classes.icon} />
-									</ListItemIcon>
-									<Link to="ver_planilla">
-										<ListItemText primary="Generar Nómina" />
+									<Link to="/nueva_nomina">
+										<ListItemIcon>
+											<SaveIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/nueva_nomina"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Generar Nómina"
+											/>
+										</Typography>
 									</Link>
 								</ListItem>
 							</List>
@@ -443,8 +425,9 @@ class MiniDrawer extends React.Component {
 
 						<ListItem button onClick={handleClickConfig}>
 							<ListItemIcon>
-								<TuneIcon className={classes.icon} />
+								<TableChartIcon className={classes.icon} />
 							</ListItemIcon>
+
 							<ListItemText
 								primary="Configuración"
 								classes={{ primary: classes.listItemText }}
@@ -454,58 +437,147 @@ class MiniDrawer extends React.Component {
 						<Collapse in={this.state.openConfig} timeout="auto" unmountOnExit>
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<BusinessIcon className={classes.icon} />
-									</ListItemIcon>
-
 									<Link to="/">
-										<ListItemText primary="Datos Empresa" />
+										<ListItemIcon>
+											<BusinessIcon className={classes.icon} />
+										</ListItemIcon>
 									</Link>
-								</ListItem>
-								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<SecurityIcon className={classes.icon} />
-									</ListItemIcon>
-
-									<ListItemText primary="Tarifa seguridad social" />
+									<Link
+										to="/"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Datos de la Empresa"
+											/>
+										</Typography>
+									</Link>
 								</ListItem>
 
 								<ListItem button className={classes.nested}>
 									<Link to="/parametros_legales">
 										<ListItemIcon>
-											<ContactMailIcon className={classes.icon}/>
+											<ContactMailIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link to="/parametros_legales">
-										<ListItemText primary="Parametros Legales" />
+									<Link
+										to="/parametros_legales"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Parametros Legales"
+											/>
+										</Typography>
 									</Link>
 								</ListItem>
 
 								<ListItem button className={classes.nested}>
 									<Link to="/crear_entidad">
 										<ListItemIcon>
-											<ContactMailIcon className={classes.icon}/>
+											<ContactMailIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link to="/crear_entidad">
-										<ListItemText primary="Información terceros" />
+									<Link
+										to="/crear_entidad"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Información de Terceros"
+											/>
+										</Typography>
 									</Link>
 								</ListItem>
 
 								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<HourglassFullIcon className={classes.icon}/>
-									</ListItemIcon>
-
-									<ListItemText primary="Tarifa horas extra" />
+									<Link to="/">
+										<ListItemIcon>
+											<SecurityIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Tarifa seguridad social"
+											/>
+										</Typography>
+									</Link>
 								</ListItem>
 
 								<ListItem button className={classes.nested}>
-									<ListItemIcon>
-										<PaymentIcon  className={classes.icon}/>
-									</ListItemIcon>
+									<Link to="/">
+										<ListItemIcon>
+											<HourglassFullIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Tarifa Horas Extra"
+											/>
+										</Typography>
+									</Link>
+								</ListItem>
 
-									<ListItemText primary="Recargos" />
+								<ListItem button className={classes.nested}>
+									<Link to="/">
+										<ListItemIcon>
+											<PaymentIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Recargos"
+											/>
+										</Typography>
+									</Link>
 								</ListItem>
 							</List>
 						</Collapse>

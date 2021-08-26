@@ -43,9 +43,14 @@ export default function CreateCV2() {
 	return (
 		<HojaDeVidaContextProvider>
 			<div className={classes.root}>
-				<Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
-					GESTION HOJA DE VIDA
-				</Typography>
+				<GridContainer>
+					<GridItem xs={12} sm={12} md={12}>
+						<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+							<b>Registrar Hoja de Vida</b>
+						</Typography>
+					</GridItem>
+				</GridContainer>
+				
 				<AppBar position="static" color="default">
 					<Tabs
 						value={value}

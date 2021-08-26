@@ -71,40 +71,31 @@ export default function CreateEmployee() {
 
   const classes = useStyles();
   const [data, setData] = useState([]);
-  const [dataDep, setDataDep] = useState([]);
-  const [dataMun, setDataMun] = useState([{municipio_id: '', nombre:''}]);
   const [dataBanco, setDataBanco] = useState([]);
   const [dataTipoTerceros, setDataTipoTerceros] = useState([]);
   const [dataTercerosByTipo, setDataTercerosByTipo] = useState([]);
   const [dataTerceros, setDataTerceros] = useState([]);
 
-  const [departament, setDepartament] = useState('');
-  const [municipio, setMunicipio] = useState('');
   const [banco, setBanco] = useState('');
   const [tipoTercero, setTipoTercero] = useState('');
   const [tipoNombre, setTipoNombre] = useState('');
   const [idTercero, setIdTercero] = useState(0);
   const [nomTercero, setNomTercero] = useState('');
   const [fechaVinculacion, setFechaVinculacion] = useState('');
-  const [tipoDocumento, setTipoDocumento] = useState('');
   const [tipoCuentaBancaria, setTipoCuentaBancaria] = useState('');
 
   const [tipoDocEmpleado, setTipoDocEmpleado] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [idMunicipio, setIdMunicipio] = useState(0);
-  const [correoEmpleado, setCorreoEmpleado] = useState('');
   const [idBanco, setIdBanco] = useState(0);
   const [numCuentaBancaria, setNumCuentaBancaria] = useState('');
   const [tipoCuentaEmpleado, setTipoCuentaEmpleado] = useState('');
   const [fechaExpiracion, setFechaExpiracion] = useState('');
   
+  const [fechaActual, setFechaActual] = useState("");
+  const [fechaMinNacimiento, setFechaMinNacimiento] = useState("");
+  
   const styles = useStyles();
-  const [state, setState] = useState({});
   const [modalConfirmacion, setModalConfirmacion] = useState(false);
-
-  const handleChange = (event) => {
-	setState({ ...state, [event.target.name]: event.target.checked });
-  };
 
   const bodyConfirmacion = (
 	<div className={styles.modal}>
@@ -133,37 +124,24 @@ export default function CreateEmployee() {
 	</div>
   );
 
+  const getCurrentDate = () => {
+	let currentDate = new Date();
+	setFechaActual(currentDate.toISOString().slice(0,10));
+
+	let anio = parseInt(currentDate.toISOString().slice(0,4), 10) - 18;
+	setFechaMinNacimiento(anio+currentDate.toISOString().slice(4,10));
+  }
+
   const getInfoByID = () => {
 	let baseURLHV = 'http://localhost:8092/hojas-vida/buscar-por-id/';
 	let urlGetInfoByID = baseURLHV+localStorage.getItem('idNewEmployee');
 	 Axios.get(urlGetInfoByID)
 		.then((response) => {
-			console.log(response.data)
-			setData(response.data)
-		})
-		.catch((error) => {
-			console.log(error);
-	});
-  };
-
-  const getListDep = () => {
-	let urlGetListDep = baseURL+'/listarDepartamentos';
-	 Axios.get(urlGetListDep)
-		.then((response) => {
-			console.log(response.data)
-			setDataDep(response.data)
-		})
-		.catch((error) => {
-			console.log(error);
-	});
-  };
-
-  const getListMun = (departamentoId) => {
-	let urlGetListMun = baseURL+'/listarMunicipiosPorDepartamento/'+departamentoId;
-	 Axios.get(urlGetListMun)
-		.then((response) => {
-			console.log(response.data)
-			setDataMun(response.data)
+			//console.log(response.data);
+			setData(response.data);
+			if(response.data.tipoDocumento === "CEDULA"){
+				setTipoDocEmpleado("Cédula de Ciudadanía");
+			}
 		})
 		.catch((error) => {
 			console.log(error);
@@ -174,7 +152,7 @@ export default function CreateEmployee() {
 	let urlGetListBanc = baseURL+'/listarBancos';
 	 Axios.get(urlGetListBanc)
 		.then((response) => {
-			console.log(response.data)
+			//console.log(response.data)
 			setDataBanco(response.data)
 		})
 		.catch((error) => {
@@ -186,7 +164,7 @@ export default function CreateEmployee() {
 	let urlGetListTiposTerceros = baseURL+'/listarTipoTerceros';
 	 Axios.get(urlGetListTiposTerceros)
 		.then((response) => {
-			console.log(response.data)
+			//console.log(response.data)
 			setDataTipoTerceros(response.data)
 		})
 		.catch((error) => {
@@ -199,7 +177,7 @@ export default function CreateEmployee() {
 	  let urlGetListTercerosByTipo = baseURL+'/listarTercerosPorTipo/'+tipoId;
 	  Axios.get(urlGetListTercerosByTipo)
 		.then((response) => {
-			console.log(response.data)
+			//console.log(response.data)
 			setDataTercerosByTipo(response.data)
 		})
 		.catch((error) => {
@@ -254,8 +232,8 @@ export default function CreateEmployee() {
   };
 
   useEffect(() => {
+	getCurrentDate();
 	getInfoByID();
-	getListDep();
 	getListBanc();
 	getListTiposTerceros();
   },[]);
@@ -263,8 +241,7 @@ export default function CreateEmployee() {
   async function addEmpleadoConfirm() {
 	let bandera = false;
 
-	if (tipoDocumento.length == 0 || !fechaNacimiento.trim() || departament.length == 0 || 
-		municipio.length == 0 || !correoEmpleado.trim() || banco.length == 0 || 
+	if (!fechaNacimiento.trim() || banco.length == 0 || 
 		!numCuentaBancaria.trim() || tipoCuentaBancaria.length == 0 || !fechaExpiracion.trim() || 
 		tipoTercero.length == 0 || idTercero.length == 0 || !fechaVinculacion.trim()) {
 		bandera = true;
@@ -282,7 +259,7 @@ export default function CreateEmployee() {
 		bandera = true;
 		swal({
 			title: 'Dato Inválido',
-			text: 'No ha sido posible realizar el registro. \nEl número de la cuenta bancaría no puede ser menor a cero',
+			text: 'No ha sido posible realizar el registro. \nEl número de la cuenta bancaría no puede ser negativo',
 			icon: 'error',
 			button: 'Aceptar',
 			timer: '5000',
@@ -319,7 +296,7 @@ export default function CreateEmployee() {
 			data: {
 				numeroDocumento: data.numeroDocumento,
 				municipio: {
-					municipio_id: idMunicipio
+					municipio_id: data.municipioId
 				},
 				nombres: data.nombres,
 				apellidos: data.apellidos,
@@ -327,10 +304,12 @@ export default function CreateEmployee() {
 				tipoDocumento: tipoDocEmpleado,
 				telefono: data.telefono,
 				direccion: data.direccion,
-				correo: correoEmpleado
+				correo: data.correo,
+				estado: 'EN PRUEBA'
 			},
 			json: true,
 		};
+		console.log(authOptions);
 		await Axios(authOptions)
 		.then(function (response) {
 			if(response.status == 201){
@@ -359,6 +338,7 @@ export default function CreateEmployee() {
 		})
 		.catch(function (error) {
 			console.log(error);
+			swal("Error", "No se pudo generar la nómina de ", "error");
 			swal({
 				title: 'Empleado no Registrado',
 				text: 'No ha sido posible realizar el registro. \nHa ocurrido un error en el sistema. Inténtelo nuevamente',
@@ -386,7 +366,8 @@ export default function CreateEmployee() {
         		numeroCuenta: numCuentaBancaria
     		},
     		tipoCuenta: tipoCuentaEmpleado,
-    		fecha: fechaExpiracion
+    		fecha: fechaExpiracion,
+			estado: 'ACTIVO'
 		},
 		json: true,
 	};
@@ -409,13 +390,14 @@ export default function CreateEmployee() {
 			empleadoTeceroPk:
     		{
         		tercero:{
-            		terceroId: terceroAux.id
+					nit: terceroAux.id
         		},
-        		empleado:{
-            		numeroDocumento: data.numeroDocumento
+        		empleado:{ 
+					numeroDocumento: data.numeroDocumento
         		}
     		},
-    		fechaVinculacion: terceroAux.fecha
+    		fechaVinculacion: terceroAux.fecha,
+			estado: 'ACTIVO'
 		},
 		json: true,
 	};
@@ -432,10 +414,10 @@ export default function CreateEmployee() {
 
   return (
     <div className={classes.root}>
-		<Typography variant="h3" component="h2" gutterBottom>
-			Registrar Empleado
+		<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+			<b>Registrar Empleado</b>
 		</Typography>
-      	<br />
+		
 			<GridContainer style={{textAlign: 'left'}}>
 				<GridItem xs={12} sm={12} md={12} style={{marginTop: '10px'}}>
 					<Typography variant="body2" component="p">
@@ -446,79 +428,63 @@ export default function CreateEmployee() {
 				
 				<GridItem xs={12} sm={12} md={12}>
 					<TextField
-						required
+						disabled
 						fullWidth
 						margin="normal"
 						label="Nombre Completo"
 						variant="outlined"
 						size="small"
-						onChange={handleChange}
 						value={data.nombres + " " + data.apellidos}
 					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={6}>
-					<FormControl fullWidth required variant="outlined" size="small" margin="normal">
-                        <InputLabel>Tipo de Documento</InputLabel>
-                            <Select
-								value={tipoDocumento}
-                                onChange={(e) => setTipoDocumento(e.target.value)}
-                                label="Tipo de Documento"
-                            >
-								<MenuItem value=""><em></em></MenuItem>
-								<MenuItem 
-									onClick={() => setTipoDocEmpleado("Cédula de Ciudadanía")} 
-									value={1}>Cédula de Ciudadanía
-								</MenuItem>
-								<MenuItem 
-									onClick={() => setTipoDocEmpleado("Cédula de Extranjería")} 
-									value={2}>Cédula de Extranjería
-								</MenuItem>
-								<MenuItem 
-									onClick={() => setTipoDocEmpleado("Pasaporte")} 
-									value={3}>Pasaporte
-								</MenuItem>
-                            </Select>
-                        </FormControl>
+					<TextField
+						disabled
+						fullWidth
+						margin="normal"
+						label="Tipo de Documento"
+						variant="outlined"
+						size="small"
+						value={tipoDocEmpleado}
+					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={6}>
 					<TextField
-						required
+						disabled
 						fullWidth
 						margin="normal"
 						label="Número de Documento"
 						variant="outlined"
 						type="number"
 						size="small"
-						onChange={handleChange}
 						value={""+data.numeroDocumento}
 					/>
 				</GridItem>
 
-				<GridItem xs={12} sm={12} md={6}>
-					<TextField
-						required
-						fullWidth
-						margin="normal"
-						//label="Fecha de Nacimiento"
-						variant="outlined"
-						size="small"
+				<GridItem xs={12} sm={12} md={2}>
+					<p>Fecha de Nacimiento*</p>
+				</GridItem>
+
+				<GridItem xs={12} sm={12} md={4}>
+					<input 
+						className="input-fecha"
 						type="date"
+						max= {fechaMinNacimiento}
 						onChange={(e) => setFechaNacimiento(e.target.value)}
 					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={6}>
 					<TextField
-						required
+						disabled
 						fullWidth
 						margin="normal"
 						label="Telefono"
 						type="number"
 						variant="outlined"
 						size="small"
-						onChange={handleChange}
 						value={""+data.telefono}
 					/>
 				</GridItem>
@@ -528,66 +494,51 @@ export default function CreateEmployee() {
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={4}>
-					<FormControl fullWidth required variant="outlined" size="small" margin="normal" >
-						<InputLabel>Departamento</InputLabel>
-						<Select
-							value={departament}
-							onChange={(e) => setDepartament(e.target.value)}
-							label="Departamento"
-						>
-						<MenuItem value=""><em></em></MenuItem>
-						{dataDep.map((dep) => (
-							<MenuItem 
-								onClick={() => getListMun(dep.departamentoId)}
-								value={dep.departamentoId}>{dep.nombre}
-							</MenuItem>
-						))}
-						</Select>
-					</FormControl>
+					<TextField
+						disabled
+						fullWidth
+						margin="normal"
+						label="Departamento"
+						variant="outlined"
+						size="small"
+						value={""+data.nombreDepartamento}
+					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={6}>
-					<FormControl fullWidth required variant="outlined" size="small" margin="normal">
-						<InputLabel>Municipio</InputLabel>
-						<Select
-							value={municipio}
-							onChange={(e) => setMunicipio(e.target.value)}
-							label="Municipio"
-						>
-						<MenuItem value=""><em></em></MenuItem>
-						{dataMun.map((mun) => (
-							<MenuItem 
-								onClick={() => setIdMunicipio(mun.municipio_id)}
-								value={mun.municipio_id}>{mun.nombre}
-							</MenuItem>
-						))}
-						</Select>
-					</FormControl>
+					<TextField
+						disabled
+						fullWidth
+						margin="normal"
+						label="Municipio"
+						variant="outlined"
+						size="small"
+						value={""+data.nombreMunicipio}
+					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={12}>
 					<TextField
-						required
+						disabled
 						fullWidth
 						margin="normal"
 						label="Direccion"
 						variant="outlined"
 						size="small"
-						onChange={handleChange}
 						value={""+data.direccion}
 					/>
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={12}>
 					<TextField
-						required
+						disabled
 						fullWidth
 						margin="normal"
 						label="Correo Electrónico"
 						type="email"
 						variant="outlined"
 						size="small"
-						onChange={(e) => setCorreoEmpleado(e.target.value)}
+						value={""+data.correo}
 					/>
 				</GridItem>
 
@@ -645,15 +596,15 @@ export default function CreateEmployee() {
 					</FormControl>
 				</GridItem>
 
-				<GridItem xs={12} sm={12} md={6}>
-					<TextField
-						required
-						fullWidth
-						margin="normal"
-						//label="Fecha de Expiracion"
-						variant="outlined"
-						size="small"
+				<GridItem xs={12} sm={12} md={2}>
+					<p>Fecha de Expiración*</p>
+				</GridItem>
+
+				<GridItem xs={12} sm={12} md={4}>
+					<input 
+						className="input-fecha"
 						type="date"
+						min= {fechaActual}
 						onChange={(e) => setFechaExpiracion(e.target.value)}
 					/>
 				</GridItem>
@@ -661,7 +612,7 @@ export default function CreateEmployee() {
 				<GridItem xs={12} sm={12} md={12} style={{marginTop: '50px'}}>
 					<Typography variant="body2" component="p">
 						<b>INFORMACIÓN DE TERCEROS DEL EMPLEADO</b>
-						<br />Ingrese la información de los terceros a lo que el aspirante a quien desea contratar se ecuentra vinculado.
+						<br />Ingrese la información de los terceros a lo que el aspirante a quien desea contratar será vinculado.
 						<br /><b>Nota</b>: El empleado solo puede estar vinculado a un tercero según el tipo del mismo.
 					</Typography>
 				</GridItem>
@@ -694,10 +645,12 @@ export default function CreateEmployee() {
 							label="Terceros"
 						>
 						<MenuItem value=""><em></em></MenuItem>
+
 						{dataTercerosByTipo.map((tercero) => (
+							
 							<MenuItem 
 								onClick={() => setNomTercero(tercero.nombre)}
-								value={tercero.terceroId}>{tercero.nombre}
+								value={tercero.nit}>{tercero.nombre}
 							</MenuItem>
 						))}
 						</Select>
@@ -705,14 +658,10 @@ export default function CreateEmployee() {
 				</GridItem>
 
 				<GridItem xs={12} sm={12} md={3}>
-					<TextField
-						required
-						fullWidth
-						margin="normal"
-						//label="Fecha de Vinculacion"
-						variant="outlined"
-						size="small"
+					<input 
+						className="input-fecha"
 						type="date"
+						min= {fechaActual}
 						onChange={(e) => setFechaVinculacion(e.target.value)}
 					/>
 				</GridItem>
@@ -728,7 +677,9 @@ export default function CreateEmployee() {
 					</Button>
 				</GridItem>
 
+				
 				<GridItem xs={12} sm={12} md={12}>
+				{dataTerceros.length ?
 				<TableContainer component={Paper} style={{marginTop:"20px"}}>
 					<Table size="small" aria-label="a dense table">
 						<TableHead>
@@ -758,6 +709,7 @@ export default function CreateEmployee() {
 						</TableBody>
 					</Table>
 				</TableContainer>
+				: null}
 				</GridItem>
 
 				<br /><br />

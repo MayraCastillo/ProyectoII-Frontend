@@ -6,3 +6,29 @@
 .B {
   background-color: bisque;
 }
+
+.input-fecha {
+  width: 100%;
+  height: 40px;
+  border: #C4C4C4 1px solid;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12pt;
+  margin-top: 16px;
+}
+
+.input-text {
+  width: 60%;
+  height: 40px;
+  border: #C4C4C4 1px solid;
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12pt;
+}
+
+.table-head {
+  background-color: "#3949ab";
+  color: "white";
+}

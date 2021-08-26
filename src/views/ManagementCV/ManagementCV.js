@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
-
+import GridItem from '../../components/Grid/GridItem';
+import GridContainer from '../../components/Grid/GridContainer';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
 
@@ -17,6 +18,12 @@ import TablaHojasDeVida from './ListManagenmentCV/TablaHojasDeVida';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		marginTop:"100px",
+		width: '100%',
+		margin: 'auto',
+		textAlign: 'center',
+	},
+	rootBody: {
 		'& .MuiTextField-root': {
 			margin: theme.spacing(1),
 		},
@@ -24,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		width: '120%',
 		flexFlow: 1,
-		marginTop: '90px',
 		margin: 'auto',
 		display: 'flex',
 		flexWrap: 'wrap',
@@ -131,52 +137,55 @@ export default function ManagementCV() {
 	// fin seccion del select
 
 	return (
-		<Container maxWidth="lg" className={classes.root}>
-			<Grid xs={12} sm={12} maxWidth="lg">
-				<Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
-					GESTION HOJA DE VIDA
-				</Typography>
-				<br />
-			</Grid>
+		<div className={classes.root}>
+			<GridContainer>
+				<GridItem xs={12} sm={12} md={12}>
+					<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+						<b>Listado de Hojas de Vida</b>
+					</Typography>
+				</GridItem>
+			</GridContainer>
 
-			<Grid xs={12} sm={3}>
-				<TextField
-					id="standard-select-currency"
-					select
-					label="Filtrado por Estado"
-					value={currency}
-					onChange={handleChangeC}
-					helperText="Por favor, seleccione una opción"
-					variant="outlined"
-				>
-					{currencies.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
-						</MenuItem>
-					))}
-				</TextField>
-			</Grid>
-			<Grid xs={12} sm={3}>
-				<TextField
-					id="outlined-basic"
-					label="Buscar por identificación"
-					variant="outlined"
-					//value={buscarDocumento}
-					onChange={handleFiltrados}
-				/>
-			</Grid>
-			<Grid xs={12} sm={3}>
-				<Button variant="contained" size="large" style={{ margin: 20 }}>
-					Buscar
-				</Button>
-			</Grid>
-			<Grid xs={12} sm={12}>
-				<TablaHojasDeVida
-					hojasDeVida={hojasDeVida}
-					buscarDocumento={buscarDocumento}
-					filtrados={filtrados}
-				/>
-			</Grid>
-		</Container>
+			<Container maxWidth="lg" className={classes.rootBody}>
+				<Grid xs={12} sm={3}>
+					<TextField
+						id="standard-select-currency"
+						select
+						label="Filtrado por Estado"
+						value={currency}
+						onChange={handleChangeC}
+						helperText="Por favor, seleccione una opción"
+						variant="outlined"
+					>
+						{currencies.map((option) => (
+							<MenuItem key={option.value} value={option.value}>
+								{option.label}
+							</MenuItem>
+						))}
+					</TextField>
+				</Grid>
+				<Grid xs={12} sm={3}>
+					<TextField
+						id="outlined-basic"
+						label="Buscar por identificación"
+						variant="outlined"
+						//value={buscarDocumento}
+						onChange={handleFiltrados}
+					/>
+				</Grid>
+				<Grid xs={12} sm={3}>
+					<Button variant="contained" size="large" style={{ margin: 20 }}>
+						Buscar
+					</Button>
+				</Grid>
+				<Grid xs={12} sm={12}>
+					<TablaHojasDeVida
+						hojasDeVida={hojasDeVida}
+						buscarDocumento={buscarDocumento}
+						filtrados={filtrados}
+					/>
+				</Grid>
+			</Container>
+		</div>
 	);
 }
