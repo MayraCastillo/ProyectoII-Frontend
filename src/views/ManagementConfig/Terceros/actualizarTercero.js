@@ -207,11 +207,15 @@ export default function Actualizar(props){
           .catch((error) => {
                 //console.log(error.response.data.status);
                 console.log(error.message);
-                if(error.message === "Network Error"){
-                    swal("Error", "No se pudo acceder al sistema: "+error.message, "error");
+                if(error.message === "Request failed with status code 500"){
+                    swal("Error", "no se puede actualizar el tercero, verifique los datos nuevamente", "error");
                 }else{
-                     swal("Error", "NO se pudo actualizar el tercero:  " + error.response.data[0].message, "error");
-                     console.log(error.response.data[0].message);
+                    if(error.message === "Network Error"){
+                        swal("Error", "No se pudo acceder al sistema: "+error.message, "error");
+                    }else{
+                         swal("Error", "NO se pudo actualizar el tercero:  " + error.response.data[0].message, "error");
+                         console.log(error.response.data[0].message);
+                    }
                 }
             })
 
