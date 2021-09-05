@@ -38,11 +38,10 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop:"100px",
-    width: '78%',
-    margin: 'auto',
-    textAlign: 'center',
-    //backgroundColor: '#154c79',
+	marginTop:"100px",
+	width: '80%',
+	margin: 'auto',
+	textAlign: 'center',
   },
 
   modal: {

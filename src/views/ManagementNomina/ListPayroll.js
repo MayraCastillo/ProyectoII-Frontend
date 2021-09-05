@@ -24,18 +24,24 @@ import swal from 'sweetalert';
 
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
-	body: {
-	  fontSize: 14,
+	head: {
+		backgroundColor: '#154c79',
+		color: theme.palette.common.white,
 	},
-  }))(TableCell);
-  
+	body: {
+		fontSize: 14,
+	},
+}))(TableCell);
+
 const StyledTableRow = withStyles((theme) => ({
 	root: {
-	  '&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
-	  },
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
 	},
 }))(TableRow);
 
@@ -48,7 +54,7 @@ const useRowStyles = makeStyles((theme) => ({
 
   rootContainer: {
     marginTop:"100px",
-    width: '90%',
+    width: '80%',
     margin: 'auto',
     textAlign: 'center',
   },
@@ -166,29 +172,29 @@ function Row(props) {
               
               <Table size="small" aria-label="purchases">
                 <TableHead>
-					      	<TableRow>
-                    <StyledTableCell className={classes.head} ></StyledTableCell>
-                    <StyledTableCell className={classes.head} >ESTADO</StyledTableCell>
-                    <StyledTableCell className={classes.head} >NOMBRE DEL EMPLEADO</StyledTableCell>
-							      <StyledTableCell className={classes.head} >CEDULA</StyledTableCell>
-							      <StyledTableCell className={classes.head} >CARGO</StyledTableCell>
-                    <StyledTableCell className={classes.head} >SUELDO BASICO ASIGNADO</StyledTableCell>
-							      <StyledTableCell className={classes.head} >HORAS LABORADOS</StyledTableCell>
-                    <StyledTableCell className={classes.head} >BASICO DEVENGADO</StyledTableCell>
-                    <StyledTableCell className={classes.head} >AUXILIO DE TRANSPORTE</StyledTableCell>
-                    <StyledTableCell className={classes.head} >HORAS EXTRAS</StyledTableCell>
-                    <StyledTableCell className={classes.head} >RECARGOS</StyledTableCell>
-                    <StyledTableCell className={classes.head} >COMISIONES</StyledTableCell>
-                    <StyledTableCell className={classes.head} >OTROS INGRESO (SALARIAL)</StyledTableCell>
-                    <StyledTableCell className={classes.head} >OTROS INGRESOS (NO SALARIAL)</StyledTableCell>
-							      <StyledTableCell className={classes.head} >TOTAL DEVENGADO</StyledTableCell>
-                    <StyledTableCell className={classes.head} >SALUD EMPLEADO EPS</StyledTableCell>
-                    <StyledTableCell className={classes.head} >PENSION EMPLEADO AFP</StyledTableCell>
-                    <StyledTableCell className={classes.head} >FONDO SOLIDARIDAD PENSIONAL</StyledTableCell>
-                    <StyledTableCell className={classes.head} >TOTAL DEDUCCIONES</StyledTableCell>
-                    <StyledTableCell className={classes.head} >NETO PAGADO</StyledTableCell>
-						      </TableRow>
-				      	</TableHead>
+                  <TableRow>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell>Estado</StyledTableCell>
+                    <StyledTableCell>Nombre del Empleado</StyledTableCell>
+                    <StyledTableCell>No. de Identidad</StyledTableCell>
+                    <StyledTableCell>Cargo</StyledTableCell>
+                    <StyledTableCell>Sueldo Básico</StyledTableCell>
+                    <StyledTableCell>Horas Laboradas</StyledTableCell>
+                    <StyledTableCell>Básico Devengado</StyledTableCell>
+                    <StyledTableCell>Auxilio de Transporte</StyledTableCell>
+                    <StyledTableCell>Horas Extras</StyledTableCell>
+                    <StyledTableCell>Recargos</StyledTableCell>
+                    <StyledTableCell>Comisiones</StyledTableCell>
+                    <StyledTableCell>Otros Ingresos (Salarial)</StyledTableCell>
+                    <StyledTableCell>Otros Ingresos (No Salarial)</StyledTableCell>
+                    <StyledTableCell>Total Devengado</StyledTableCell>
+                    <StyledTableCell>Salud</StyledTableCell>
+                    <StyledTableCell>Pensión</StyledTableCell>
+                    <StyledTableCell>Fondo Salarial Pensional</StyledTableCell>
+                    <StyledTableCell>Total Deducciones</StyledTableCell>
+                    <StyledTableCell>Neto Pagado</StyledTableCell>
+                  </TableRow>
+                </TableHead>
                 
                 <TableBody>
 						    {row.PayrollDet.map((detalleNomina) => (
@@ -253,9 +259,9 @@ Row.propTypes = {
 };
 
 export default function CollapsibleTable() {
-  const classes = useRowStyles();
+  const styles = useRowStyles();
   const [data, setData] = useState([]);
-  
+  const [estadoNomina, setEstadoNomina] = useState('');
 
   const listContractGET = async () => {
     let urlListContract = baseURL+'/listarNominas';
@@ -304,22 +310,58 @@ export default function CollapsibleTable() {
     createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
   ];
 
+  const handleChange = (event) => {
+		setEstadoNomina(event.target.value);
+	};
+
   return (
-    <div className={classes.rootContainer}>
+    <div className={styles.rootContainer}>
 			<GridContainer>
-				<GridItem xs={12} sm={12} md={12}> HOLA MUNDO </GridItem>
-        
-        <GridItem xs={12} sm={12} md={12}>
+				<GridItem xs={12} sm={12} md={12}>
+					<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+						<b>Listado de Nóminas</b>
+					</Typography>
+				</GridItem>
+
+				<GridItem xs={12} sm={12} md={12} style={{textAlign: 'justify'}} >
+					<TextField
+						id="outlined-select-currency-native"
+						select
+						label="Filtrado por estado"
+						value={estadoNomina}
+						onChange={handleChange}
+						helperText="Por favor, seleccione una opción"
+						variant="outlined"
+					>
+						<MenuItem key={0} value={'enPrueba'}>Por Pagar</MenuItem>
+						<MenuItem key={1} value={'activo'}>Pagada</MenuItem>
+					</TextField>
+
+					<TextField style={{ marginLeft:30 }}
+						id="outlined-basic"
+						label="Buscar por No. de Nómina"
+						variant="outlined"
+						//value={buscarDocumento}
+						//onChange={handleFiltrados}
+					/>
+
+					<Button variant="contained" size="large" style={{ marginTop: 7, marginLeft: 30 }}>
+						Buscar
+					</Button>
+				</GridItem>
+
+        <GridItem xs={12} sm={12} md={12} style={{ marginTop: 20 }}>
+				{data.length > 0 ? (
           <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
               <TableHead>
                 <TableRow>
-                  <TableCell />
-                  <TableCell>Número de Nómina</TableCell>
-                  <TableCell>Descripción</TableCell>
-                  <TableCell>Fecha Inicio</TableCell>
-                  <TableCell>Fecha Final</TableCell>
-                  <TableCell>Estado</TableCell>
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }} />
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }}>No. de Nómina</TableCell>
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }}>Descripción</TableCell>
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }}>Fecha Inicio</TableCell>
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }}>Fecha Final</TableCell>
+                  <TableCell style={{ backgroundColor: '#154c79', color: 'white' }}>Estado</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -330,9 +372,11 @@ export default function CollapsibleTable() {
               </TableBody>
             </Table>
           </TableContainer>
-        </GridItem>
-      </GridContainer>
-      
-    </div>
+				) : (
+					<p>No hay Nóminas Registradas</p> 
+				)}
+				</GridItem>
+			</GridContainer>
+		</div>
   );
 }

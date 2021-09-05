@@ -25,18 +25,24 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import SaveIcon from '@material-ui/icons/Save';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 const StyledTableCell = withStyles((theme) => ({
-	body: {
-	  fontSize: 14,
+	head: {
+		backgroundColor: '#154c79',
+		color: theme.palette.common.white,
 	},
-  }))(TableCell);
-  
+	body: {
+		fontSize: 14,
+	},
+}))(TableCell);
+
 const StyledTableRow = withStyles((theme) => ({
 	root: {
-	  '&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.hover,
-	  },
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
 	},
 }))(TableRow);
 
@@ -129,7 +135,10 @@ const useStyles = makeStyles((theme) => ({
     head: {
         backgroundColor: "#3949ab",
         color: theme.palette.common.white,
-    }
+    },
+    table: {
+		minWidth: 700,
+	},
 }));
 
 function TabPanel(props) {
@@ -189,6 +198,7 @@ export default function CreatePayroll() {
 	const [data, setData] = useState([]);
     const [buttonGenerarNomina, setButtonGenerarNomina] = useState(false);
     const [buttonGuardarNomina, setButtonGuardarNomina] = useState(false);
+    const [buttonRecalcularNomina, setButtonRecalcularNomina] = useState(false);
 
     const [nominaRecalcular, setNominaRecalcular] = useState({});
 
@@ -261,7 +271,6 @@ export default function CreatePayroll() {
         let urlListContract = baseURL+'/listarContratos/123';
 		await Axios.get(urlListContract)
 			.then((response) => {
-                //console.log(response.data);
                 handleAddContractData(response.data);
                 if(response.data.length == 0){
 					swal({
@@ -288,10 +297,7 @@ export default function CreatePayroll() {
 		});
 	};
 
-    const generarNomina = () => {
-        //setDataNomina([]);
-        console.log("Primera");
-        console.log(dataNomina);
+    const generarNomina = () => {;
         if(generarNominaConfirmate()){
             for (const index in data) {
                 if(data[index].status === true){
@@ -299,17 +305,26 @@ export default function CreatePayroll() {
                 }
             }
         }
-        console.log("Luego");
-        console.log(dataNomina);
     }
 
     const guardarNomina = () => {
-        for (const index in dataNomina) {
-            if(dataNomina[index].status === true){
-                generarNomina();
-                //guardarNominaPOST(dataNomina[index].detalleNomina);
+        
+        if(generarNominaConfirmate()){
+            for (const index in data) {
+                if(data[index].status === true){
+                    guardarNominaPOST(data[index]);
+                }
             }
         }
+
+        swal({
+            title: "Nóminas Guardadas",
+            text: "Las nómina seleccionadas han sido guardadas de manera correcta",
+            icon: "success",
+            button: "Aceptar",
+        }).then((value) => {
+            window.location.href = '/listar_nominas';
+        });
         setButtonGuardarNomina(false);
     }
 
@@ -358,10 +373,6 @@ export default function CreatePayroll() {
         };
         Axios(authOptions)
         .then(function (response) {
-            //console.log(response.data);
-            if(buttonGuardarNomina){
-                guardarNominaPOST(response.data);
-            }
             if(inputChecked === 'EDITAR'){
                 dataNomina.push(createDataNomina(false, response.data));
                 swal({
@@ -381,6 +392,8 @@ export default function CreatePayroll() {
                     button: "Aceptar",
                     timer: '5000',
                 })
+                setButtonGuardarNomina(false);
+                setButtonRecalcularNomina(false);
             }
         })
         .catch(function (error) {
@@ -388,30 +401,75 @@ export default function CreatePayroll() {
         });
 	};
 
-    const guardarNominaPOST = (nomina) => {
+    /*const guardarNominaPOST = (nomina) => {
         var authOptions = {
             method: 'POST',
             url: 'http://localhost:8093/parametros/guardarDetalleNomina',
             data: nomina,
             json: true,
         };
+        Axios(authOptions)
+        .then(function (response) {
+            console.log("EXITO");
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+	};*/
+
+    const guardarNominaPOST = (datosContrato) => {
+        var authOptions = {
+            method: 'POST',
+            url: 'http://localhost:8093/parametros/guardarDetalleNomina',
+            data: {
+                salarioBase: datosContrato.baseSalary,
+                contratoId: datosContrato.idContract,
+                registroHoras:{
+                    horasTrabajadas: datosContrato.workingHours,
+                    extrasDiurnoOrdinaro: datosContrato.extraHoursDO,
+                    extrasNoturnoOrdinario: datosContrato.extraHoursNO,
+                    extrasDominicalFestivoDiurno: datosContrato.extraHoursDDF,
+                    extrasDominicalFestivoNoturno: datosContrato.extraHoursNDF,
+                    recargoNoturno: datosContrato.surchargesNO,
+                    recargoDiurnoDominicalFestivo: datosContrato.surchargesDDF,
+                    recargoNoturnoDominicalFestivo: datosContrato.surchargesNDF
+                },
+
+                factoresSalariales:{
+                    comisiones: datosContrato.facSalC,
+                    bonificaciones: datosContrato.facSalB,
+                    auxilioExtra: datosContrato.facSalAE,
+                    viaticos: datosContrato.facSalV,
+                    otros: datosContrato.facSalOF
+                },
+
+                factoresNoSalariales:{
+                    comisiones: datosContrato.facNoSalC,
+                    bonificaciones: datosContrato.facNoSalB,
+                    auxilioExtra: datosContrato.facNoSalAE,
+                    viaticos: datosContrato.facNoSalV,
+                    otros: datosContrato.facNoSalOF
+                },
+
+                nomina:{  
+                    fechaInicio: fechaNominaInicial,
+                    fechaFin: fechaNominaFinal,
+                    detalle: descNomina,
+                    estado:"GENERADA"
+                }
+            },
+            json: true,
+        };
         console.log(authOptions);
         Axios(authOptions)
         .then(function (response) {
-            swal({
-                title: "Nóminas Guardadas",
-                text: "Las nómina seleccionadas han sido guardadas de manera correcta",
-                icon: "success",
-                button: "Aceptar",
-            }).then((value) => {
-                //abrirCerrarModalNomina();
-            });
+            console.log("EXITO");
         })
         .catch(function (error) {
             console.log(error);
         });
 	};
-	
+
     const handleAddContractData = (Contracts) => {
 		let dataAux = [];
         for (const index in Contracts) {
@@ -487,7 +545,7 @@ export default function CreatePayroll() {
         setData(dataAux);
 	};
 
-    const handleChangeCheckbox2 = (contractSelectId) => {
+    const handleChangeCheckbox2 = (contractSelectId, optionSelected) => {
         
         for (const index in data) {
             if(data[index].idEmployee === contractSelectId){
@@ -495,8 +553,10 @@ export default function CreatePayroll() {
             }
         }
 
+        let indice = 0;
         let dataNominaAux = [];
         setButtonGuardarNomina(false);
+        setButtonRecalcularNomina(false);
         for (const index in dataNomina) {
             if(dataNomina[index].detalleNomina.contrato.contratoPk.empleado.numeroDocumento === contractSelectId){
                 const detNominaAux = createDataNomina(
@@ -505,13 +565,18 @@ export default function CreatePayroll() {
                 dataNominaAux.push(detNominaAux);
                 if(detNominaAux.status){
                     setButtonGuardarNomina(true);
+                    indice++;
                 }
             }else{
                 dataNominaAux.push(dataNomina[index]);
                 if(dataNomina[index].status){
                     setButtonGuardarNomina(true);
+                    indice++;
                 }
             }
+        }
+        if(indice === 1){
+            setButtonRecalcularNomina(true);
         }
         setDataNomina(dataNominaAux);
 	};
@@ -550,7 +615,7 @@ export default function CreatePayroll() {
 		<div className={styles.modalCreate}>
             <div style={{width: '90%', margin: 'auto'}}>
                 <Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
-					<b>Generar Nóminas</b>
+					<b>Generar Nómina</b>
 				</Typography>
                 
                 <GridContainer style={{textAlign: 'left'}}>
@@ -563,10 +628,10 @@ export default function CreatePayroll() {
                             onChange={(e) => setDescNomina(e.target.value)}
                         />
                     </GridItem>
-
                     <GridItem xs={12} sm={12} md={5} style={{marginTop: '20px'}}>
-                        <b>Fecha Inicial de la Nómina</b>
+                        <b>Descripción de la Nómina</b>
                     </GridItem>
+                    
                     <GridItem xs={12} sm={12} md={7}>
                         <input 
                             className="input-fecha"
@@ -575,10 +640,10 @@ export default function CreatePayroll() {
                             onChange={(e) => setFechaNominaInicial(e.target.value)}
                         />
                     </GridItem>
-
                     <GridItem xs={12} sm={12} md={5} style={{marginTop: '20px'}}>
-                        <b>Fecha Final de la Nómina</b>
+                        <b>Fecha Inicial de la Nómina</b>
                     </GridItem>
+
                     <GridItem xs={12} sm={12} md={7}>
                         <input 
                             className="input-fecha"
@@ -586,6 +651,9 @@ export default function CreatePayroll() {
                             min= {fechaNominaInicial}
                             onChange={(e) => setFechaNominaFinal(e.target.value)}
                         />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={5} style={{marginTop: '20px'}}>
+                        <b>Fecha Final de la Nómina</b>
                     </GridItem>
                 </GridContainer>
                 <br /><br />
@@ -603,7 +671,7 @@ export default function CreatePayroll() {
 	const bodyEditar = (
         <div className={styles.modalEditar}>
 		    <AppBar position="static">
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" style={{backgroundColor:"#154c79"}}>
                 <Tab label="HORAS LABORALES" {...a11yProps(0)} />
                 <Tab label="FACTORES SALARIALES" {...a11yProps(1)} />
                 <Tab label="FACTORES NO SALARIALES" {...a11yProps(2)} />
@@ -611,7 +679,7 @@ export default function CreatePayroll() {
             </AppBar>
 
             <TabPanel value={value} index={0} className={classes.panel}>
-                <h3 style={{color: '#3F51B5'}}>Horas Laboradas de {contractDataSelect.nameEmployee} </h3>
+                <h3 style={{color:"#154c79"}}>Horas Laboradas de {contractDataSelect.nameEmployee} </h3>
                 <div>
                     <GridContainer>
                     <GridItem xs={12} sm={12} md={4} style={{marginTop: '10px'}}>
@@ -710,7 +778,7 @@ export default function CreatePayroll() {
             </TabPanel>
 
             <TabPanel value={value} index={1} className={classes.panel}>
-                <h3 style={{color: '#3F51B5'}}>Factores Salariales de {contractDataSelect.nameEmployee}</h3>
+                <h3 style={{color: '#154c79'}}>Factores Salariales de {contractDataSelect.nameEmployee}</h3>
                 <div style={{width: '50%', margin: 'auto'}}>
                 <GridContainer style={{textAlign: 'left'}}>
                     <GridItem xs={12} sm={12} md={5} style={{marginTop: '20px'}}>
@@ -792,7 +860,7 @@ export default function CreatePayroll() {
             </TabPanel>
 
             <TabPanel value={value} index={2} className={classes.panel}>
-                <h3 style={{color: '#3F51B5'}}>Factores No Salariales de {contractDataSelect.nameEmployee}</h3>
+                <h3 style={{color: '#154c79'}}>Factores No Salariales de {contractDataSelect.nameEmployee}</h3>
                 <div style={{width: '50%', margin: 'auto'}}>
                 <GridContainer style={{textAlign: 'left'}}>
                     <GridItem xs={12} sm={12} md={5} style={{marginTop: '20px'}}>
@@ -826,7 +894,7 @@ export default function CreatePayroll() {
                     </GridItem>
 
                     <GridItem xs={12} sm={12} md={5} style={{marginTop: '12px'}}>
-                        <b>Auxilio Extra Viáticos</b>
+                        <b>Auxilio Extra</b>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={7}>
                         <TextField
@@ -921,31 +989,44 @@ export default function CreatePayroll() {
 
     const bodyNomina = (
 		<div className={styles.modalNomina}>
-            <h3 style={{color: '#3F51B5'}}>Nóminas Generadas</h3>
+            <Typography variant="h4" component="h2" gutterBottom style={{textAlign:"center", marginBottom: '1em', color:"#154c79"}}>
+                <b>Nóminas Generadas</b>
+            </Typography>
+            <p>A continuación se presentan una vista previa de las nóminas generadas de los empleados seleccionados anteriormente.</p>
+            <ol>
+                <li>En caso de haber cometido algún error al digitar las horas laboradas por el empleado, puede 
+                    seleccionar al empleado y presionar el boto "RECALCULAR NÓMINA" para editar nuevamente sus horas 
+                    laboradas, factores salariales y no salariales.
+                </li>
+                <li>En caso de no observar ningún error en las nóminas generadas y desea guardarlas, seleccione 
+                   las nominas generadas y presione el botón "GUARDAR".
+                </li>
+            </ol>
+            
             {dataNomina.length ?
-            <TableContainer className={classes.container} component={Paper} style={{marginTop:"20px"}}>
-				<Table className={classes.table} size="small" aria-label="a dense table">
+            <TableContainer style={{marginTop: '20px'}}>
+            <Table className={styles.table} aria-label="customized table">
 					<TableHead>
 						<TableRow>
-                            <StyledTableCell className={classes.head} >   </StyledTableCell>
-							<StyledTableCell className={classes.head} >NOMBRE DEL EMPLEADO</StyledTableCell>
-							<StyledTableCell className={classes.head} >CEDULA</StyledTableCell>
-							<StyledTableCell className={classes.head} >CARGO</StyledTableCell>
-                            <StyledTableCell className={classes.head} >SUELDO BASICO ASIGNADO</StyledTableCell>
-							<StyledTableCell className={classes.head} >HORAS LABORADOS</StyledTableCell>
-                            <StyledTableCell className={classes.head} >BASICO DEVENGADO</StyledTableCell>
-                            <StyledTableCell className={classes.head} >AUXILIO DE TRANSPORTE</StyledTableCell>
-                            <StyledTableCell className={classes.head} >HORAS EXTRAS</StyledTableCell>
-                            <StyledTableCell className={classes.head} >RECARGOS</StyledTableCell>
-                            <StyledTableCell className={classes.head} >COMISIONES</StyledTableCell>
-                            <StyledTableCell className={classes.head} >OTROS INGRESO (SALARIAL)</StyledTableCell>
-                            <StyledTableCell className={classes.head} >OTROS INGRESOS (NO SALARIAL)</StyledTableCell>
-							<StyledTableCell className={classes.head} >TOTAL DEVENGADO</StyledTableCell>
-                            <StyledTableCell className={classes.head} >SALUD EMPLEADO EPS</StyledTableCell>
-                            <StyledTableCell className={classes.head} >PENSION EMPLEADO AFP</StyledTableCell>
-                            <StyledTableCell className={classes.head} >FONDO SOLIDARIDAD PENSIONAL</StyledTableCell>
-                            <StyledTableCell className={classes.head} >TOTAL DEDUCCIONES</StyledTableCell>
-                            <StyledTableCell className={classes.head} >NETO PAGADO</StyledTableCell>
+                            <StyledTableCell></StyledTableCell>
+							<StyledTableCell>Nombre del Empleado</StyledTableCell>
+							<StyledTableCell>No. de Identidad</StyledTableCell>
+							<StyledTableCell>Cargo</StyledTableCell>
+                            <StyledTableCell>Sueldo Básico</StyledTableCell>
+							<StyledTableCell>Horas Laboradas</StyledTableCell>
+                            <StyledTableCell>Básico Devengado</StyledTableCell>
+                            <StyledTableCell>Auxilio de Transporte</StyledTableCell>
+                            <StyledTableCell>Horas Extras</StyledTableCell>
+                            <StyledTableCell>Recargos</StyledTableCell>
+                            <StyledTableCell>Comisiones</StyledTableCell>
+                            <StyledTableCell>Otros Ingresos (Salarial)</StyledTableCell>
+                            <StyledTableCell>Otros Ingresos (No Salarial)</StyledTableCell>
+							<StyledTableCell>Total Devengado</StyledTableCell>
+                            <StyledTableCell>Salud</StyledTableCell>
+                            <StyledTableCell>Pensión</StyledTableCell>
+                            <StyledTableCell>Fondo Salarial Pensional</StyledTableCell>
+                            <StyledTableCell>Total Deducciones</StyledTableCell>
+                            <StyledTableCell>Neto Pagado</StyledTableCell>
 						</TableRow>
 					</TableHead>
 		
@@ -986,22 +1067,30 @@ export default function CreatePayroll() {
 	    	</TableContainer>
             : null}
             <br /><br />
-            <div align="right">
-                <div>
+            <div style={{display: 'flex', justifyContent: 'right'}}>
+                {buttonRecalcularNomina ?
                     <Button 
                         variant="contained"
                         color="primary"
-                        //startIcon={<AddCircleIcon />}
+                        startIcon={<ReplayIcon />}
                         style={{marginRight:"18px"}}
                         onClick={() => selectContract(nominaRecalcular, 'RECALCULAR')}
-                    >Recalcular Nómina
+                    >RECALCULAR NÓMINA
                     </Button>
-                </div> 
+                : 
+                    <Button 
+                        disabled
+                        variant="contained"
+                        startIcon={<ReplayIcon />}
+                        style={{marginRight:"18px"}}
+                    >RECALCULAR NÓMINA
+                    </Button>
+                }
                 {buttonGuardarNomina ?
                     <Button
                         className={classes.buttonCancel} 
                         variant="contained"
-                        //startIcon={<CancelIcon />}
+                        startIcon={<SaveIcon />}
                         onClick={() => guardarNomina()}
                     >GUARDAR
                     </Button>
@@ -1009,7 +1098,7 @@ export default function CreatePayroll() {
                     <Button
                         disabled
                         variant="contained"
-                        //startIcon={<CancelIcon />}
+                        startIcon={<SaveIcon />}
                     >GUARDAR
                     </Button>
                 }
@@ -1026,11 +1115,21 @@ export default function CreatePayroll() {
 		<div className={styles.root}>
 			<GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-					<Typography variant="h4" component="h2" >
-						GENERAR NÓMINA
-					</Typography><br></br>
+                    <Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+                        <b>Generar Nómina</b>
+                    </Typography>
 
-					<p>Descripción si se ve necesaria q</p><br></br>
+                    <div style={{textAlign: 'left'}}>
+                        <p><b>Para generar una nueva nómina:</b></p>
+                        <ol>
+                            <li>Edite (En el botón de acciones) las horas laboradas, los factores salariales y no salariales 
+                                del empleado (o los empleados) a los cuales se le generará su pago correspondiente.</li>
+                            <li>Seleccione el cuadro correspondiente a cada uno de empleados que se les generará su nómina.</li>
+                            <li>Presione el botón "GENERAR NÓMINA" y complete los datos solicitados.</li>
+                        </ol>
+                    </div>
+
+					<br></br>
 
                     {data.length ?
                     <div>
@@ -1055,16 +1154,16 @@ export default function CreatePayroll() {
                             }
                         </div>
                         
-                        <TableContainer className={classes.container} component={Paper} style={{marginTop:"20px"}}>
-                            <Table className={classes.table} size="small" aria-label="a dense table">
+                        <TableContainer style={{marginTop: '20px'}}>
+                            <Table className={styles.table} aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell className={classes.head} ></StyledTableCell>
-                                        <StyledTableCell className={classes.head} >ID del Empleado</StyledTableCell>
-                                        <StyledTableCell className={classes.head} >Nombre del Empleado</StyledTableCell>
-                                        <StyledTableCell className={classes.head} >Correo Electrónico</StyledTableCell>
-                                        <StyledTableCell className={classes.head} >Estado</StyledTableCell>
-                                        <StyledTableCell className={classes.head} >Acciones</StyledTableCell>
+                                        <StyledTableCell></StyledTableCell>
+                                        <StyledTableCell>ID del Empleado</StyledTableCell>
+                                        <StyledTableCell>Nombre del Empleado</StyledTableCell>
+                                        <StyledTableCell>Correo Electrónico</StyledTableCell>
+                                        <StyledTableCell>Estado</StyledTableCell>
+                                        <StyledTableCell>Acciones</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
