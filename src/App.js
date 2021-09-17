@@ -11,17 +11,13 @@ import Curriculum from './views/ManagementCV/CreateCV2';
 import CurriculumList from './views/ManagementCV/ManagementCV';
 import CreateEmployee from './views/ManagementEmp/CreateEmployee';
 import ListEmployees from './views/ManagementEmp/ListEmployees';
-import VerNomina from './views/ManagementNomina/ver_nomina';
-import VerPlanilla from './views/ManagementNomina/planilla';
 import Accounts from './views/ManagementAccount/crear_cuenta';
 import Configuration from './views/ManagementConfig/crear_config';
 import Entidad from './views/ManagementConfig/Terceros/crear_entidad';
 import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParameters';
-import Nominas from './views/ManagementNomina/nominas';
 import Contract from './views/ManagementContract/CreateContract';
-import Prueba from './views/Prueba';
-import NuevaNomina from './views/ManagementNomina2/NominaPrueba';
-import ListNominas from './views/ManagementNomina2/ListPayroll';
+import NuevaNomina from './views/ManagementNomina/NominaNueva';
+import ListNominas from './views/ManagementNomina/ListPayroll';
 
 const styles = makeStyles({
 	root: {
@@ -58,8 +54,6 @@ function App() {
 					<Route path="/registrar_empleado" component={CreateEmployee} />
 					<Route path="/listar_empleados" component={ListEmployees} />
 
-					<Route path="/ver_nomina" component={VerNomina} />
-					<Route path="/ver_planilla" component={VerPlanilla} />
 					<Route path="/gestion_cuentas" component={Accounts} />
 					<Route path="/configuracion" component={Configuration} />
 					<Route path="/crear_entidad" component={ModuloTerceros} />
@@ -67,7 +61,6 @@ function App() {
 					<Route path="/parametros_legales" component={LegalParameters} />
 					<Route path="/crear_contrato" component={Contract} />
 					
-					<Route path="/prueba" component={Prueba} />
 					<Route path="/nueva_nomina" component={NuevaNomina} />
 					<Route path="/listar_nominas" component={ListNominas} />
 				</Switch>

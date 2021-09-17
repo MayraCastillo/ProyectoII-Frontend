@@ -26,7 +26,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 const useStyles = makeStyles((theme) => ({
     root: {
        	marginTop:"100px",
-		width: '100%',
+		width: '80%',
 		margin: 'auto',
 		textAlign: 'center',
     },
@@ -110,8 +110,8 @@ export default function ListEmployees() {
 						variant="outlined"
 					>
 						<MenuItem key={0} value={'enPrueba'}>En Prueba</MenuItem>
-						<MenuItem key={0} value={'activo'}>Activo</MenuItem>
-						<MenuItem key={0} value={'inactivo'}>Inactivo</MenuItem>
+						<MenuItem key={1} value={'activo'}>Activo</MenuItem>
+						<MenuItem key={2} value={'inactivo'}>Inactivo</MenuItem>
 					</TextField>
 
 					<TextField style={{ marginLeft:30 }}

@@ -93,7 +93,7 @@ const styles = (theme) => ({
 	},
 	drawerOpen: {
 		width: drawerWidth,
-		backgroundColor:"#d0e8f2",
+		backgroundColor:"#e7eff7",
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -101,7 +101,7 @@ const styles = (theme) => ({
 		}),
 	},
 	drawerClose: {
-		backgroundColor:"#d0e8f2",
+		backgroundColor:"#e7eff7",
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
@@ -138,7 +138,7 @@ const styles = (theme) => ({
 	},
 
 	list: {
-		background: '#d0e8f2',
+		background: '#e7eff7',
 	},
 
 	icon:{
@@ -373,30 +373,6 @@ class MiniDrawer extends React.Component {
 						<Collapse in={this.state.openNomina} timeout="auto" unmountOnExit>
 							<List component="div" disablePadding>
 								<ListItem button className={classes.nested}>
-									<Link to="/ver_nomina">
-										<ListItemIcon>
-											<MonetizationOnIcon className={classes.icon} />
-										</ListItemIcon>
-									</Link>
-									<Link
-										to="/ver_nomina"
-										style={{ textDecoration: 'none' }}
-									>
-										<Typography
-											variant="caption"
-											display="block"
-											gutterBottom
-											color="primary"
-										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
-												primary="Pagadas"
-											/>
-										</Typography>
-									</Link>
-								</ListItem>
-
-								<ListItem button className={classes.nested}>
 									<Link to="/nueva_nomina">
 										<ListItemIcon>
 											<SaveIcon className={classes.icon} />
@@ -415,6 +391,30 @@ class MiniDrawer extends React.Component {
 											<ListItemText 
 												style={{ color: '#2E4053' }} 
 												primary="Generar Nómina"
+											/>
+										</Typography>
+									</Link>
+								</ListItem>
+
+								<ListItem button className={classes.nested}>
+									<Link to="/listar_nominas">
+										<ListItemIcon>
+											<VisibilityIcon className={classes.icon} />
+										</ListItemIcon>
+									</Link>
+									<Link
+										to="/listar_nominas"
+										style={{ textDecoration: 'none' }}
+									>
+										<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Listar Nóminas"
 											/>
 										</Typography>
 									</Link>

@@ -729,8 +729,9 @@ export default function CreateContract() {
                         icon: "success",
                         button: "Aceptar",
                         timer: '5000',
+                    }).then((value) => {
+                        window.location.href = '/listar_empleados';
                     });
-                    window.location.href = '/listar_empleados';
                 }
                 if(response.status == 208){
                     swal({
