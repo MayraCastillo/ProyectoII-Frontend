@@ -11,6 +11,7 @@ import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Modal from "@material-ui/core/Modal";
@@ -26,7 +27,7 @@ import BuscarTercero from './buscarTercero';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Actualizar from './actualizarTercero';
 import { GridLinkOperator, XGrid } from '@material-ui/x-grid';
-import { DataGrid, GridToolbar, GridCellParams, GridRowParams, GridRowsProp,
+import { DataGrid, GridToolbar,GridCellParams, GridRowParams, GridRowsProp,
     useGridApiRef } from '@material-ui/data-grid';
 import { id } from 'date-fns/locale';
 
@@ -60,18 +61,27 @@ const useStyles = makeStyles((theme) => ({
                 borderBottom:'1px solid #BDBDBD',
                 borderLeft: '1px solid #BDBDBD',
                 borderRight:'1px solid #BDBDBD'
+            },
+
+            '& .MuiDataGrid-toolbar':{
+                fontSize: "14px"
+            },
+            '& .MuiButton-root':{
+                color:"#000000",
+                fontSize: "20px"
             }
         },
 
         formControl: {
-            marginRight: "14px",
+            marginRight: theme.spacing(1),
             width:"30ch",
             size: 'medium'
         },
 
         list: {
             width: "30ch",
-            marginRight: "14px"
+            marginRight: "14px",
+            marginTop: theme.spacing(0)
         },
         selectEmpty: {
             marginTop: theme.spacing(0),
@@ -714,7 +724,8 @@ export default function ModuloTerceros(props){
 
                                                         componentsProps={{
                                                             toolbar: {
-                                                              apiRef
+                                                              apiRef,
+                                                              
                                                             },
                                                           }}
                                                     />

@@ -43,7 +43,7 @@ import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import PaymentIcon from '@material-ui/icons/Payment';
 import { Link } from 'react-router-dom';
 
-const drawerWidth = 280;
+const drawerWidth = 340;
 
 const styles = (theme) => ({
 	root: {
@@ -133,7 +133,7 @@ const styles = (theme) => ({
 	},
 
 	listItemText: {
-		fontSize: '1.5em',
+		fontSize: '1.2em',
 		color: '#1b262c',
 	},
 
