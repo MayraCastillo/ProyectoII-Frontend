@@ -195,6 +195,7 @@ const FormularioEstudio = ({
 						readOnly
 					/>
 					<TextField
+						data-cy="input-estudios-realizados-titulo"
 						inputProps={{ maxlength: 50 }}
 						margin="normal"
 						label="Título"
@@ -205,6 +206,7 @@ const FormularioEstudio = ({
 						onChange={obtenerInfoEstudiosRealizados}
 					/>
 					<TextField
+						data-cy="input-estudios-realizados-institucion"
 						inputProps={{ maxlength: 50 }}
 						margin="normal"
 						label="Institución"
@@ -228,8 +230,9 @@ const FormularioEstudio = ({
 					/>
 
 					<TextField
+						data-cy="input-estudios-realizados-tipo"
 						margin="normal"
-						label="Tipo"
+						label="Nivel del Estudio"
 						name="tipo"
 						value={tipo}
 						fullWidth
@@ -238,6 +241,7 @@ const FormularioEstudio = ({
 					/>
 
 					<TextField
+						data-cy="input-estudios-realizados-tiempo"
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Tiempo"

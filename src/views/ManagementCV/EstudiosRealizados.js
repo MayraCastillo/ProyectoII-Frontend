@@ -73,9 +73,24 @@ export default function EstudiosRealizados() {
 	const handleClose = () => {
 		setModal(false);
 	};
-	const { setEstudios, estudios, estudioEditar, setEstudioEditar } = useContext(
-		HojaDeVidaContext
-	);
+	const {
+		setEstudios,
+		estudios,
+		estudioEditar,
+		setEstudioEditar,
+		bloquearBlur,
+	} = useContext(HojaDeVidaContext);
+	/*
+	const initialFormState = {
+		estudioId: null,
+		nombreTitulo: '',
+		entidad: '',
+		calificacion: '',
+		tipo: '',
+		tiempo: '',
+	};
+	*/
+	/*INTENTANDO ARREGLAR TODO */
 	const initialFormState = {
 		id: null,
 		nombreTitulo: '',
@@ -84,7 +99,6 @@ export default function EstudiosRealizados() {
 		tipo: '',
 		tiempo: '',
 	};
-
 	//Para entrar modo edicion
 	const setModoEditar = (activarModo) => {
 		if (activarModo === false) {
@@ -164,20 +178,29 @@ export default function EstudiosRealizados() {
 			}
 		});
 	};
+
 	useEffect(() => {
-		setEstudios(estudios.filter((estudio) => estudio.id !== ''));
+		if (!bloquearBlur) {
+			setEstudios(estudios.filter((estudio) => estudio.estudioId !== ''));
+		}
 	}, []);
 
 	//Para abrir y cerrar modal
 	const mostrarModal = () => {
 		setModal(!modal);
 	};
+	{
+		{
+			console.log('Estudios', estudios);
+		}
+	}
 
 	return (
 		<Container maxWidth="lg" className={classes.root}>
 			<br />
 			<div xs={12}>
 				<Button
+					data-cy="btn-estudios-realizados"
 					startIcon={<NoteAddIcon />}
 					onClick={() => {
 						mostrarModal();

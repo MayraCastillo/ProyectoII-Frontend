@@ -16,7 +16,7 @@ import Registros from './Registros';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
-		backgroundColor: '#154c79',
+		backgroundColor: '#307672',
 		color: theme.palette.common.white,
 	},
 	body: {
@@ -41,16 +41,6 @@ const useStyles = makeStyles({
 const TablaHojasDeVida = ({ hojasDeVida, filtrados }) => {
 	//console.log(props);
 	const classes = useStyles();
-	/*
-	const eliminar = (estudio) => {
-		if (estudio.nombreTitulo === '') {
-			props.eliminarEstudio(estudio.id);
-		}
-	};
-
-
-
-*/
 
 	return (
 		<TableContainer component={Paper}>

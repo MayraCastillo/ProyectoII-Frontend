@@ -118,7 +118,9 @@ export default function ExperienciaLaboral() {
 		arrayExperienciaLaboral.forEach((element) => {
 			if (
 				element.cargoEmpresa.toLowerCase() ==
-				nuevaExperienciaLaboral.cargoEmpresa.toLowerCase()
+					nuevaExperienciaLaboral.cargoEmpresa.toLowerCase() &&
+				element.nombreEmpresa.toLowerCase() ==
+					nuevaExperienciaLaboral.nombreEmpresa.toLowerCase()
 			) {
 				console.log('Encontrado');
 				bandera = true;

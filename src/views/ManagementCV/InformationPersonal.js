@@ -48,6 +48,11 @@ export default function InformationPersonal() {
 		paises,
 		departamentos,
 		municipios,
+		validarTelefono,
+		bloquearBlur,
+		peticionGet,
+		peticionGetDepartamentos,
+		peticionGetMunicipios,
 	} = useContext(HojaDeVidaContext);
 
 	const {
@@ -55,19 +60,14 @@ export default function InformationPersonal() {
 		apellidos,
 		tipoDocumento,
 		numeroDocumento,
-		pais,
-		departamento,
-		municipio,
+		paisId,
+		departamentoId,
+		municipioId,
 		direccion,
 		telefono,
 		correo,
 	} = informacionPersonalContext;
-	{
-		/*
-		console.log(paises);
-		console.log(departamentos);
-		console.log(municipios);*/
-	}
+
 	const validarExistenciaDocumento = (numeroDocumento) => {
 		let response;
 		var authOptions = {
@@ -78,40 +78,71 @@ export default function InformationPersonal() {
 			},
 			json: true,
 		};
-		console.log(authOptions);
+		//console.log(authOptions);
 		axios(authOptions)
 			.then(function (response) {
-				if (response.data.numeroDocumento == numeroDocumento) {
+				console.log(response);
+				if (response.data.numeroDocumento) {
 					swal({
 						title: 'Documento duplicado',
 						text: 'Este documento ya se encuentra registrado',
 						icon: 'warning',
 						button: 'Aceptar',
-						timer: '10000',
+						timer: '3000',
 					}).then((result) => {
-						if (result) {
-							guardarInformacionPersonal({
-								...informacionPersonalContext,
-								numeroDocumento: '',
-							});
-						}
+						guardarInformacionPersonal({
+							...informacionPersonalContext,
+							numeroDocumento: '',
+						});
 					});
+					return;
 				}
-
-				//setLoading(false);
-				/*	setValidarExistenciaPlato(response.data[0].nombrePlato);
-				//console.log(validarExistenciaPlato);
-				if (response.data[0].nombrePlato == nombrePlato) {
-					setValidarExistenciaPlato('Existe');
-				}*/
 			})
-			.catch(function (error) {
-				//setLoading(false);
-				//console.log("2")
-				//setValidarExistenciaPlato('No existe');
-				// console.log("No existee");
+			.catch(function (error) {});
+
+		if (numeroDocumento.toString().length < 6) {
+			swal({
+				title: 'Tamaño Incorrecto',
+				text: 'Este documento tiene un número de caracteres incorrecto',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			}).then((result) => {
+				guardarInformacionPersonal({
+					...informacionPersonalContext,
+					numeroDocumento: '',
+				});
 			});
+			return;
+		}
 	};
+	/*
+useEffect(() => {
+	if (bloquearBlur) {
+		//peticionGet();
+		peticionGetDepartamentos();
+		departamentoSelecionadoChangeHandler(paisId);
+		console.log(departamentoId, departamentos);
+		
+		//peticionGetMunicipios();
+		municipioSelecionadoChangeHandler(departamentoId);
+	}
+}, [paisId, departamentoId]);
+*/
+	const ubicacionEditar = () => {
+		console.log(paises);
+		paisSelecionadoChangeHandler(paisId);
+		console.log(paisId);
+		console.log(departamentos);
+	};
+
+	useEffect(() => {
+		console.log(informacionPersonalContext);
+		if (bloquearBlur) {
+			ubicacionEditar();
+		}
+	}, []);
+
 	return (
 		<Container maxWidth="lg">
 			<form className={classes.root} autoComplete="off">
@@ -122,6 +153,7 @@ export default function InformationPersonal() {
 						Datos Personales:
 					</Typography>
 					<TextField
+						data-cy="input-informacion-personal-nombres"
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Nombres"
@@ -133,6 +165,7 @@ export default function InformationPersonal() {
 						required
 					/>
 					<TextField
+						data-cy="input-informacion-personal-apellidos"
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
 						label="Apellidos"
@@ -147,21 +180,20 @@ export default function InformationPersonal() {
 							Tipo de Documento
 						</InputLabel>
 						<Select
+							data-cy="input-informacion-personal-tipoDoc"
 							value={tipoDocumento}
 							label="Tipo de Documento"
 							onChange={tipoDocumentoChangeHandler}
+							//disabled={bloquearBlur ? false : true}
 						>
-							<MenuItem value="">
-								<em>Atrás</em>
-							</MenuItem>
-							<MenuItem value={'TARJETA_IDENTIDAD'}>Tarjeta Identidad</MenuItem>
-							<MenuItem value={'CEDULA'}>Cédula Ciudadanía</MenuItem>
-							<MenuItem value={'CEDULA_EXTRANJERIA'}>
-								Cédula Extranjería
-							</MenuItem>
+							<option value="">Seleccione</option>
+							<option value={'TARJETA_IDENTIDAD'}>Tarjeta Identidad</option>
+							<option value={'CEDULA'}>Cédula Ciudadanía</option>
+							<option value={'CEDULA_EXTRANJERIA'}>Cédula Extranjería</option>
 						</Select>
 					</FormControl>
 					<TextField
+						data-cy="input-informacion-personal-numDocumento"
 						margin="normal"
 						label="Numero Documento"
 						name="numeroDocumento"
@@ -170,11 +202,14 @@ export default function InformationPersonal() {
 						variant="outlined"
 						type="number"
 						onChange={obtenerInfo}
-						onBlur={() =>
-							validarExistenciaDocumento(
-								informacionPersonalContext.numeroDocumento
-							)
-						}
+						//disabled={bloquearBlur ? false : true}
+						onBlur={() => {
+							if (!bloquearBlur) {
+								validarExistenciaDocumento(
+									informacionPersonalContext.numeroDocumento
+								);
+							}
+						}}
 					/>
 					<br />
 					<br />
@@ -185,9 +220,10 @@ export default function InformationPersonal() {
 					<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
 						<Select
+							data-cy="input-informacion-personal-pais"
 							label="País"
-							value={pais}
-							onChange={paisSelecionadoChangeHandler}
+							value={paisId}
+							onChange={(e) => paisSelecionadoChangeHandler(e.target.value)}
 						>
 							<option aria-label="None" key="" value="" />
 							{paises.map((paisContext) => (
@@ -202,9 +238,12 @@ export default function InformationPersonal() {
 							Departamento
 						</InputLabel>
 						<Select
+							data-cy="input-informacion-personal-departamento"
 							label="Departamento"
-							value={departamento}
-							onChange={departamentoSelecionadoChangeHandler}
+							value={departamentoId}
+							onChange={(e) =>
+								departamentoSelecionadoChangeHandler(e.target.value)
+							}
 						>
 							<option aria-label="None" key="" value="" />
 							{departamentos.map((departamentoContext) => (
@@ -222,9 +261,12 @@ export default function InformationPersonal() {
 							Município
 						</InputLabel>
 						<Select
+							data-cy="input-informacion-personal-municipio"
 							label="Município"
-							value={municipio}
-							onChange={municipioSelecionadoChangeHandler}
+							value={municipioId}
+							onChange={(e) =>
+								municipioSelecionadoChangeHandler(e.target.value)
+							}
 						>
 							<option aria-label="None" key="" value="" />
 							{municipios.map((municipioContext) => (
@@ -238,6 +280,7 @@ export default function InformationPersonal() {
 						</Select>
 					</FormControl>
 					<TextField
+						data-cy="input-informacion-personal-direccion"
 						inputProps={{ maxlength: 40 }}
 						id="outlined-helperText"
 						label="Dirección"
@@ -254,6 +297,7 @@ export default function InformationPersonal() {
 						Información de Contacto:
 					</Typography>
 					<TextField
+						data-cy="input-informacion-personal-telefono"
 						id="outlined-helperText"
 						label="Teléfono"
 						name="telefono"
@@ -265,6 +309,7 @@ export default function InformationPersonal() {
 						type="number"
 					/>
 					<TextField
+						data-cy="input-informacion-personal-correo"
 						inputProps={{ maxlength: 30 }}
 						id="outlined-helperText"
 						label="Correo Electrónico"
@@ -273,6 +318,9 @@ export default function InformationPersonal() {
 						value={correo}
 						variant="outlined"
 						onChange={obtenerInfo}
+						onBlur={() =>
+							validarExistenciaDocumento(informacionPersonalContext.correo)
+						}
 					/>
 				</div>
 			</form>
