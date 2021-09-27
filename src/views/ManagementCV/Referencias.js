@@ -40,37 +40,28 @@ export default function Referencias() {
 		guardarHV,
 	} = useContext(HojaDeVidaContext);
 
-	const {
-		nombresRF1,
-		apellidosRF1,
-		telefonoRF1,
-		parentescoRF1,
-	} = referencias_Familiares_Context;
+	const { nombresRF1, apellidosRF1, telefonoRF1, parentescoRF1 } =
+		referencias_Familiares_Context;
 
 	//REFERENCIAS FAMILIARES 2
 
-	const {
-		nombresRF2,
-		apellidosRF2,
-		telefonoRF2,
-		parentescoRF2,
-	} = referencias_Familiares_rf2_Context;
+	const { nombresRF2, apellidosRF2, telefonoRF2, parentescoRF2 } =
+		referencias_Familiares_rf2_Context;
 
+	{
+		{
+			console.log(referencias_Familiares_rf2_Context);
+		}
+	}
 	//Referencias_Personales_1
 
-	const {
-		nombresRP1,
-		apellidosRP1,
-		telefonoRP1,
-	} = referencias_Personales_rp1_Context;
+	const { nombresRP1, apellidosRP1, telefonoRP1 } =
+		referencias_Personales_rp1_Context;
 
 	//Referencias_Personales_2
 
-	const {
-		nombresRP2,
-		apellidosRP2,
-		telefonoRP2,
-	} = referencias_Personales_rp2_Context;
+	const { nombresRP2, apellidosRP2, telefonoRP2 } =
+		referencias_Personales_rp2_Context;
 
 	return (
 		<>
@@ -87,8 +78,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Nombres*"
 						name="nombresRF1"
-						value={nombresRF1}
-						defaultValue={referencias_Familiares_rf2_Context.nombresRF1}
+						defaultValue={referencias_Familiares_Context.nombresRF1}
+						value={referencias_Familiares_Context.nombresRF1}
 						fullWidth
 						variant="outlined"
 						helperText="Este campo es obligatorio*"
@@ -97,9 +88,10 @@ export default function Referencias() {
 					<TextField
 						inputProps={{ maxlength: 20 }}
 						margin="normal"
-						label="Apellidos*"
 						name="apellidosRF1"
-						value={apellidosRF1}
+						label="Apellidos*"
+						defaultValue={referencias_Familiares_Context.apellidosRF1}
+						value={referencias_Familiares_Context.apellidosRF1}
 						fullWidth
 						variant="outlined"
 						helperText="Este campo es obligatorio*"
@@ -109,7 +101,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Teléfono*"
 						name="telefonoRF1"
-						value={telefonoRF1}
+						defaultValue={referencias_Familiares_Context.telefonoRF1}
+						value={referencias_Familiares_Context.telefono}
 						fullWidth
 						variant="outlined"
 						type="number"
@@ -121,7 +114,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Parentesco*"
 						name="parentescoRF1"
-						value={parentescoRF1}
+						defaultValue={referencias_Familiares_Context.parentescoRF1}
+						value={referencias_Familiares_Context.parentesco}
 						fullWidth
 						variant="outlined"
 						helperText="Este campo es obligatorio*"
@@ -133,7 +127,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Nombres"
 						name="nombresRF2"
-						value={nombresRF2}
+						defaultValue={referencias_Familiares_rf2_Context.nombresRF2}
+						value={referencias_Familiares_rf2_Context.nombresRF2}
 						fullWidth
 						variant="outlined"
 						onChange={obtenerInfoRefFamiliaresRF2}
@@ -143,7 +138,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Apellidos"
 						name="apellidosRF2"
-						value={apellidosRF2}
+						defaultValue={referencias_Familiares_rf2_Context.apellidosRF2}
+						value={referencias_Familiares_rf2_Context.apellidosRF2}
 						fullWidth
 						variant="outlined"
 						onChange={obtenerInfoRefFamiliaresRF2}
@@ -152,7 +148,8 @@ export default function Referencias() {
 						margin="normal"
 						label="Teléfono"
 						name="telefonoRF2"
-						value={telefonoRF2}
+						defaultValue={referencias_Familiares_rf2_Context.telefonoRF2}
+						value={referencias_Familiares_rf2_Context.telefono}
 						fullWidth
 						type="number"
 						variant="outlined"
@@ -163,7 +160,8 @@ export default function Referencias() {
 						margin="normal"
 						label="parentesco"
 						name="parentescoRF2"
-						value={parentescoRF2}
+						defaultValue={referencias_Familiares_rf2_Context.parentescoRF2}
+						value={referencias_Familiares_rf2_Context.parentesco}
 						fullWidth
 						variant="outlined"
 						onChange={obtenerInfoRefFamiliaresRF2}
@@ -239,7 +237,9 @@ export default function Referencias() {
 
 					<br />
 					<Divider />
+
 					<Button
+						data-cy="btn-guardar-hv"
 						startIcon={<SaveIcon />}
 						color="primary"
 						variant="contained"

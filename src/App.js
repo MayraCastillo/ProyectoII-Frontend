@@ -19,11 +19,13 @@ import Contract from './views/ManagementContract/CreateContract';
 import NuevaNomina from './views/ManagementNomina/NominaNueva';
 import ListNominas from './views/ManagementNomina/ListPayroll';
 
+import HojaDeVidaContextProvider from './views/ManagementCV/CurriculumVitaeContext/HojaDeVidaContext';
+
 const styles = makeStyles({
 	root: {
 		display: 'flex',
 		marginRight: '1em',
-		marginLeft:"1em",
+		marginLeft: '1em',
 		align: 'center',
 
 		background: '#ffffff',
@@ -34,7 +36,6 @@ const styles = makeStyles({
 		flexGrow: 1,
 		padding: '3px',
 		marginLeft: '70px',
-		
 	},
 });
 
@@ -44,26 +45,28 @@ function App() {
 	return (
 		<div className={classes.root}>
 			<Router>
-				<CssBaseline />
-				<Main />
-				<Switch>
-					<Route path="/" component={Main} exact />
+				<HojaDeVidaContextProvider>
+					<CssBaseline />
+					<Main />
+					<Switch>
+						<Route path="/" component={Main} exact />
 
-					<Route path="/gestion_hoja_de_vida" component={Curriculum} />
-					<Route path="/listar_hojas_de_vida" component={CurriculumList} />
-					<Route path="/registrar_empleado" component={CreateEmployee} />
-					<Route path="/listar_empleados" component={ListEmployees} />
+						<Route path="/gestion_hoja_de_vida" component={Curriculum} />
+						<Route path="/listar_hojas_de_vida" component={CurriculumList} />
+						<Route path="/registrar_empleado" component={CreateEmployee} />
+						<Route path="/listar_empleados" component={ListEmployees} />
 
-					<Route path="/gestion_cuentas" component={Accounts} />
-					<Route path="/configuracion" component={Configuration} />
-					<Route path="/crear_entidad" component={ModuloTerceros} />
-					<Route path="/crear_entidad" component={Entidad} />
-					<Route path="/parametros_legales" component={LegalParameters} />
-					<Route path="/crear_contrato" component={Contract} />
-					
-					<Route path="/nueva_nomina" component={NuevaNomina} />
-					<Route path="/listar_nominas" component={ListNominas} />
-				</Switch>
+						<Route path="/gestion_cuentas" component={Accounts} />
+						<Route path="/configuracion" component={Configuration} />
+						<Route path="/crear_entidad" component={ModuloTerceros} />
+						<Route path="/crear_entidad" component={Entidad} />
+						<Route path="/parametros_legales" component={LegalParameters} />
+						<Route path="/crear_contrato" component={Contract} />
+
+						<Route path="/nueva_nomina" component={NuevaNomina} />
+						<Route path="/listar_nominas" component={ListNominas} />
+					</Switch>
+				</HojaDeVidaContextProvider>
 			</Router>
 		</div>
 	);

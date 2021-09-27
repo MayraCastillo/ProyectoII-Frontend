@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
@@ -15,10 +15,11 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Modal from '@material-ui/core/Modal';
 import TablaHojasDeVida from './ListManagenmentCV/TablaHojasDeVida';
+import { HojaDeVidaContext } from './CurriculumVitaeContext/HojaDeVidaContext.js';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop:"100px",
+		marginTop: '100px',
 		width: '100%',
 		margin: 'auto',
 		textAlign: 'center',
@@ -50,7 +51,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ManagementCV() {
 	const classes = useStyles();
-	const [hojasDeVida, setHojasDeVida] = React.useState([]);
+
+	const { peticionGetHojasDeVida, hojasDeVida, setHojasDeVida } =
+		useContext(HojaDeVidaContext);
+
+	//const [hojasDeVida, setHojasDeVida] = React.useState([]);
 
 	//seccion del select
 	const [state, setState] = React.useState({
@@ -70,12 +75,7 @@ export default function ManagementCV() {
 	//PETICION
 
 	useEffect(() => {
-		const peticionGet = async () => {
-			const url = `http://localhost:8092/hojas-vida/`;
-			const hojasDeVida = await axios.get(url);
-			setHojasDeVida(hojasDeVida.data);
-		};
-		peticionGet();
+		peticionGetHojasDeVida();
 	}, []);
 
 	//FIN PETICION
@@ -140,7 +140,12 @@ export default function ManagementCV() {
 		<div className={classes.root}>
 			<GridContainer>
 				<GridItem xs={12} sm={12} md={12}>
-					<Typography variant="h4" component="h2" gutterBottom style={{marginBottom: '1em', color:"#154c79"}}>
+					<Typography
+						variant="h4"
+						component="h2"
+						gutterBottom
+						style={{ marginBottom: '1em', color: '#154c79' }}
+					>
 						<b>Listado de Hojas de Vida</b>
 					</Typography>
 				</GridItem>
