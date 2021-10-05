@@ -492,7 +492,8 @@ const HojaDeVidaContextProvider = (props) => {
 
 		if (referencias_Familiares_Context.nombresRF1 == '') {
 			swal({
-				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares',
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 1',
 				text: 'El campo nombres es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
@@ -503,7 +504,8 @@ const HojaDeVidaContextProvider = (props) => {
 		}
 		if (referencias_Familiares_Context.apellidosRF1 == '') {
 			swal({
-				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares',
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 1',
 				text: 'El campo apellidos es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
@@ -514,7 +516,8 @@ const HojaDeVidaContextProvider = (props) => {
 		}
 		if (referencias_Familiares_Context.telefonoRF1 == '') {
 			swal({
-				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares',
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 1',
 				text: 'El campo teléfono es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
@@ -526,7 +529,7 @@ const HojaDeVidaContextProvider = (props) => {
 		if (!validarTelefono(referencias_Familiares_Context.telefonoRF1)) {
 			swal({
 				title:
-					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA PERSONAL',
+					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA PERSONAL 1',
 				text: 'Asegurese de ingresar bien el teléfono y con el formato requerido',
 				icon: 'warning',
 				button: 'Aceptar',
@@ -537,7 +540,8 @@ const HojaDeVidaContextProvider = (props) => {
 
 		if (referencias_Familiares_Context.parentescoRF1 == '') {
 			swal({
-				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares',
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 1',
 				text: 'El campo parentesco es obligatorio',
 				icon: 'warning',
 				button: 'Aceptar',
@@ -563,6 +567,72 @@ const HojaDeVidaContextProvider = (props) => {
 
 			return;
 		}
+		//INICIO REFERENCIA FAMILIARES 2
+
+		if (referencias_Familiares_rf2_Context.nombresRF2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 2',
+				text: 'El campo nombres es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+
+		if (referencias_Familiares_rf2_Context.apellidosRF2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 2',
+				text: 'El campo apellidos es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+		if (referencias_Familiares_rf2_Context.telefonoRF2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 2',
+				text: 'El campo teléfono es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+		if (!validarTelefono(referencias_Familiares_rf2_Context.telefonoRF2)) {
+			swal({
+				title:
+					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA FAMILIAR 2',
+				text: 'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+			return;
+		}
+
+		if (referencias_Familiares_rf2_Context.parentescoRF2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Familiares 2',
+				text: 'El campo parentesco es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+
+		//FIN REFERNCIAS FAMILIARES 2
+		//INICIO REFERENCIAS PERSONALES 1
 		if (referencias_Personales_rp1_Context.nombresRP1 == '') {
 			swal({
 				title: 'Campo vacío en la pestaña: REFERENCIAS/Referencias Personales',
@@ -607,84 +677,61 @@ const HojaDeVidaContextProvider = (props) => {
 			});
 			return;
 		}
+
+		//FIN REFERENCIAS PERSONALES 1
+		//INICIO REFERENCIAS PERSONALES 2
+		if (referencias_Personales_rp2_Context.nombresRP2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Personales 2',
+				text: 'El campo nombres es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+		if (referencias_Personales_rp2_Context.apellidosRP2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Personales 2',
+				text: 'El campo apellidos es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+		if (referencias_Personales_rp2_Context.telefonoRP2 == '') {
+			swal({
+				title:
+					'Campo vacío en la pestaña: REFERENCIAS/Referencias Personales 2',
+				text: 'El campo teléfono es obligatorio',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+
+			return;
+		}
+		if (!validarTelefono(referencias_Personales_rp2_Context.telefonoRP2)) {
+			swal({
+				title:
+					'Teléfono incorrecto en la pestaña: REFERENCIA/REFERENCIA PERSONAL 2',
+				text: 'Asegurese de ingresar bien el teléfono y con el formato requerido',
+				icon: 'warning',
+				button: 'Aceptar',
+				timer: '3000',
+			});
+			return;
+		}
+		//FIN REFERENCIAS PERSONALES 2
 		let response;
 
 		//Se verifica si esta en modo Edicion o modo Registro
-		if (localStorage.getItem('modoEdicion') != 1) {
-			var authOptions = {
-				method: 'POST',
-				url: 'http://localhost:8092/hojas-vida',
-				data: {
-					nitEmpresa: '1',
-					numeroDocumento: informacionPersonalContext.numeroDocumento,
-					tipoDocumento: informacionPersonalContext.tipoDocumento,
-					nombres: informacionPersonalContext.nombres,
-					apellidos: informacionPersonalContext.apellidos,
-					telefono: informacionPersonalContext.telefono,
-					correo: informacionPersonalContext.correo,
-					municipioId: informacionPersonalContext.municipioId,
-					direccion: informacionPersonalContext.direccion,
-					calificacion: '8.0',
-					referenciasFamiliares: [
-						{
-							nombres: referencias_Familiares_Context.nombresRF1,
-							apellidos: referencias_Familiares_Context.apellidosRF1,
-							telefono: referencias_Familiares_Context.telefonoRF1,
-							parentesco: referencias_Familiares_Context.parentescoRF1,
-						},
-						{
-							nombres: referencias_Familiares_rf2_Context.nombresRF2,
-							apellidos: referencias_Familiares_rf2_Context.apellidosRF2,
-							telefono: referencias_Familiares_rf2_Context.telefonoRF2,
-							parentesco: referencias_Familiares_rf2_Context.parentescoRF2,
-						},
-					],
-
-					referenciasPersonales: [
-						{
-							nombres: referencias_Personales_rp1_Context.nombresRP1,
-							apellidos: referencias_Personales_rp1_Context.apellidosRP1,
-							telefono: referencias_Personales_rp1_Context.telefonoRP1,
-						},
-						{
-							nombres: referencias_Personales_rp2_Context.nombresRP2,
-							apellidos: referencias_Personales_rp2_Context.apellidosRP2,
-							telefono: referencias_Personales_rp2_Context.telefonoRP2,
-						},
-					],
-					experienciasLaborales: arrayExperienciaLaboral,
-					estudios: estudios,
-				},
-				json: true,
-			};
-			console.log(authOptions);
-			axios(authOptions)
-				.then(function (response) {
-					swal({
-						title: 'Hoja de Vida registrada',
-						text: 'La hoja de vida ha sido registrada con éxito',
-						icon: 'success',
-						button: 'Aceptar',
-						timer: '3000',
-					}).then((result) => {
-						if (result) {
-							window.location.href = '/listar_hojas_de_vida';
-						}
-					});
-					window.location.href = '/listar_hojas_de_vida';
-				})
-				.catch(function (error) {
-					swal({
-						title: 'Hoja de Vida Cancelada',
-						text: 'Ocurrió un error al crear la hoja de vida',
-						icon: 'error',
-						button: 'Aceptar',
-						timer: '3000',
-					});
-
-					console.log(error);
-				});
-		} else {
+		if (localStorage.getItem('modoEdicion') == 1) {
 			var authOptions = {
 				method: 'PUT',
 				url: 'http://localhost:8092/hojas-vida',
@@ -759,8 +806,83 @@ const HojaDeVidaContextProvider = (props) => {
 					console.log(error);
 				});
 			localStorage.clear();
-		}
+		} else {
+			localStorage.clear();
+			var authOptions = {
+				method: 'POST',
+				url: 'http://localhost:8092/hojas-vida',
+				data: {
+					nitEmpresa: '1',
+					numeroDocumento: informacionPersonalContext.numeroDocumento,
+					tipoDocumento: informacionPersonalContext.tipoDocumento,
+					nombres: informacionPersonalContext.nombres,
+					apellidos: informacionPersonalContext.apellidos,
+					telefono: informacionPersonalContext.telefono,
+					correo: informacionPersonalContext.correo,
+					municipioId: informacionPersonalContext.municipioId,
+					direccion: informacionPersonalContext.direccion,
+					calificacion: '8.0',
+					referenciasFamiliares: [
+						{
+							nombres: referencias_Familiares_Context.nombresRF1,
+							apellidos: referencias_Familiares_Context.apellidosRF1,
+							telefono: referencias_Familiares_Context.telefonoRF1,
+							parentesco: referencias_Familiares_Context.parentescoRF1,
+						},
+						{
+							nombres: referencias_Familiares_rf2_Context.nombresRF2,
+							apellidos: referencias_Familiares_rf2_Context.apellidosRF2,
+							telefono: referencias_Familiares_rf2_Context.telefonoRF2,
+							parentesco: referencias_Familiares_rf2_Context.parentescoRF2,
+						},
+					],
 
+					referenciasPersonales: [
+						{
+							nombres: referencias_Personales_rp1_Context.nombresRP1,
+							apellidos: referencias_Personales_rp1_Context.apellidosRP1,
+							telefono: referencias_Personales_rp1_Context.telefonoRP1,
+						},
+						{
+							nombres: referencias_Personales_rp2_Context.nombresRP2,
+							apellidos: referencias_Personales_rp2_Context.apellidosRP2,
+							telefono: referencias_Personales_rp2_Context.telefonoRP2,
+						},
+					],
+					experienciasLaborales: arrayExperienciaLaboral,
+					estudios: estudios,
+				},
+				json: true,
+			};
+			console.log(authOptions);
+			axios(authOptions)
+				.then(function (response) {
+					swal({
+						title: 'Hoja de Vida registrada',
+						text: 'La hoja de vida ha sido registrada con éxito',
+						icon: 'success',
+						button: 'Aceptar',
+						timer: '3000',
+					}).then((result) => {
+						if (result) {
+							window.location.href = '/listar_hojas_de_vida';
+						}
+					});
+					window.location.href = '/listar_hojas_de_vida';
+				})
+				.catch(function (error) {
+					swal({
+						title: 'Hoja de Vida Cancelada',
+						text: 'Ocurrió un error al crear la hoja de vida',
+						icon: 'error',
+						button: 'Aceptar',
+						timer: '3000',
+					});
+
+					console.log(error);
+				});
+			//===========
+		}
 		//console.log(authOptions);
 	};
 	const [bloquearBlur, setBloquearBlur] = useState(false);
@@ -768,6 +890,7 @@ const HojaDeVidaContextProvider = (props) => {
 	const almacenarReferenciaHojaDeVida = (hojaActualizar) => {
 		//setBloquearBlur(true);
 		console.log(hojaActualizar);
+		localStorage.setItem('modoEdicion', '1');
 
 		setPaisSeleccionadoContext({
 			paisId: hojaActualizar.paisId,
@@ -811,15 +934,11 @@ const HojaDeVidaContextProvider = (props) => {
 			});
 		}
 
-		//CREAR VARIABLE GLOBAL PARA ENTRAR EN MODO EDICION
-		console.log('Hoja seleccionada: ', referencias_Familiares_Context);
-		//console.log('DENTRO DEL IF', referencias_Familiares_rf2_Context);
-
 		//guardarReferenciasFamiliaresRF1(hojaActualizar.referenciasFamiliares[0]);
 		//guardarReferenciasFamiliaresRF2(referencias_Familiares_rf2_Context);
 		//guardarReferenciasPersonales1(hojaActualizar);
 		//guardarReferenciasPersonales2(hojaActualizar);
-		localStorage.setItem('modoEdicion', '1');
+
 		history.push('/gestion_hoja_de_vida');
 	};
 
@@ -835,6 +954,20 @@ const HojaDeVidaContextProvider = (props) => {
 		setHojasDeVida(hojasDeVidaActualizadas);
 	};
 
+	const limpiarDatosHV = () => {
+		guardarInformacionPersonal({
+			nombres: '',
+			apellidos: '',
+			tipoDocumento: '',
+			numeroDocumento: '',
+			paisId: '',
+			departamentoId: '',
+			municipioId: '',
+			direccion: '',
+			telefono: '',
+			correo: '',
+		});
+	};
 	return (
 		<HojaDeVidaContext.Provider
 			value={{
@@ -881,6 +1014,7 @@ const HojaDeVidaContextProvider = (props) => {
 				setBloquearBlur,
 				bloquearBlur,
 				peticionGetHojasDeVida,
+				limpiarDatosHV,
 				//peticionGet,
 				//	peticionGetDepartamentos,
 				//	peticionGetMunicipios,

@@ -8,7 +8,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import swal from 'sweetalert'; // Para poder realizar alertas
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Typography from '@material-ui/core/Typography';
 import { Divider } from '@material-ui/core';
 
@@ -55,9 +57,9 @@ export default function InformationPersonal() {
 		apellidos,
 		tipoDocumento,
 		numeroDocumento,
-		pais,
-		departamento,
-		municipio,
+		paisId,
+		departamentoId,
+		municipioId,
 		direccion,
 		telefono,
 		correo,
@@ -113,7 +115,7 @@ export default function InformationPersonal() {
 			});
 	};
 	return (
-		<Container maxWidth="lg">
+		<>
 			<form className={classes.root} autoComplete="off">
 				<br />
 				<div>
@@ -186,8 +188,10 @@ export default function InformationPersonal() {
 						<InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
 						<Select
 							label="País"
-							value={pais}
-							onChange={paisSelecionadoChangeHandler}
+							value={paisId}
+							onChange={(e) => {
+								paisSelecionadoChangeHandler(e.target.value);
+							}}
 						>
 							<option aria-label="None" key="" value="" />
 							{paises.map((paisContext) => (
@@ -203,8 +207,10 @@ export default function InformationPersonal() {
 						</InputLabel>
 						<Select
 							label="Departamento"
-							value={departamento}
-							onChange={departamentoSelecionadoChangeHandler}
+							value={departamentoId}
+							onChange={(e) => {
+								departamentoSelecionadoChangeHandler(e.target.value);
+							}}
 						>
 							<option aria-label="None" key="" value="" />
 							{departamentos.map((departamentoContext) => (
@@ -223,8 +229,10 @@ export default function InformationPersonal() {
 						</InputLabel>
 						<Select
 							label="Município"
-							value={municipio}
-							onChange={municipioSelecionadoChangeHandler}
+							value={municipioId}
+							onChange={(e) => {
+								municipioSelecionadoChangeHandler(e.target.value);
+							}}
 						>
 							<option aria-label="None" key="" value="" />
 							{municipios.map((municipioContext) => (
@@ -276,6 +284,6 @@ export default function InformationPersonal() {
 					/>
 				</div>
 			</form>
-		</Container>
+		</>
 	);
 }

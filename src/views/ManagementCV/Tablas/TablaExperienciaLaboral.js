@@ -112,7 +112,9 @@ const TablaExperienciaLaboral = (props) => {
 						))
 					) : (
 						<tr>
-							<td>Sin experiencia Laboral registrada</td>
+							<StyledTableCell maginLeft="5%">
+								Sin experiencia laborar registrada.
+							</StyledTableCell>
 						</tr>
 					)}
 				</TableBody>

@@ -73,9 +73,8 @@ export default function EstudiosRealizados() {
 	const handleClose = () => {
 		setModal(false);
 	};
-	const { setEstudios, estudios, estudioEditar, setEstudioEditar } = useContext(
-		HojaDeVidaContext
-	);
+	const { setEstudios, estudios, estudioEditar, setEstudioEditar } =
+		useContext(HojaDeVidaContext);
 	const initialFormState = {
 		id: null,
 		nombreTitulo: '',
@@ -165,7 +164,8 @@ export default function EstudiosRealizados() {
 		});
 	};
 	useEffect(() => {
-		setEstudios(estudios.filter((estudio) => estudio.id !== ''));
+		console.log(estudios);
+		setEstudios(estudios.filter((estudio) => estudio.estudioId !== ''));
 	}, []);
 
 	//Para abrir y cerrar modal

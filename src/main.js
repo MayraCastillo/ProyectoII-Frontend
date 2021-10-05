@@ -24,7 +24,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar'; //Gestion HV
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
-import HowToRegIcon from '@material-ui/icons/HowToReg';//Empleados
+import HowToRegIcon from '@material-ui/icons/HowToReg'; //Empleados
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import TuneIcon from '@material-ui/icons/Tune';
@@ -48,11 +48,10 @@ const drawerWidth = 280;
 const styles = (theme) => ({
 	root: {
 		display: 'flex',
-		
 	},
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
-		backgroundColor:"#0f4c75"
+		backgroundColor: '#0f4c75',
 	},
 	appBarShift: {
 		marginLeft: drawerWidth,
@@ -89,19 +88,18 @@ const styles = (theme) => ({
 		width: drawerWidth,
 		flexShrink: 0,
 		whiteSpace: 'nowrap',
-		backgroundColor:"#ffffff"
+		backgroundColor: '#ffffff',
 	},
 	drawerOpen: {
 		width: drawerWidth,
-		backgroundColor:"#e7eff7",
+		backgroundColor: '#e7eff7',
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
-			
 		}),
 	},
 	drawerClose: {
-		backgroundColor:"#e7eff7",
+		backgroundColor: '#e7eff7',
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
@@ -123,7 +121,7 @@ const styles = (theme) => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing.unit * 3,
-		backgroundColor:"#ffffff"
+		backgroundColor: '#ffffff',
 	},
 	grow: {
 		flexGrow: 1,
@@ -141,10 +139,10 @@ const styles = (theme) => ({
 		background: '#e7eff7',
 	},
 
-	icon:{
+	icon: {
 		fontSize: '1.5em',
 		color: '#1b262c',
-	}
+	},
 });
 
 class MiniDrawer extends React.Component {
@@ -284,8 +282,8 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Registrar Hoja de Vida"
 											/>
 										</Typography>
@@ -307,8 +305,8 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Ver Hojas de vida"
 											/>
 										</Typography>
@@ -347,14 +345,13 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Listar Empleados"
 											/>
 										</Typography>
 									</Link>
 								</ListItem>
-
 							</List>
 						</Collapse>
 						<Divider />
@@ -378,18 +375,15 @@ class MiniDrawer extends React.Component {
 											<SaveIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/nueva_nomina"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/nueva_nomina" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Generar Nómina"
 											/>
 										</Typography>
@@ -402,18 +396,15 @@ class MiniDrawer extends React.Component {
 											<VisibilityIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/listar_nominas"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/listar_nominas" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Listar Nóminas"
 											/>
 										</Typography>
@@ -442,18 +433,15 @@ class MiniDrawer extends React.Component {
 											<BusinessIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Datos de la Empresa"
 											/>
 										</Typography>
@@ -476,8 +464,8 @@ class MiniDrawer extends React.Component {
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Parametros Legales"
 											/>
 										</Typography>
@@ -490,18 +478,15 @@ class MiniDrawer extends React.Component {
 											<ContactMailIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/crear_entidad"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/crear_entidad" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Información de Terceros"
 											/>
 										</Typography>
@@ -514,18 +499,15 @@ class MiniDrawer extends React.Component {
 											<SecurityIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Tarifa seguridad social"
 											/>
 										</Typography>
@@ -538,18 +520,15 @@ class MiniDrawer extends React.Component {
 											<HourglassFullIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Tarifa Horas Extra"
 											/>
 										</Typography>
@@ -562,18 +541,15 @@ class MiniDrawer extends React.Component {
 											<PaymentIcon className={classes.icon} />
 										</ListItemIcon>
 									</Link>
-									<Link
-										to="/"
-										style={{ textDecoration: 'none' }}
-									>
+									<Link to="/" style={{ textDecoration: 'none' }}>
 										<Typography
 											variant="caption"
 											display="block"
 											gutterBottom
 											color="primary"
 										>
-											<ListItemText 
-												style={{ color: '#2E4053' }} 
+											<ListItemText
+												style={{ color: '#2E4053' }}
 												primary="Recargos"
 											/>
 										</Typography>
@@ -585,8 +561,8 @@ class MiniDrawer extends React.Component {
 					</List>
 				</Drawer>
 				<main className={classes.content}>
-        <div className={classes.toolbar} />
-		</main>
+					<div className={classes.toolbar} />
+				</main>
 			</div>
 		);
 	}

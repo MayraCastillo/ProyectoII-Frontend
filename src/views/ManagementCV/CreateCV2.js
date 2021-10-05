@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		width: '120%',
 		flexFlow: 1,
-		marginTop: '100px',
+		marginTop: '65px',
 		margin: 'auto',
 		display: 'flex',
 		flexWrap: 'wrap',
@@ -46,9 +46,9 @@ export default function CreateCV2() {
 						variant="h4"
 						component="h2"
 						gutterBottom
-						style={{ marginBottom: '1em', color: '#154c79' }}
+						style={{ marginTop: '0', color: '#154c79' }}
 					>
-						<b>Registrar Hoja de Vida</b>
+						<b> HOJA DE VIDA</b>
 					</Typography>
 				</GridItem>
 			</GridContainer>

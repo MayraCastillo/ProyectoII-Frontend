@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	formControl: {
 		margin: theme.spacing(1),
-		minWidth: 225,
+		minWidth: 200,
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -38,6 +38,7 @@ export default function Referencias() {
 		obtenerInfoRefPersonales1,
 		obtenerInfoRefPersonales2,
 		guardarHV,
+		limpiarDatosHV,
 	} = useContext(HojaDeVidaContext);
 
 	const { nombresRF1, apellidosRF1, telefonoRF1, parentescoRF1 } =
@@ -236,26 +237,34 @@ export default function Referencias() {
 					/>
 
 					<br />
-					<Divider />
 
-					<Button
-						data-cy="btn-guardar-hv"
-						startIcon={<SaveIcon />}
-						color="primary"
-						variant="contained"
-						style={{ margin: '12px' }}
-						onClick={guardarHV}
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}
 					>
-						Agregar Hoja de Vida
-					</Button>
+						<Button
+							data-cy="btn-guardar-hv"
+							startIcon={<SaveIcon />}
+							color="primary"
+							variant="contained"
+							style={{ margin: '12px' }}
+							onClick={guardarHV}
+						>
+							Agregar Hoja de Vida
+						</Button>
 
-					<Button
-						startIcon={<CancelIcon />}
-						color="secondary"
-						variant="contained"
-					>
-						Cancelar Registro
-					</Button>
+						<Button
+							startIcon={<CancelIcon />}
+							color="secondary"
+							variant="contained"
+							style={{ margin: '12px' }}
+							onClick={limpiarDatosHV}
+						>
+							Cancelar Registro
+						</Button>
+					</div>
 				</div>
 			</form>
 		</>
