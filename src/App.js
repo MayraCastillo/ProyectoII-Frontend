@@ -18,6 +18,7 @@ import LegalParameters from './views/ManagementConfig/LegalParameters/LegalParam
 import Contract from './views/ManagementContract/CreateContract';
 import NuevaNomina from './views/ManagementNomina/NominaNueva';
 import ListNominas from './views/ManagementNomina/ListPayroll';
+import SocialAssurance from './views/ManagementNomina/SocialAssurance';
 
 const styles = makeStyles({
 	root: {
@@ -63,6 +64,7 @@ function App() {
 					
 					<Route path="/nueva_nomina" component={NuevaNomina} />
 					<Route path="/listar_nominas" component={ListNominas} />
+					<Route path="/seguridad_social" component={SocialAssurance} />
 				</Switch>
 			</Router>
 		</div>

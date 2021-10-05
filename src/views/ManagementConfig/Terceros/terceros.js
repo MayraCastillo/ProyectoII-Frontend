@@ -11,7 +11,8 @@ import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Modal from "@material-ui/core/Modal";
@@ -30,6 +31,7 @@ import { GridLinkOperator, XGrid } from '@material-ui/x-grid';
 import { DataGrid, GridToolbar,GridCellParams, GridRowParams, GridRowsProp,
     useGridApiRef } from '@material-ui/data-grid';
 import { id } from 'date-fns/locale';
+import { Form } from 'reactstrap';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -79,12 +81,12 @@ const useStyles = makeStyles((theme) => ({
         },
 
         list: {
-            width: "30ch",
-            marginRight: "14px",
-            marginTop: theme.spacing(0)
+            width: "28ch",
+            //marginRight: "14px",
+            margin: theme.spacing(0)
         },
         selectEmpty: {
-            marginTop: theme.spacing(0),
+            marginTop: theme.spacing(2),
         },
         add: {
             color: "#0f4c75",
@@ -98,11 +100,11 @@ const useStyles = makeStyles((theme) => ({
         paper: {
             position: "absolute",
             width: 700,
-            height: 630,
+            height: 600,
             backgroundColor: theme.palette.background.paper,
             border: "2px solid #000",
             boxShadow: theme.shadows[5],
-            padding: theme.spacing(2, 4, 3)
+            //padding: theme.spacing(2, 4, 3)
         },
 
         button: {
@@ -150,7 +152,8 @@ const useStyles = makeStyles((theme) => ({
             color: "#0f4c75",
             fontWeight: 450,
             fontSize: 34
-        }
+        },
+      
 
     }));
 
@@ -459,46 +462,49 @@ export default function ModuloTerceros(props){
     const handleSubmit = (evt) => {
         evt.preventDefault();
         //swal("Información","registrando "+nameNombre, "info");
-        axios.post(url+'crearTercero/', {
-            nit: nit,
-            municipio: {
-                municipio_id: nameCiudad
-            },
-            nombre: nameNombre,
-            direccion: nameDireccion,
-            correo: nameCorreo,
-            telefono: nameTelefono,
-            tipoTercero: {
-                tipoTerceroId: nameTipo
-            },
-            estado:'ACTIVO'
-        }).then(response => {
-            //alert(response.status);
-            console.log(response.status);
-            if(response.status==208){
-                swal("Advertencia", "El tercero "+nameNombre+" ya esta registrado", "warning");
-            }else{
-                swal("Éxito", "Se registró exitosamente el tercero: "+nameNombre, "success");
-            }
-            handleClose();
-            cargarTerceros();
-        })
-          .catch((error) => {
-                console.log(error.response.data.status);
-                if(error.response.data.status===500){
-                    console.log("correo en formato incorrecto");
-                    swal("Advertencia", "Correo en formato incorrecto ", "warning");
+        //alert(nameTelefono.length);
+        if(nameTelefono.length<6 || nameTelefono.length>11){
+            swal("Advertencia", "El teléfono debe tener más de 6 dígitos pero menos de 11", "warning");
+        }else{
+            axios.post(url+'crearTercero/', {
+                nit: nit,
+                municipio: {
+                    municipio_id: nameCiudad
+                },
+                nombre: nameNombre,
+                direccion: nameDireccion,
+                correo: nameCorreo,
+                telefono: nameTelefono,
+                tipoTercero: {
+                    tipoTerceroId: nameTipo
+                },
+                estado:'ACTIVO'
+            }).then(response => {
+                //alert(response.status);
+                console.log(response.status);
+                if(response.status==208){
+                    swal("Advertencia", "El tercero con nit "+nit+" ya esta registrado", "warning");
                 }else{
-                    swal("Error", "NO se pudo registrar el tercero ", "error");
+                    swal("Éxito", "Se registró exitosamente el tercero con nit: "+nit, "success");
                 }
-                
+                handleClose();
+                cargarTerceros();
             })
-
+              .catch((error) => {
+                    console.log(error.response.data.status);
+                    console.log(error);
+                    if(error.response.data.status===500 || error.response.data.status===400){
+                        console.log("correo en formato incorrecto");
+                        swal("Advertencia", "Correo en formato incorrecto ", "warning");
+                    }else{
+                        swal("Error", "NO se pudo registrar el tercero ", "error");
+                    }
+                    
+                })
+    
+        }
+       
     }
-    
-    
-    
-    
     
       const body = (
             <div style={modalStyle} className={classes.paper} align="center">
@@ -509,72 +515,86 @@ export default function ModuloTerceros(props){
                 <br/>
                 <br/>
                 <form className={classes.form} onSubmit={handleSubmit}>
-                    <div>
-                    <TextField
+                   <Grid container spacing={2} style={{ marginLeft:"6.5%" }}>
+                       <Grid item xs={3} sm={3} md={5}>
+                       <FormControl >
+                        <TextField
                             required
                             id="outlined-required"
-                            className={classes.formControl}
                             size="medium"
                             label="Nit"
                             //value={nameNombre}
                             onChange={(e) => setNit(e.target.value)}
                             variant="outlined"
                             />
-
+                        </FormControl>
+                       </Grid>
+                       <Grid item xs={3} sm={3} md={5}>
+                       <FormControl>
                         <TextField
                             required
                             id="outlined-required"
-                            className={classes.formControl}
                             size="medium"
                             label="Nombre"
                             //value={nameNombre}
                             onChange={(e) => setNameNombre(e.target.value)}
                             variant="outlined"
                             />
-            
-                       
-                    </div>
-            
-                    <div style={{marginTop: "18px"}}>    
+                        </FormControl>
+                       </Grid>
+
+                        <Grid item xs={3} sm={3} md={5}>
+                        <FormControl>
                     <TextField
                             required
                             id="outlined-required"
-                            className={classes.formControl}
+                            size="medium"
                             label="Direccion"
                             onChange={(e) => setNameDireccion(e.target.value)}
                             variant="outlined"
                             />
+                    </FormControl>
+                        </Grid>
 
-                        <TextField
+                        <Grid item xs={3} sm={3} md={5}>
+                        <FormControl>
+                    <TextField
                             required
                             id="outlined-required"
-                            className={classes.formControl}
+                            size="medium"
                             label="Teléfono"
                             onChange={(e) => setNameTelefono(e.target.value)}
                             variant="outlined"
                             />
-            
-                      
-                    </div>
-            
-            
-                    <div style={{marginTop: "18px"}}>
+                    </FormControl>
+                    
+                        </Grid>
 
+                        <Grid item xs={3} sm={3} md={5}>
+                        <FormControl>
                     <TextField
                             required
                             id="outlined-required"
-                            className={classes.formControl}
+                            //className={classes.formControl}
                             label="Correo"
                             onChange={(e) => setNameCorreo(e.target.value)}
                             variant="outlined"
+                            type="email"
+
                             />
+                    </FormControl>
+                        </Grid>
+
+                        <Grid item xs={3} sm={3} md={5}>
 
                         <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Departamento</InputLabel>
                             <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
-                                className={classes.selectEmpty}
+                                variant="outlined"
+                                label="Departamento"
+                                //className={classes.selectEmpty}
                                 onChange={(e) => cargarMunicipios(e.target.value)}
                                 >
                                 <MenuItem value="">
@@ -587,16 +607,18 @@ export default function ModuloTerceros(props){
                                 
                             </Select>
                         </FormControl>
+                        </Grid>
 
-                        <br/>
-                        <br/>      
+
+                        <Grid item xs={3} sm={3} md={5}>
                         <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Ciudad</InputLabel>
                             <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
-                                className={classes.selectEmpty}
+                                //className={classes.selectEmpty}
                                 onChange={(e) => setNameCiudad(e.target.value)}
+                                label="Ciudad"
                                 >
                                 <MenuItem value="">
                                    <em>None</em>
@@ -608,16 +630,17 @@ export default function ModuloTerceros(props){
                                 
                             </Select>
                         </FormControl>
-            
-            
-            
+                        </Grid>
+
+                        <Grid item xs={3} sm={3} md={5}>
                         <FormControl required variant="outlined" className={classes.list}>
                             <InputLabel id="demo-simple-select-outlined-label">Tipo</InputLabel>
                             <Select
             
                                 labelId="demo-simple-select-outlined-label"
                                 id="demo-simple-select-outlined"
-                                className={classes.selectEmpty}
+                                label="Tipo"
+                                //className={classes.selectEmpty}
                                 onChange={(e) => setNameTipo(e.target.value)}
                                 >
                                 <MenuItem value="">
@@ -629,13 +652,14 @@ export default function ModuloTerceros(props){
                             </Select>
                         </FormControl>
                         
-                                
-                    </div>
-                    
-                    <br/>
-            
-                    <div style={{marginTop: "18px"}}>
-                    <FormControl>
+                        </Grid>
+
+                       
+
+                   </Grid>
+                                    <br/>
+                                    <br/>
+                   <FormControl>
                         <Button  
                             variant="contained" 
                             color="primary" 
@@ -648,7 +672,9 @@ export default function ModuloTerceros(props){
                             Guardar
                         </Button>
                     </FormControl>
-                        <Button  
+
+                   <FormControl>
+                         <Button  
                             variant="contained" 
                             color="secondary" 
                             type="submit" 
@@ -659,9 +685,7 @@ export default function ModuloTerceros(props){
                             >
                             Cancelar
                         </Button>
-            
-                    </div>
-            
+                    </FormControl>
             
             
                 </form> 

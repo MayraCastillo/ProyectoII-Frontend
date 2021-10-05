@@ -394,6 +394,9 @@ class MiniDrawer extends React.Component {
 											/>
 										</Typography>
 									</Link>
+
+
+
 								</ListItem>
 
 								<ListItem button className={classes.nested}>
@@ -418,6 +421,34 @@ class MiniDrawer extends React.Component {
 											/>
 										</Typography>
 									</Link>
+								</ListItem>
+
+								<ListItem button className={classes.nested}>
+								<Link
+										to="/seguridad_social"
+										style={{ textDecoration: 'none' }}
+									>
+								<ListItemIcon>
+											<VisibilityIcon className={classes.icon} />
+										</ListItemIcon>
+										</Link>
+								<Typography
+											variant="caption"
+											display="block"
+											gutterBottom
+											color="primary"
+										>
+											<Link
+										to="/seguridad_social"
+										style={{ textDecoration: 'none' }}
+									>
+										<ListItemText 
+												style={{ color: '#2E4053' }} 
+												primary="Seguridad Social"
+											/>
+
+									</Link>
+										</Typography>
 								</ListItem>
 							</List>
 						</Collapse>
